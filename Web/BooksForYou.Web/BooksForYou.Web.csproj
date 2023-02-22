@@ -38,7 +38,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BooksForYou.Common\BooksForYou.Common.csproj" />
     <ProjectReference Include="..\..\Data\BooksForYou.Data.Models\BooksForYou.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\BooksForYou.Data\BooksForYou.Data.csproj" />
     <ProjectReference Include="..\..\Services\BooksForYou.Services.Data\BooksForYou.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\BooksForYou.Services.Mapping\BooksForYou.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\BooksForYou.Services.Messaging\BooksForYou.Services.Messaging.csproj" />
