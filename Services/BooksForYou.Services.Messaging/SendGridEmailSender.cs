@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Services.Messaging
+﻿ namespace BooksForYou.Services.Messaging
 {
     using System;
     using System.Collections.Generic;

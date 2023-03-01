@@ -151,6 +151,7 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        return RedirectToAction("Login", "Account");
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
