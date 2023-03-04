@@ -16,6 +16,16 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="BooksForYou.Web.Tests" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Include="wwwroot\css\adminlte.min.css.map" />
+	  <None Include="wwwroot\js\adminlte.min.js" />
+	  <None Include="wwwroot\js\adminlte.min.js.map" />
+	  <None Include="wwwroot\js\bootstrap.bundle.min.js" />
+	  <None Include="wwwroot\js\bootstrap.bundle.min.js.map" />
+	  <None Include="wwwroot\js\site.js" />
+	  <None Include="wwwroot\js\site.min.js" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.14" />
