@@ -10,7 +10,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="card-header text-center">
-        <a href="/" class="h1">Books for You</a>
+            <a href="/" class="h1">Books for You</a>
         </div>
         <div class="card">
             <div class="card-body login-card-body">
@@ -44,10 +44,28 @@
                 </section>
                 <div class="social-auth-links text-center mb-3">
                     <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
+                    <section>
+                        @{
+                            if ((Model.ExternalLogins?.Count ?? 0) != 0)
+                            {
+                                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                    <div>
+                                        <p>
+                                            @foreach (var provider in Model.ExternalLogins!)
+                                            {
+                                                <button type="submit" class="btn btn-block btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">Sign in using @provider.DisplayName</button>
+                                            }
+                                        </p>
+                                    </div>
+                                </form>
+                            }
+                        }
+                    </section>
+                    @*      <a href="#" class="btn btn-block btn-primary">
+                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>*@
                 </div>
+                <hr />
                 <p class="mb-1">
                     <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                 </p>
@@ -64,7 +82,7 @@
 </body>
 </html>
 
-  
+
 
 
 

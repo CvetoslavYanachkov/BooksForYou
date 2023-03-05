@@ -42,6 +42,15 @@ namespace BooksForYou.Web
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddAuthentication()
+                .AddFacebook(options =>
+                {
+                    options.AppId = configuration.GetValue<string>("Facebook:AppId");
+                    options.AppSecret = configuration.GetValue<string>("Facebook:AppSecret");
+                });
+
+
+
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
