@@ -1,6 +1,7 @@
 namespace BooksForYou.Web
 {
     using System;
+    using System.Configuration;
     using System.Reflection;
 
     using BooksForYou.Data;
@@ -49,8 +50,6 @@ namespace BooksForYou.Web
                     options.AppSecret = configuration.GetValue<string>("Facebook:AppSecret");
                 });
 
-
-
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
@@ -74,7 +73,7 @@ namespace BooksForYou.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration.GetValue<string>("SendGridApiKey")));
             services.AddTransient<ISettingsService, SettingsService>();
         }
 

@@ -9,19 +9,24 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Net.Mail;
+    using System.Security.Cryptography;
     using System.Text;
     using System.Text.Encodings.Web;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Web;
+
     using BooksForYou.Data.Models;
+    using BooksForYou.Services.Messaging;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
+    using SendGrid.Helpers.Mail;
 
     public class RegisterModel : PageModel
     {
@@ -142,8 +147,11 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var html = new StringBuilder();
+                    html.AppendLine($"<h1>{Input.FullName}</h1>");
+                    html.AppendLine($"<h3>{Input.FullName}</h3>");
+                    html.AppendLine($"<img src=\"{Input.FullName}\" />");
+                    await _emailSender.SendEmailAsync("recepti@recepti.com", "MoiteRecepti", "cyanachkov@gmail.com", Input.FullName, html.ToString());
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -156,6 +164,7 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
