@@ -6,12 +6,13 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
 
     using System;
     using System.Text;
+    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
+    using BooksForYou.Services.Messaging;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
@@ -64,19 +65,18 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
             this.Email = email;
 
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-
-            //this.DisplayConfirmAccountLink = false;
-            //if (this.DisplayConfirmAccountLink)
-            //{
-            //    var userId = await _userManager.GetUserIdAsync(user);
-            //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //    this.EmailConfirmationUrl = this.Url.Page(
-            //        "/Account/ConfirmEmail",
-            //        pageHandler: null,
-            //        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-            //        protocol: this.Request.Scheme);
-            //}
+            this.DisplayConfirmAccountLink = false;
+            if (this.DisplayConfirmAccountLink)
+            {
+                var userid = await _userManager.GetUserIdAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                this.EmailConfirmationUrl = this.Url.Page(
+                    "/account/confirmemail",
+                    pageHandler: null,
+                    values: new { area = "identity", userid = userid, code = code, returnurl = returnUrl },
+                    protocol: this.Request.Scheme);
+            }
 
             return this.Page();
         }

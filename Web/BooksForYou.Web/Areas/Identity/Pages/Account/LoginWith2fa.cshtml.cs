@@ -14,7 +14,6 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging;
 
     public class LoginWith2faModel : PageModel
     {

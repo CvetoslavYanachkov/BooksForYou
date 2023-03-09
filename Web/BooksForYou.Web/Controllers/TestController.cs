@@ -22,7 +22,7 @@
             html.AppendLine($"<h1>{"dsa"}</h1>");
             html.AppendLine($"<h3>{"dsa"}</h3>");
             html.AppendLine($"<img src=\"{"dsa"}\" />");
-            _emailSender.SendEmailAsync("test.gmail.com", "Test", "wifos35164@proexbol.com", "Test", html.ToString());
+            _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Test", "ceno1902@gmail.com", "Test", html.ToString());
 
             return View();
         }
