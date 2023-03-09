@@ -8,8 +8,6 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using System.Net.Mail;
-    using System.Security.Cryptography;
     using System.Text;
     using System.Text.Encodings.Web;
     using System.Threading;
@@ -121,6 +119,16 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
                     html.AppendLine($"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You", "ceno1902@gmail.com", "mksd", html.ToString());
+
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    }
+                    else
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
                 }
 
                 foreach (var error in result.Errors)
