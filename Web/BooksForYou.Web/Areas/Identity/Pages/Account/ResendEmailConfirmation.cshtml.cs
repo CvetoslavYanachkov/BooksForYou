@@ -1,6 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-namespace BooksForYou.Web.Areas.Identity.Pages.Account
+﻿namespace BooksForYou.Web.Areas.Identity.Pages.Account
 {
 #nullable disable
 
@@ -14,7 +12,6 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
     using BooksForYou.Services.Messaging;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    //using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
@@ -36,7 +33,6 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-       
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -68,6 +64,7 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
+
             var html = new StringBuilder();
             html.AppendLine($"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 

@@ -1,11 +1,9 @@
-﻿namespace BooksForYou.Web.Controllers
+﻿using BooksForYou.Services.Messaging;
+using Microsoft.AspNetCore.Mvc;
+using System.Text;
+
+namespace BooksForYou.Web.Controllers
 {
-    using System.Text;
-    using System.Threading.Tasks;
-
-    using BooksForYou.Services.Messaging;
-    using Microsoft.AspNetCore.Mvc;
-
     public class TestController : BaseController
     {
         private readonly IEmailSender _emailSender;

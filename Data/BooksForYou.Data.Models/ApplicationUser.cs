@@ -18,7 +18,9 @@ namespace BooksForYou.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
 
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

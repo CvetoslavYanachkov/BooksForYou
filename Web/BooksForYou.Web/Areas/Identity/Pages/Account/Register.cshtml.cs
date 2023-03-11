@@ -61,8 +61,13 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
         {
             [Required]
             [StringLength(25, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
-            [Display(Name = "Full Name")]
-            public string FullName { get; set; }
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(25, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
 
             [Required]
             [EmailAddress]
@@ -96,7 +101,9 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
 
                 var user = CreateUser();
 
-                user.FullName = Input.FullName;
+                user.FirstName = Input.FirstName;
+
+                user.LastName = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
