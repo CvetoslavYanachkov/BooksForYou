@@ -1,16 +1,23 @@
 ﻿namespace BooksForYou.Web.ViewModels.Administration.User
 {
     using System.Collections.Generic;
-    using System.Web.Mvc;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class UserEditViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
-        public string Firstname { get; set; }
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
-        public string Lastname { get; set; }
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
+        [Required]
         public string Email { get; set; }
 
         public IList<SelectListItem> Roles { get; set; }

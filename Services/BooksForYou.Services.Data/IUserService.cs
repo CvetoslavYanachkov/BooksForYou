@@ -13,8 +13,10 @@
     {
         Task<IEnumerable<UserViewModel>> GetUsersAsync();
 
-        Task<ApplicationUser> GetById(string Id);
+        Task<ApplicationUser> GetUserById(string id);
 
-        Task<UserViewModel> GetUserEditAsync(string id);
+        Task<UserEditViewModel> GetUserEditAsync(string id);
+
+        Task UpdateAsync(string id, UserEditViewModel model);
     }
 }
