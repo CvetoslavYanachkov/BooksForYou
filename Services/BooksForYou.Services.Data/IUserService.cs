@@ -11,12 +11,14 @@
 
     public interface IUserService
     {
-        Task<IEnumerable<UserViewModel>> GetUsersAsync();
+        Task<UserListViewModel> GetUsersAsync(int pageNumber, int pageSize);
 
         Task<ApplicationUser> GetUserById(string id);
 
         Task<UserEditViewModel> GetUserEditAsync(string id);
 
-        Task UpdateAsync(string id, UserEditViewModel model);
+        Task UpdateUserAsync(string id, UserEditViewModel model);
+
+        Task DeleteUserAsync(string id);
     }
 }

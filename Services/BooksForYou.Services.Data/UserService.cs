@@ -15,20 +15,23 @@ public class UserService : IUserService
 {
     private readonly IDeletableEntityRepository<ApplicationUser> _userRepo;
     private readonly IDeletableEntityRepository<ApplicationRole> _roleRepo;
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
 
     public UserService(
         IDeletableEntityRepository<ApplicationUser> userRepo,
         IDeletableEntityRepository<ApplicationRole> roleRepo,
-        UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager)
-
     {
         _userRepo = userRepo;
-        _userManager = userManager;
         _signInManager = signInManager;
         _roleRepo = roleRepo;
+    }
+
+    public async Task DeleteUserAsync(string id)
+    {
+        var user = await _userRepo.All().FirstOrDefaultAsync(u => u.Id == id);
+        _userRepo.Delete(user);
+        await _userRepo.SaveChangesAsync();
     }
 
     public async Task<ApplicationUser> GetUserById(string id)
@@ -52,7 +55,6 @@ public class UserService : IUserService
             role.Id,
             userRoles.Any(ur => ur.Contains(role.Name)))).ToList();
 
-
         return new UserEditViewModel()
         {
             Id = id,
@@ -63,20 +65,34 @@ public class UserService : IUserService
         };
     }
 
-    public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
+    public async Task<UserListViewModel> GetUsersAsync(int pageNumber, int pageSize)
     {
         var users = await _userRepo.All().
-            Select(x => new UserViewModel()
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-            }).ToListAsync();
-        return users;
+       Select(x => new UserViewModel()
+       {
+           Id = x.Id,
+           FirstName = x.FirstName,
+           LastName = x.LastName,
+           Email = x.Email,
+       }).ToListAsync();
+
+        var result = new UserListViewModel()
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalRecords = await _userRepo.All().CountAsync(),
+        };
+
+        result.Users = users
+            .OrderByDescending(x => x.Id)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return result;
     }
 
-    public async Task UpdateAsync(string id, UserEditViewModel model)
+    public async Task UpdateUserAsync(string id, UserEditViewModel model)
     {
         var user = await _userRepo.All().FirstOrDefaultAsync(u => u.Id == id);
 
