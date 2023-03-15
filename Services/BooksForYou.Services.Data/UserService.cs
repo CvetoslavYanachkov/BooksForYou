@@ -27,9 +27,30 @@ public class UserService : IUserService
         _roleRepo = roleRepo;
     }
 
-    public async Task DeleteUserAsync(string id)
+    public async Task<UserDeleteViewModel> GetUserForDeleteAsync(string id)
     {
         var user = await _userRepo.All().FirstOrDefaultAsync(u => u.Id == id);
+
+        return new UserDeleteViewModel()
+        {
+            Id = id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email
+        };
+    }
+
+    public async Task DeleteUserAsync(string id, UserDeleteViewModel model)
+    {
+        var user = await _userRepo.All().FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user != null)
+        {
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Email = user.Email;
+        }
+
         _userRepo.Delete(user);
         await _userRepo.SaveChangesAsync();
     }
@@ -80,12 +101,13 @@ public class UserService : IUserService
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
-            TotalRecords = await _userRepo.All().CountAsync(),
+            TotalRecords = users.Count()
         };
 
         result.Users = users
-            .OrderByDescending(x => x.Id)
-            .Skip((pageNumber - 1) * pageSize)
+            .OrderByDescending(x => x.FirstName)
+            .ThenByDescending(x => x.LastName)
+            .Skip((pageNumber * pageSize) - pageSize)
             .Take(pageSize)
             .ToList();
 

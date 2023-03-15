@@ -49,6 +49,11 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-20 col-md-10">
+                            <paging page-no="@Model.PageNumber"
+                                    page-size="@Model.PageSize"
+                                    total-records="@Model.TotalRecords"
+                                    page-size-dropdown-items="5-10-20">
+                            </paging>
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,8 @@
 
         Task UpdateUserAsync(string id, UserEditViewModel model);
 
-        Task DeleteUserAsync(string id);
+        Task<UserDeleteViewModel> GetUserForDeleteAsync(string id);
+
+        Task DeleteUserAsync(string id, UserDeleteViewModel model);
     }
 }

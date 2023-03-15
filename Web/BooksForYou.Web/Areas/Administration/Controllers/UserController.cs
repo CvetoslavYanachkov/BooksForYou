@@ -35,10 +35,9 @@
             return Ok();
         }
 
-        public async Task<IActionResult> All(int pageNumber = 1)
+        public async Task<IActionResult> All([FromQuery]int p = 1, [FromQuery]int s = 5)
         {
-            int pageSize = 10;
-            var users = await _userService.GetUsersAsync(pageNumber, pageSize);
+            var users = await _userService.GetUsersAsync(p, s);
 
             return View(users);
         }
@@ -71,9 +70,24 @@
             return View(user);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            await _userService.DeleteUserAsync(id);
+            var model = await _userService.GetUserForDeleteAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, UserDeleteViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await _userService.DeleteUserAsync(id, model);
+
             return RedirectToAction(nameof(All));
         }
     }
