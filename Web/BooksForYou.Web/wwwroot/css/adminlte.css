@@ -16723,7 +16723,7 @@ body.text-sm .control-sidebar {
   color: #343a40;
 }
 
-.navbar-fuchsia.navbar-light .form-control-navbar:focus::-ms-input-placeholder {
+.navbar-fuchsia.navbar-light .form-control-navbar:focus:-ms-input-placeholder {
   color: #343a40;
 }
 
@@ -16750,7 +16750,7 @@ body.text-sm .control-sidebar {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.navbar-fuchsia.navbar-dark .form-control-navbar::-ms-input-placeholder {
+.navbar-fuchsia.navbar-dark .form-control-navbar:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.8);
 }
 
@@ -16777,7 +16777,7 @@ body.text-sm .control-sidebar {
   color: #fff;
 }
 
-.navbar-fuchsia.navbar-dark .form-control-navbar:focus::-ms-input-placeholder {
+.navbar-fuchsia.navbar-dark .form-control-navbar:focus:-ms-input-placeholder {
   color: #fff;
 }
 
@@ -16809,7 +16809,7 @@ body.text-sm .control-sidebar {
   color: rgba(52, 58, 64, 0.8);
 }
 
-.navbar-maroon.navbar-light .form-control-navbar::-ms-input-placeholder {
+.navbar-maroon.navbar-light .form-control-navbar:-ms-input-placeholder {
   color: rgba(52, 58, 64, 0.8);
 }
 
@@ -16836,7 +16836,7 @@ body.text-sm .control-sidebar {
   color: #343a40;
 }
 
-.navbar-maroon.navbar-light .form-control-navbar:focus::-ms-input-placeholder {
+.navbar-maroon.navbar-light .form-control-navbar:focus:-ms-input-placeholder {
   color: #343a40;
 }
 

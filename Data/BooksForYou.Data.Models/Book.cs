@@ -5,7 +5,8 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using BooksForYou.Data.Common.Models;
-    using BooksForYou.Data.Models;
+
+    using static BooksForYou.Data.Common.DataConstants.Book;
 
     public class Book : BaseDeletableModel<int>
     {
@@ -13,11 +14,11 @@
         public string ISBN { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(MaxBookTitle)]
         public string Title { get; set; }
 
         [Required]
-        [StringLength(5000)]
+        [StringLength(MaxBookDescription)]
         public string Description { get; set; }
 
         [Required]
@@ -25,7 +26,6 @@
 
         [Required]
         [ForeignKey(nameof(AuthorId))]
-        [StringLength(100)]
         public Author Author { get; set; }
 
         [Required]

@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.User
+﻿namespace BooksForYou.Web.ViewModels.Administration.Users
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

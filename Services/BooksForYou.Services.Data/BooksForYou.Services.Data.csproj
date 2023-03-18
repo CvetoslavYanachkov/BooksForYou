@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LazZiya.TagHelpers" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -25,6 +26,7 @@
     <ProjectReference Include="..\..\Data\BooksForYou.Data\BooksForYou.Data.csproj" />
     <ProjectReference Include="..\..\Web\BooksForYou.Web.ViewModels\BooksForYou.Web.ViewModels.csproj" />
     <ProjectReference Include="..\BooksForYou.Services.Mapping\BooksForYou.Services.Mapping.csproj" />
+    <ProjectReference Include="..\BooksForYou.Services.Messaging\BooksForYou.Services.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

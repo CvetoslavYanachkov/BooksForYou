@@ -1,45 +1,56 @@
-﻿@using BooksForYou.Web.ViewModels.Administration.Users;
-@model UserListViewModel
+﻿@using BooksForYou.Web.ViewModels.Administration.Genres;
+@model GenresListViewModel
 
 @{
-    ViewData["Title"] = "Get Users";
+    ViewData["Title"] = "Get Genres";
 }
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Manage users</h3>
+        <h3 class="card-title">Manage genres</h3>
     </div>
     <div class="row">
         <div class="col-12">
             <div class="card-body">
                 <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <p>
+                        <a asp-action="Create" class="text-primary">Create new genre</a>
+                    </p>
                     <div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row">
                         <div class="col-sm-12">
                             <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
                                 <thead>
                                     <tr>
-                                        <th>First name</th>
-                                        <th>Last name</th>
-                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Books</th>
                                         <th>Operations</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var user in Model.Users)
+                                    @foreach (var genre in Model.Genres)
                                     {
                                         <tr>
                                             <td>
-                                                @user.FirstName
+                                                @genre.Name
                                             </td>
                                             <td>
-                                                @user.LastName
+                                                @{
+                                                    string x = genre.Description;
+                                                    if (x != null && x.Length > 100)
+                                                    {
+                                                        x = x.Substring(0, 50);
+                                                    }
+                                                }
+                                                @Html.Raw(x)...
                                             </td>
                                             <td>
-                                                @user.Email
+                                                @genre.BooksCount
                                             </td>
                                             <td>
-                                                <a asp-action="Edit" asp-route-id="@user.Id" class="text-warning">Edit</a> |
-                                                <a asp-action="Delete" asp-route-id="@user.Id" class="text-danger">Delete</a>
+                                                <a asp-action="Edit" asp-route-id="@genre.Id" class="text-warning">Edit</a> |
+                                                <a asp-action="Details" asp-route-id="@genre.Id" class="text-primary">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@genre.Id" class="text-danger">Delete</a>
                                             </td>
                                         </tr>
                                     }

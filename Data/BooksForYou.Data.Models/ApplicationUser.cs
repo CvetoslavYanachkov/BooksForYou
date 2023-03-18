@@ -1,12 +1,13 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace BooksForYou.Data.Models
+﻿namespace BooksForYou.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using BooksForYou.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+
+    using static BooksForYou.Data.Common.DataConstants.ApplicationUser;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
@@ -18,8 +19,12 @@ namespace BooksForYou.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
 
+        [Required]
+        [MaxLength(MaxUserFirstname)]
         public string FirstName { get; set; }
 
+        [Required]
+        [MaxLength(MaxUserLastname)]
         public string LastName { get; set; }
 
         // Audit info

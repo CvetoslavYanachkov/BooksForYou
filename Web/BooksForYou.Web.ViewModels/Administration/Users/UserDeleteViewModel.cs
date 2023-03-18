@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.User
+﻿namespace BooksForYou.Web.ViewModels.Administration.Users
 {
     public class UserDeleteViewModel
     {

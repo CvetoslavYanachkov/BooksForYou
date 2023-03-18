@@ -2,34 +2,39 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+
 using BooksForYou.Data.Common.Repositories;
 using BooksForYou.Data.Models;
-using BooksForYou.Web.ViewModels.Administration.User;
+using BooksForYou.Services.Messaging;
+using BooksForYou.Web.ViewModels.Administration.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-public class UserService : IUserService
+public class UsersService : IUsersService
 {
     private readonly IDeletableEntityRepository<ApplicationUser> _userRepo;
     private readonly IDeletableEntityRepository<ApplicationRole> _roleRepo;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IEmailSender _emailSender;
 
-    public UserService(
+    public UsersService(
         IDeletableEntityRepository<ApplicationUser> userRepo,
         IDeletableEntityRepository<ApplicationRole> roleRepo,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager,
+        IEmailSender emailSender)
     {
         _userRepo = userRepo;
         _signInManager = signInManager;
         _roleRepo = roleRepo;
+        _emailSender = emailSender;
     }
 
     public async Task<UserDeleteViewModel> GetUserForDeleteAsync(string id)
     {
-        var user = await _userRepo.All().FirstOrDefaultAsync(u => u.Id == id);
+        var user = await _userRepo.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         return new UserDeleteViewModel()
         {
@@ -42,7 +47,7 @@ public class UserService : IUserService
 
     public async Task DeleteUserAsync(string id, UserDeleteViewModel model)
     {
-        var user = await _userRepo.All().FirstOrDefaultAsync(u => u.Id == id);
+        var user = await _userRepo.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         if (user != null)
         {
@@ -55,16 +60,9 @@ public class UserService : IUserService
         await _userRepo.SaveChangesAsync();
     }
 
-    public async Task<ApplicationUser> GetUserById(string id)
-    {
-        var user = await _userRepo.All().Where(u => u.Id == id).FirstOrDefaultAsync();
-
-        return user;
-    }
-
     public async Task<UserEditViewModel> GetUserEditAsync(string id)
     {
-        var user = await _userRepo.All().FirstOrDefaultAsync(x => x.Id == id);
+        var user = await _userRepo.All().Where(x => x.Id == id).FirstOrDefaultAsync();
 
         var roles = await _roleRepo.All().ToListAsync();
 
@@ -116,7 +114,7 @@ public class UserService : IUserService
 
     public async Task UpdateUserAsync(string id, UserEditViewModel model)
     {
-        var user = await _userRepo.All().FirstOrDefaultAsync(u => u.Id == id);
+        var user = await _userRepo.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
 
@@ -150,6 +148,17 @@ public class UserService : IUserService
         if (rolesToRemove.Any())
         {
             await _signInManager.UserManager.RemoveFromRolesAsync(user, rolesToRemove);
+        }
+
+        foreach (var role in model.Roles)
+        {
+            if (role.Text == "Publisher")
+            {
+                var html = new StringBuilder();
+                html.AppendLine($"<h1>{"Congratulations!"}</h1>");
+                html.AppendLine($"<h3>{"You are already Author. Please go in your profile and fill in the author form."}</h3>");
+                await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Author", html.ToString());
+            }
         }
 
         user.FirstName = model.FirstName;

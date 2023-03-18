@@ -75,7 +75,8 @@ namespace BooksForYou.Web
             // Application services
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration.GetValue<string>("SendGridApiKey")));
             services.AddTransient<ISettingsService, SettingsService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IGenresService, GenresService>();
         }
 
         private static void Configure(WebApplication app)

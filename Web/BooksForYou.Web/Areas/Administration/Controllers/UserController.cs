@@ -5,7 +5,7 @@
 
     using BooksForYou.Data.Models;
     using BooksForYou.Services.Data;
-    using BooksForYou.Web.ViewModels.Administration.User;
+    using BooksForYou.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,29 +13,28 @@
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IUserService _userService;
+        private readonly IUsersService _userService;
 
         public UserController(
            RoleManager<ApplicationRole> roleManager,
            SignInManager<ApplicationUser> signInManager,
-           IUserService userService)
+           IUsersService userService)
         {
             _roleManager = roleManager;
             _signInManager = signInManager;
             _userService = userService;
         }
 
-        public async Task<IActionResult> CreateRole()
-        {
-            ////await _roleManager.CreateAsync(new ApplicationRole()
-            ////{
-            //    Name = "Author"
-            ////});
+        // public async Task<IActionResult> CreateRole()
+        //  {
+        //    //await _roleManager.CreateAsync(new ApplicationRole()
+        //    //{
+        //    Name = "Author"
+        //    //});
 
-            return Ok();
-        }
-
-        public async Task<IActionResult> All([FromQuery]int p = 1, [FromQuery]int s = 5)
+        // return Ok();
+        // }
+        public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
             var users = await _userService.GetUsersAsync(p, s);
 
@@ -61,13 +60,6 @@
             await _userService.UpdateUserAsync(id, model);
 
             return RedirectToAction(nameof(All));
-        }
-
-        public async Task<IActionResult> ById(string id)
-        {
-            var user = await _userService.GetUserById(id);
-
-            return View(user);
         }
 
         [HttpGet]

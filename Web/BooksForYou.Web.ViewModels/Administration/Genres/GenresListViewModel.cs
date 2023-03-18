@@ -1,10 +1,8 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.User
+﻿namespace BooksForYou.Web.ViewModels.Administration.Genres
 {
     using System.Collections.Generic;
 
-    using BooksForYou.Data.Models;
-
-    public class UserListViewModel
+    public class GenresListViewModel
     {
         public int PageNumber { get; set; }
 
@@ -12,6 +10,6 @@
 
         public int PageSize { get; set; }
 
-        public List<UserViewModel> Users { get; set; }
+        public List<GenreInListViewModel> Genres { get; set; }
     }
 }

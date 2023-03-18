@@ -1,9 +1,13 @@
 ﻿namespace BooksForYou.Data.Models
 {
+
+
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using BooksForYou.Data.Common.Models;
+
+    using static BooksForYou.Data.Common.DataConstants.Author;
 
     public class Author : BaseDeletableModel<int>
     {
@@ -14,15 +18,15 @@
         }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(MaxAuthorName)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(3000)]
+        [StringLength(MaxAuthorDescription)]
         public string Description { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(MaxAuthorBorn)]
         public string Born { get; set; }
 
         [Required]
