@@ -1,6 +1,7 @@
 ﻿@using BooksForYou.Web.ViewModels.Administration.Genres;
 @model GenresListViewModel
 
+
 @{
     ViewData["Title"] = "Get Genres";
 }
@@ -72,4 +73,25 @@
         </div>
     </div>
 </div>
+<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    </div>
+</div>
 
+@*@Html.PartialAsync("_Delete")*@
+
+@*@section scripts{
+    <script>
+        $("#showtable").on("click", "#viewbtn", function () {
+            var id = $(this).closest("tr").find("td").eq(0).html();
+            $.ajax({
+                url: "@Url.Action("ShowImg", "PartialTest")",
+                data: { id: id },
+                success: function (data) {
+                    $("#showmodal .modal-dialog").html(data);
+                    $("#showmodal").modal("show");
+                }
+            });
+        });
+    </script>
+}*@

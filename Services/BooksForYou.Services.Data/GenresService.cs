@@ -32,6 +32,31 @@
             return genre;
         }
 
+        public async Task DeleteGenreAsync(int id, GenreDeleteViewModel model)
+        {
+            var genre = await _genreRepo.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+
+            if (genre != null)
+            {
+                genre.Name = model.Name;
+            }
+
+            _genreRepo.Delete(genre);
+            await _genreRepo.SaveChangesAsync();
+        }
+
+        public async Task<GenreDeleteViewModel> GetGenreForDeleteAsync(int id)
+        {
+            var genre = await _genreRepo.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+
+            var model = new GenreDeleteViewModel
+            {
+                Name = genre.Name
+            };
+
+            return model;
+        }
+
         public async Task<GenreEditViewModel> GetGenreForEditAsync(int id)
         {
             var genre = await _genreRepo.All().Where(g => g.Id == id).FirstOrDefaultAsync();
@@ -66,8 +91,8 @@
                 .OrderByDescending(x => x.Id)
                 .OrderByDescending(x => x.Name)
                 .Skip((pageNumber * pageSize) - pageSize)
-            .Take(pageSize)
-            .ToList();
+                .Take(pageSize)
+                .ToList();
 
             return result;
         }

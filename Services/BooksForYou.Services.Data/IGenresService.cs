@@ -14,5 +14,9 @@
         Task UpdateGenreAsync(int id, GenreEditViewModel model);
 
         Task<GenreEditViewModel> GetGenreForEditAsync(int id);
+
+        Task<GenreDeleteViewModel> GetGenreForDeleteAsync(int id);
+
+        Task DeleteGenreAsync(int id, GenreDeleteViewModel model);
     }
 }

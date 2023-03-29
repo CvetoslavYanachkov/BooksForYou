@@ -8,7 +8,7 @@
     {
         Task<UserListViewModel> GetUsersAsync(int pageNumber, int pageSize);
 
-        Task<UserEditViewModel> GetUserEditAsync(string id);
+        Task<UserEditViewModel> GetUserForEditAsync(string id);
 
         Task UpdateUserAsync(string id, UserEditViewModel model);
 

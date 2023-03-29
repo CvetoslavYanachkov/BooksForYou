@@ -26,13 +26,13 @@
         }
 
         // public async Task<IActionResult> CreateRole()
-        //  {
-        //    //await _roleManager.CreateAsync(new ApplicationRole()
-        //    //{
-        //    Name = "Author"
-        //    //});
+        // {
+        //    await _roleManager.CreateAsync(new ApplicationRole()
+        //    {
+        //        Name = "Publisher"
+        //    });
 
-        // return Ok();
+        /// return Ok();
         // }
         public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
@@ -44,7 +44,7 @@
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var model = await _userService.GetUserEditAsync(id);
+            var model = await _userService.GetUserForEditAsync(id);
 
             return View(model);
         }

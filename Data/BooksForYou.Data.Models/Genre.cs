@@ -9,7 +9,6 @@
 
     public class Genre : BaseDeletableModel<int>
     {
-        [Required]
         [MaxLength(MaxGenreName)]
         public string Name { get; set; }
 

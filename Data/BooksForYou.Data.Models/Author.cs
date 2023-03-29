@@ -1,7 +1,5 @@
 ﻿namespace BooksForYou.Data.Models
 {
-
-
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 

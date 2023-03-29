@@ -6,7 +6,7 @@
 }
 
 <div class="row g-5">
-    <div class="col-md-7 col-lg-8">
+   @* <div class="col-md-7 col-lg-8">*@
         <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
             <form id="edit" method="post">
                 <input type="hidden" name="Id" value="@Model.Id" />
@@ -47,14 +47,14 @@
                             @Html.HiddenFor(h => @Model.Roles[i].Text)
                         </div>
                     }
-                </div>
+                </div class="text-center mb-3">
                 <button type="submit" class="btn btn-primary btn-block">Save</button>
-            </form>
+          </form>
         </div>
     </div>
-</div>
+@*</div>*@
 
-<div>
+<div class="text-center mb-3">
     <a asp-action="All">Back to List</a>
 </div>
 

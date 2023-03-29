@@ -6,6 +6,7 @@
     using BooksForYou.Services.Data;
     using BooksForYou.Web.ViewModels.Administration.Genres;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     public class GenreController : AdministrationController
     {
@@ -69,6 +70,27 @@
             }
 
             await _genresService.UpdateGenreAsync(id, model);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _genresService.GetGenreForDeleteAsync(id);
+
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, GenreDeleteViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_Delete", model);
+            }
+
+            await _genresService.DeleteGenreAsync(id, model);
 
             return RedirectToAction(nameof(All));
         }

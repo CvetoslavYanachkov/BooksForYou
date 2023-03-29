@@ -19,12 +19,10 @@
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
 
-        [Required]
-        [MaxLength(MaxUserFirstname)]
+        [StringLength(MaxUserFirstname)]
         public string FirstName { get; set; }
 
-        [Required]
-        [MaxLength(MaxUserLastname)]
+        [StringLength(MaxUserLastname)]
         public string LastName { get; set; }
 
         // Audit info

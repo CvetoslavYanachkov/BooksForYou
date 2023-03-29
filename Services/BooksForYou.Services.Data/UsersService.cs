@@ -60,7 +60,7 @@ public class UsersService : IUsersService
         await _userRepo.SaveChangesAsync();
     }
 
-    public async Task<UserEditViewModel> GetUserEditAsync(string id)
+    public async Task<UserEditViewModel> GetUserForEditAsync(string id)
     {
         var user = await _userRepo.All().Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -150,9 +150,11 @@ public class UsersService : IUsersService
             await _signInManager.UserManager.RemoveFromRolesAsync(user, rolesToRemove);
         }
 
-        foreach (var role in model.Roles)
+        var userWithRoles = await _signInManager.UserManager.GetRolesAsync(user);
+
+        foreach (var role in userWithRoles)
         {
-            if (role.Text == "Publisher")
+            if (role == "Publisher")
             {
                 var html = new StringBuilder();
                 html.AppendLine($"<h1>{"Congratulations!"}</h1>");
