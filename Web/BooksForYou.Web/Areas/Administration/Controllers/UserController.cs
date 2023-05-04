@@ -25,15 +25,16 @@
             _userService = userService;
         }
 
-        // public async Task<IActionResult> CreateRole()
-        // {
-        //    await _roleManager.CreateAsync(new ApplicationRole()
-        //    {
-        //        Name = "Publisher"
-        //    });
+        public async Task<IActionResult> CreateRole()
+        {
+            await _roleManager.CreateAsync(new ApplicationRole()
+            {
+                Name = "Author"
+            });
 
-        /// return Ok();
-        // }
+            return Ok();
+        }
+
         public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
             var users = await _userService.GetUsersAsync(p, s);

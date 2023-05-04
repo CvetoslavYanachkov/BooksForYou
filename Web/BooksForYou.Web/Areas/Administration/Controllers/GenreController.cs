@@ -79,7 +79,7 @@
         {
             var model = await _genresService.GetGenreForDeleteAsync(id);
 
-            return PartialView("_Delete", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -87,7 +87,7 @@
         {
             if (!ModelState.IsValid)
             {
-                return PartialView("_Delete", model);
+                return View(model);
             }
 
             await _genresService.DeleteGenreAsync(id, model);

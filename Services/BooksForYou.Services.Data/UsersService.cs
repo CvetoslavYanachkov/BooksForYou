@@ -154,12 +154,20 @@ public class UsersService : IUsersService
 
         foreach (var role in userWithRoles)
         {
-            if (role == "Publisher")
+            if (role == "Author" && rolesToAdd.Any().ToString().FirstOrDefault().ToString() == "Author")
             {
                 var html = new StringBuilder();
                 html.AppendLine($"<h1>{"Congratulations!"}</h1>");
                 html.AppendLine($"<h3>{"You are already Author. Please go in your profile and fill in the author form."}</h3>");
                 await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Author", html.ToString());
+            }
+
+            if (role == "Publisher" && userRoles.FirstOrDefault() != "Publisher")
+            {
+                var html = new StringBuilder();
+                html.AppendLine($"<h1>{"Congratulations!"}</h1>");
+                html.AppendLine($"<h3>{"You are already Publisher. Please go in your profile and fill in the publisher form."}</h3>");
+                await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Publisher", html.ToString());
             }
         }
 
