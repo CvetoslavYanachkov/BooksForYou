@@ -1,6 +1,7 @@
 ﻿namespace BooksForYou.Services.Data;
 
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -140,21 +141,13 @@ public class UsersService : IUsersService
             }
         }
 
+        var rolesAlreadyExist = await _signInManager.UserManager.GetRolesAsync(user);
+
         if (rolesToAdd.Any())
         {
             await _signInManager.UserManager.AddToRolesAsync(user, rolesToAdd);
-        }
 
-        if (rolesToRemove.Any())
-        {
-            await _signInManager.UserManager.RemoveFromRolesAsync(user, rolesToRemove);
-        }
-
-        var userWithRoles = await _signInManager.UserManager.GetRolesAsync(user);
-
-        foreach (var role in userWithRoles)
-        {
-            if (role == "Author" && rolesToAdd.Any().ToString().FirstOrDefault().ToString() == "Author")
+            if (rolesToAdd.Contains("Author"))
             {
                 var html = new StringBuilder();
                 html.AppendLine($"<h1>{"Congratulations!"}</h1>");
@@ -162,13 +155,18 @@ public class UsersService : IUsersService
                 await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Author", html.ToString());
             }
 
-            if (role == "Publisher" && userRoles.FirstOrDefault() != "Publisher")
+            if (rolesToAdd.Contains("Publisher"))
             {
                 var html = new StringBuilder();
                 html.AppendLine($"<h1>{"Congratulations!"}</h1>");
                 html.AppendLine($"<h3>{"You are already Publisher. Please go in your profile and fill in the publisher form."}</h3>");
                 await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Publisher", html.ToString());
             }
+        }
+
+        if (rolesToRemove.Any())
+        {
+            await _signInManager.UserManager.RemoveFromRolesAsync(user, rolesToRemove);
         }
 
         user.FirstName = model.FirstName;
