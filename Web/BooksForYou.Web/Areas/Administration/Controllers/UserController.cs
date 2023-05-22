@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Services.Data;
+    using BooksForYou.Services.Data.Users;
     using BooksForYou.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;

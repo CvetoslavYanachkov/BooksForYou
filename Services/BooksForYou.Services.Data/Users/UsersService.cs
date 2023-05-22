@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Services.Data;
+﻿namespace BooksForYou.Services.Data.Users;
 
 using System.Collections.Generic;
 using System.Data;
@@ -106,7 +106,7 @@ public class UsersService : IUsersService
         result.Users = users
             .OrderByDescending(x => x.FirstName)
             .ThenByDescending(x => x.LastName)
-            .Skip((pageNumber * pageSize) - pageSize)
+            .Skip(pageNumber * pageSize - pageSize)
             .Take(pageSize)
             .ToList();
 
@@ -140,8 +140,6 @@ public class UsersService : IUsersService
                 }
             }
         }
-
-        var rolesAlreadyExist = await _signInManager.UserManager.GetRolesAsync(user);
 
         if (rolesToAdd.Any())
         {

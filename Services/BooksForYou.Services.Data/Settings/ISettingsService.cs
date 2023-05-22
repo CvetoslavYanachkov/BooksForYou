@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Services.Data
+﻿namespace BooksForYou.Services.Data.Settings
 {
     using System.Collections.Generic;
 

@@ -1,4 +1,4 @@
-namespace BooksForYou.Web
+﻿namespace BooksForYou.Web
 {
     using System;
     using System.Configuration;
@@ -10,7 +10,10 @@ namespace BooksForYou.Web
     using BooksForYou.Data.Models;
     using BooksForYou.Data.Repositories;
     using BooksForYou.Data.Seeding;
-    using BooksForYou.Services.Data;
+    using BooksForYou.Services.Data.Genres;
+    using BooksForYou.Services.Data.Settings;
+    using BooksForYou.Services.Data.Users;
+    using BooksForYou.Services.GoogleReCaptcha;
     using BooksForYou.Services.Mapping;
     using BooksForYou.Services.Messaging;
     using BooksForYou.Web.ViewModels;
@@ -50,6 +53,8 @@ namespace BooksForYou.Web
                     options.AppSecret = configuration.GetValue<string>("Facebook:AppSecret");
                 });
 
+            services.Configure<GoogleReCaptchaConfig>(configuration.GetSection("GoogleReCaptcha"));
+
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
@@ -77,6 +82,7 @@ namespace BooksForYou.Web
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IGenresService, GenresService>();
+            services.AddTransient(typeof(GoogleReCaptchaService));
         }
 
         private static void Configure(WebApplication app)

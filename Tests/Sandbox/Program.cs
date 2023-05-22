@@ -11,7 +11,7 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Data.Repositories;
     using BooksForYou.Data.Seeding;
-    using BooksForYou.Services.Data;
+    using BooksForYou.Services.Data.Settings;
     using BooksForYou.Services.Messaging;
 
     using CommandLine;

@@ -11,6 +11,7 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
+    using BooksForYou.Services.GoogleReCaptcha;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -23,11 +24,16 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly GoogleReCaptchaService _captchaService;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger,
+            GoogleReCaptchaService captchaService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _captchaService = captchaService;
         }
 
         [BindProperty]
@@ -49,6 +55,9 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Password is required")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
+
+            [Required]
+            public string Token { get; set; }
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
@@ -76,6 +85,13 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            var captchaResult = await _captchaService.VerifyToken(Input.Token);
+
+            if (!captchaResult)
+            {
+                return Page();
+            }
 
             if (ModelState.IsValid)
             {

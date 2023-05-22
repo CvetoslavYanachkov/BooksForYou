@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Services.Data
+﻿namespace BooksForYou.Services.Data.Users
 {
     using System.Threading.Tasks;
 

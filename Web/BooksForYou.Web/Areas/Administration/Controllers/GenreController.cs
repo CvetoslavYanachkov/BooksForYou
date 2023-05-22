@@ -3,7 +3,7 @@
     using System;
     using System.Threading.Tasks;
 
-    using BooksForYou.Services.Data;
+    using BooksForYou.Services.Data.Genres;
     using BooksForYou.Web.ViewModels.Administration.Genres;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;

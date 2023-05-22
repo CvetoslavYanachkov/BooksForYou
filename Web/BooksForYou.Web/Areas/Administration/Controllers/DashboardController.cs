@@ -1,6 +1,6 @@
 ﻿namespace BooksForYou.Web.Areas.Administration.Controllers
 {
-    using BooksForYou.Services.Data;
+    using BooksForYou.Services.Data.Settings;
     using BooksForYou.Web.ViewModels.Administration.Dashboard;
 
     using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Services.Data
+﻿namespace BooksForYou.Services.Data.Genres
 {
     using System;
     using System.Linq;
@@ -90,7 +90,7 @@
             result.Genres = genres
                 .OrderByDescending(x => x.Id)
                 .OrderByDescending(x => x.Name)
-                .Skip((pageNumber * pageSize) - pageSize)
+                .Skip(pageNumber * pageSize - pageSize)
                 .Take(pageSize)
                 .ToList();
 

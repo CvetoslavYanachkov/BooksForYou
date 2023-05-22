@@ -5,7 +5,7 @@
 
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
-    using BooksForYou.Services.Data;
+    using BooksForYou.Services.Data.Settings;
     using BooksForYou.Web.ViewModels.Settings;
 
     using Microsoft.AspNetCore.Mvc;
