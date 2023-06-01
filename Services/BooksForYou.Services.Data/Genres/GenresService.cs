@@ -18,7 +18,7 @@
             _genreRepo = genreRepo;
         }
 
-        public async Task<Genre> CreateGenreAsync(GenreViewModel model)
+        public async Task<Genre> CreateGenreAsync(GenreInputModel model)
         {
             var genre = new Genre()
             {

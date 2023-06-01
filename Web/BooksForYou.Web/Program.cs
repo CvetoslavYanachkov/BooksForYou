@@ -10,6 +10,7 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Data.Repositories;
     using BooksForYou.Data.Seeding;
+    using BooksForYou.Services.Data.Books;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Settings;
     using BooksForYou.Services.Data.Users;
@@ -82,6 +83,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IGenresService, GenresService>();
+            services.AddScoped<IBooksService, BooksService>();
             services.AddTransient(typeof(GoogleReCaptchaService));
         }
 

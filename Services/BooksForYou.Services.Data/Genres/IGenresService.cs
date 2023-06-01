@@ -9,7 +9,7 @@
     {
         Task<GenresListViewModel> GetGenresAsync(int pageNumber, int pageSize);
 
-        Task<Genre> CreateGenreAsync(GenreViewModel model);
+        Task<Genre> CreateGenreAsync(GenreInputModel model);
 
         Task UpdateGenreAsync(int id, GenreEditViewModel model);
 
