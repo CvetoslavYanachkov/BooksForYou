@@ -1,10 +1,6 @@
 ﻿namespace BooksForYou.Web.ViewModels.Administration.Books
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    using static BooksForYou.Data.Common.DataConstants.Book;
 
     public class BookInListViewModel
     {

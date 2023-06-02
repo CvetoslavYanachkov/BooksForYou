@@ -34,6 +34,7 @@
 
         public int LanguageId { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime PublisheDate { get; set; }
 
         public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();

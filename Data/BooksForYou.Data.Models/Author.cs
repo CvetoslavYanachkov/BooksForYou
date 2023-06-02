@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using BooksForYou.Data.Common.Models;
 
@@ -28,7 +29,16 @@
         public string Born { get; set; }
 
         [Required]
+        public int GenreId { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(GenreId))]
+        public Genre Genre { get; set; }
+
+        [Required]
         public string Website { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public IEnumerable<Genre> Genres { get; set; }
 

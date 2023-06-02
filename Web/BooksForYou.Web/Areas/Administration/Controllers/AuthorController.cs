@@ -3,34 +3,37 @@
     using System;
     using System.Threading.Tasks;
 
-    using BooksForYou.Services.Data.Books;
+    using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Genres;
-    using BooksForYou.Web.ViewModels.Administration.Books;
-    using BooksForYou.Web.ViewModels.Administration.Genres;
+    using BooksForYou.Web.ViewModels.Administration.Authors;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
-    public class BookController : AdministrationController
+    public class AuthorController : AdministrationController
     {
-        private readonly IBooksService _booksService;
+        private readonly IAuthorsService _authorsService;
+
         private readonly IGenresService _genresService;
 
-        public BookController(IBooksService booksService, IGenresService genresService)
+        public AuthorController(
+            IAuthorsService authorsService,
+            IGenresService genresService)
         {
-            _booksService = booksService;
+            _authorsService = authorsService;
             _genresService = genresService;
         }
 
         public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
-            var books = await _booksService.GetBooksAsync(p, s);
+            var authors = await _authorsService.GetAuthorsAsync(p, s);
 
-            return View(books);
+            return View(authors);
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var model = new BookCreateViewModel()
+            var model = new AuthorCreateViewModel()
             {
                 Genres = await _genresService.GetGenresToCreateAsync()
             };
@@ -39,7 +42,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BookCreateViewModel model)
+        public async Task<IActionResult> Create(AuthorCreateViewModel model, IFormFile file)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +51,7 @@
 
             try
             {
-                var genre = await _booksService.CreateBookAsync(model);
+                var author = await _authorsService.CreateAuthorAsync(model, file);
 
                 return RedirectToAction(nameof(All));
             }

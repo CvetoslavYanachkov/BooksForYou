@@ -1,5 +1,6 @@
 ﻿namespace BooksForYou.Services.Data.Genres
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
@@ -9,7 +10,7 @@
     {
         Task<GenresListViewModel> GetGenresAsync(int pageNumber, int pageSize);
 
-        Task<Genre> CreateGenreAsync(GenreInputModel model);
+        Task<Genre> CreateGenreAsync(GenreCreateViewModel model);
 
         Task UpdateGenreAsync(int id, GenreEditViewModel model);
 
@@ -18,5 +19,7 @@
         Task<GenreDeleteViewModel> GetGenreForDeleteAsync(int id);
 
         Task DeleteGenreAsync(int id, GenreDeleteViewModel model);
+
+        Task<IEnumerable<Genre>> GetGenresToCreateAsync();
     }
 }

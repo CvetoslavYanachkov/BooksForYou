@@ -10,6 +10,8 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Data.Repositories;
     using BooksForYou.Data.Seeding;
+    using BooksForYou.Services.AzureServices;
+    using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Books;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Settings;
@@ -55,6 +57,7 @@
                 });
 
             services.Configure<GoogleReCaptchaConfig>(configuration.GetSection("GoogleReCaptcha"));
+            services.Configure<AzureOptConfig>(configuration.GetSection("Azure"));
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -84,6 +87,8 @@
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IGenresService, GenresService>();
             services.AddScoped<IBooksService, BooksService>();
+            services.AddScoped<IAuthorsService, AuthorService>();
+            services.AddScoped<IAzureImageService, AzureImageService>();
             services.AddTransient(typeof(GoogleReCaptchaService));
         }
 

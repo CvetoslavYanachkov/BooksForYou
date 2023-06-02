@@ -27,13 +27,13 @@
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new GenreInputModel();
+            var model = new GenreCreateViewModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(GenreInputModel model)
+        public async Task<IActionResult> Create(GenreCreateViewModel model)
         {
             if (!ModelState.IsValid)
             {

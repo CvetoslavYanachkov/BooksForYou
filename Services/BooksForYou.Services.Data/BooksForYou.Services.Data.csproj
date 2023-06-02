@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\Web\BooksForYou.Web.ViewModels\BooksForYou.Web.ViewModels.csproj" />
     <ProjectReference Include="..\BooksForYou.Services.Mapping\BooksForYou.Services.Mapping.csproj" />
     <ProjectReference Include="..\BooksForYou.Services.Messaging\BooksForYou.Services.Messaging.csproj" />
+    <ProjectReference Include="..\BooksForYou.Services\BooksForYou.Services.csproj" />
   </ItemGroup>
 
 </Project>

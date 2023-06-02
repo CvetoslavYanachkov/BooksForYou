@@ -5,7 +5,7 @@
     using BooksForYou.Data.Models;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class UserViewModel
+    public class UserInListViewModel
     {
         public string Id { get; set; }
 

@@ -1,19 +1,21 @@
 ﻿namespace BooksForYou.Services.Data.Books
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
     using BooksForYou.Web.ViewModels.Administration.Books;
-    using BooksForYou.Web.ViewModels.Administration.Genres;
     using Microsoft.EntityFrameworkCore;
 
     public class BooksService : IBooksService
     {
-        private readonly IRepository<Book> _bookRepository;
+        private readonly IDeletableEntityRepository<Book> _bookRepository;
 
-        public BooksService(IRepository<Book> bookRepository)
+        public BooksService(
+            IDeletableEntityRepository<Book> bookRepository,
+            IDeletableEntityRepository<Genre> genreRepository)
         {
             _bookRepository = bookRepository;
         }
@@ -36,9 +38,7 @@
             await _bookRepository.SaveChangesAsync();
 
             return book;
-
         }
-
 
         public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize)
         {
@@ -69,7 +69,7 @@
             result.Books = books
                 .OrderByDescending(x => x.Id)
                 .OrderByDescending(x => x.Title)
-                .Skip(pageNumber * pageSize - pageSize)
+                .Skip((pageNumber * pageSize) - pageSize)
                 .Take(pageSize)
                 .ToList();
 

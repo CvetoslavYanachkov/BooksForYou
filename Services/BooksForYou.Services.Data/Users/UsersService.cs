@@ -16,26 +16,26 @@ using Microsoft.EntityFrameworkCore;
 
 public class UsersService : IUsersService
 {
-    private readonly IDeletableEntityRepository<ApplicationUser> _userRepo;
-    private readonly IDeletableEntityRepository<ApplicationRole> _roleRepo;
+    private readonly IDeletableEntityRepository<ApplicationUser> _userRepository;
+    private readonly IDeletableEntityRepository<ApplicationRole> _roleRepository;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IEmailSender _emailSender;
 
     public UsersService(
-        IDeletableEntityRepository<ApplicationUser> userRepo,
-        IDeletableEntityRepository<ApplicationRole> roleRepo,
+        IDeletableEntityRepository<ApplicationUser> userRepository,
+        IDeletableEntityRepository<ApplicationRole> roleRepository,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender)
     {
-        _userRepo = userRepo;
+        _userRepository = userRepository;
         _signInManager = signInManager;
-        _roleRepo = roleRepo;
+        _roleRepository = roleRepository;
         _emailSender = emailSender;
     }
 
     public async Task<UserDeleteViewModel> GetUserForDeleteAsync(string id)
     {
-        var user = await _userRepo.All().Where(u => u.Id == id).FirstOrDefaultAsync();
+        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         return new UserDeleteViewModel()
         {
@@ -48,7 +48,7 @@ public class UsersService : IUsersService
 
     public async Task DeleteUserAsync(string id, UserDeleteViewModel model)
     {
-        var user = await _userRepo.All().Where(u => u.Id == id).FirstOrDefaultAsync();
+        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         if (user != null)
         {
@@ -57,15 +57,15 @@ public class UsersService : IUsersService
             model.Email = user.Email;
         }
 
-        _userRepo.Delete(user);
-        await _userRepo.SaveChangesAsync();
+        _userRepository.Delete(user);
+        await _userRepository.SaveChangesAsync();
     }
 
     public async Task<UserEditViewModel> GetUserForEditAsync(string id)
     {
-        var user = await _userRepo.All().Where(x => x.Id == id).FirstOrDefaultAsync();
+        var user = await _userRepository.All().Where(x => x.Id == id).FirstOrDefaultAsync();
 
-        var roles = await _roleRepo.All().ToListAsync();
+        var roles = await _roleRepository.All().ToListAsync();
 
         var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
 
@@ -87,8 +87,8 @@ public class UsersService : IUsersService
 
     public async Task<UserListViewModel> GetUsersAsync(int pageNumber, int pageSize)
     {
-        var users = await _userRepo.All().
-       Select(x => new UserViewModel()
+        var users = await _userRepository.All().
+       Select(x => new UserInListViewModel()
        {
            Id = x.Id,
            FirstName = x.FirstName,
@@ -106,7 +106,7 @@ public class UsersService : IUsersService
         result.Users = users
             .OrderByDescending(x => x.FirstName)
             .ThenByDescending(x => x.LastName)
-            .Skip(pageNumber * pageSize - pageSize)
+            .Skip((pageNumber * pageSize) - pageSize)
             .Take(pageSize)
             .ToList();
 
@@ -115,7 +115,7 @@ public class UsersService : IUsersService
 
     public async Task UpdateUserAsync(string id, UserEditViewModel model)
     {
-        var user = await _userRepo.All().Where(u => u.Id == id).FirstOrDefaultAsync();
+        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
 
@@ -170,6 +170,6 @@ public class UsersService : IUsersService
         user.FirstName = model.FirstName;
         user.LastName = model.LastName;
         user.Email = model.Email;
-        await _userRepo.SaveChangesAsync();
+        await _userRepository.SaveChangesAsync();
     }
 }

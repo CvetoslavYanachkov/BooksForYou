@@ -1,6 +1,7 @@
 ﻿namespace BooksForYou.Services.Data.Genres
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,14 +12,14 @@
 
     public class GenresService : IGenresService
     {
-        private readonly IDeletableEntityRepository<Genre> _genreRepo;
+        private readonly IDeletableEntityRepository<Genre> _genreRepository;
 
-        public GenresService(IDeletableEntityRepository<Genre> genreRepo)
+        public GenresService(IDeletableEntityRepository<Genre> genreRepository)
         {
-            _genreRepo = genreRepo;
+            _genreRepository = genreRepository;
         }
 
-        public async Task<Genre> CreateGenreAsync(GenreInputModel model)
+        public async Task<Genre> CreateGenreAsync(GenreCreateViewModel model)
         {
             var genre = new Genre()
             {
@@ -26,28 +27,28 @@
                 Description = model.Description
             };
 
-            await _genreRepo.AddAsync(genre);
-            await _genreRepo.SaveChangesAsync();
+            await _genreRepository.AddAsync(genre);
+            await _genreRepository.SaveChangesAsync();
 
             return genre;
         }
 
         public async Task DeleteGenreAsync(int id, GenreDeleteViewModel model)
         {
-            var genre = await _genreRepo.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+            var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
 
             if (genre != null)
             {
                 genre.Name = model.Name;
             }
 
-            _genreRepo.Delete(genre);
-            await _genreRepo.SaveChangesAsync();
+            _genreRepository.Delete(genre);
+            await _genreRepository.SaveChangesAsync();
         }
 
         public async Task<GenreDeleteViewModel> GetGenreForDeleteAsync(int id)
         {
-            var genre = await _genreRepo.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+            var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
 
             var model = new GenreDeleteViewModel
             {
@@ -59,7 +60,7 @@
 
         public async Task<GenreEditViewModel> GetGenreForEditAsync(int id)
         {
-            var genre = await _genreRepo.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+            var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
 
             return new GenreEditViewModel()
             {
@@ -71,7 +72,7 @@
 
         public async Task<GenresListViewModel> GetGenresAsync(int pageNumber, int pageSize)
         {
-            var genres = await _genreRepo.All()
+            var genres = await _genreRepository.All()
                .Select(x => new GenreInListViewModel()
                {
                    Id = x.Id,
@@ -90,7 +91,7 @@
             result.Genres = genres
                 .OrderByDescending(x => x.Id)
                 .OrderByDescending(x => x.Name)
-                .Skip(pageNumber * pageSize - pageSize)
+                .Skip((pageNumber * pageSize) - pageSize)
                 .Take(pageSize)
                 .ToList();
 
@@ -99,12 +100,17 @@
 
         public async Task UpdateGenreAsync(int id, GenreEditViewModel model)
         {
-            var genre = await _genreRepo.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+            var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
 
             genre.Name = model.Name;
             genre.Description = model.Description;
 
-            await _genreRepo.SaveChangesAsync();
+            await _genreRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Genre>> GetGenresToCreateAsync()
+        {
+            return await _genreRepository.All().ToListAsync();
         }
     }
 }

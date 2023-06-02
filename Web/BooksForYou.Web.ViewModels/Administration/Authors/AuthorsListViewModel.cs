@@ -1,8 +1,8 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.Users
+﻿namespace BooksForYou.Web.ViewModels.Administration.Authors
 {
     using System.Collections.Generic;
 
-    public class UserListViewModel
+    public class AuthorsListViewModel
     {
         public int PageNumber { get; set; }
 
@@ -10,6 +10,6 @@
 
         public int PageSize { get; set; }
 
-        public List<UserInListViewModel> Users { get; set; }
+        public List<AuthorInListViewModel> Authors { get; set; }
     }
 }

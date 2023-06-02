@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class GenreInputModel
+    public class GenreCreateViewModel
     {
         [Required]
         public string Name { get; set; }
