@@ -7,7 +7,7 @@
 
     public interface IAzureImageService
     {
-        Task<Uri> UploadImageToAzureAsync(IFormFile file);
+        Task<Uri> UploadImageToAzureAsync(IFormFile file, string imageName);
 
         Task DeleteImageFromAzureAsync(string uriString);
     }

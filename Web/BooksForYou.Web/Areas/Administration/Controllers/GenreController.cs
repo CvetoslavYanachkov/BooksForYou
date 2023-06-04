@@ -6,7 +6,6 @@
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Web.ViewModels.Administration.Genres;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     public class GenreController : AdministrationController
     {
@@ -17,6 +16,7 @@
             _genresService = genresService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
             var genres = await _genresService.GetGenresAsync(p, s);

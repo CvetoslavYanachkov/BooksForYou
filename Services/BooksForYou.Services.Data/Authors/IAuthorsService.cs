@@ -1,5 +1,6 @@
 ﻿namespace BooksForYou.Services.Data.Authors
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
@@ -11,5 +12,7 @@
         Task<AuthorsListViewModel> GetAuthorsAsync(int pageNumber, int pageSize);
 
         Task<Author> CreateAuthorAsync(AuthorCreateViewModel model, IFormFile file);
+
+        Task<IEnumerable<Author>> GetAuthorsToCreateAsync();
     }
 }

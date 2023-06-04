@@ -1,53 +1,43 @@
-﻿@using BooksForYou.Web.ViewModels.Administration.Books;
-@model BooksListViewModel
+﻿@using BooksForYou.Web.ViewModels.Administration.Publishers;
+@model PublishersListViewModel
 
 
 @{
-    ViewData["Title"] = "Get Authors";
+    ViewData["Title"] = "Get Genres";
 }
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Manage Books</h3>
+        <h3 class="card-title">Manage publisherss</h3>
     </div>
     <div class="row">
         <div class="col-12">
             <div class="card-body">
                 <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <p>
-                        <a asp-action="Create" class="text-primary">Create new book</a>
+                        <a asp-action="Create" class="text-primary">Create new publisher</a>
                     </p>
                     <div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row">
                         <div class="col-sm-12">
                             <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
                                 <thead>
                                     <tr>
-                                        <th>ISBN</th>
-                                        <th>Title</th>
+                                        <th>Name</th>
                                         <th>Description</th>
-                                        <th>Author</th>
-                                        <th>Genre</th>
-                                        <th>ImageUrl</th>
-                                        <th>Publisher</th>
-                                        <th>Language</th>
-                                        <th>Publisher date</th>
-                                        <th>Pages</th>
+                                        <th>Phone number</th>
                                         <th>Operations</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var book in Model.Books)
+                                    @foreach (var publisher in Model.Publishers)
                                     {
                                         <tr>
                                             <td>
-                                                @book.ISBN
-                                            </td>
-                                            <td>
-                                                @book.Title
+                                                @publisher.Name
                                             </td>
                                             <td>
                                                 @{
-                                                    string x = book.Description;
+                                                    string x = publisher.Description;
                                                     if (x != null && x.Length > 100)
                                                     {
                                                         x = x.Substring(0, 50);
@@ -56,30 +46,12 @@
                                                 @Html.Raw(x)...
                                             </td>
                                             <td>
-                                                @book.Author
+                                                @publisher.PhoneNumber
                                             </td>
                                             <td>
-                                                @book.Genre
-                                            </td>
-                                            <td>
-                                                @book.ImageUrl
-                                            </td>
-                                            <td>
-                                                @book.Publisher
-                                            </td>
-                                            <td>
-                                                @book.Language
-                                            </td>
-                                            <td>
-                                                @book.PublisheDate
-                                            </td>
-                                            <td>
-                                                @book.Pages
-                                            </td>
-                                            <td>
-                                                <a asp-action="Edit" asp-route-id="@book.Id" class="text-warning">Edit</a> |
-                                                <a asp-action="Details" asp-route-id="@book.Id" class="text-primary">Details</a> |
-                                                <a asp-action="Delete" asp-route-id="@book.Id" class="text-danger">Delete</a>
+                                                <a asp-action="Edit" asp-route-id="@publisher.Id" class="text-warning">Edit</a> |
+                                                <a asp-action="Details" asp-route-id="@publisher.Id" class="text-primary">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@publisher.Id" class="text-danger">Delete</a>
                                             </td>
                                         </tr>
                                     }
@@ -105,3 +77,21 @@
     <div class="modal-dialog" role="document">
     </div>
 </div>
+
+@*@Html.PartialAsync("_Delete")*@
+
+@*@section scripts{
+    <script>
+        $("#showtable").on("click", "#viewbtn", function () {
+            var id = $(this).closest("tr").find("td").eq(0).html();
+            $.ajax({
+                url: "@Url.Action("ShowImg", "PartialTest")",
+                data: { id: id },
+                success: function (data) {
+                    $("#showmodal .modal-dialog").html(data);
+                    $("#showmodal").modal("show");
+                }
+            });
+        });
+    </script>
+}*@

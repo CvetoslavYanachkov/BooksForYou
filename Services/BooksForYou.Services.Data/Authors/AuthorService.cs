@@ -1,6 +1,7 @@
 ﻿namespace BooksForYou.Services.Data.Authors
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -27,7 +28,8 @@
 
         public async Task<Author> CreateAuthorAsync(AuthorCreateViewModel model, IFormFile file)
         {
-            Uri blobImage = await _azureImageService.UploadImageToAzureAsync(file);
+            string imageName = model.Name.ToString().Replace(' ', '-').Trim(' ');
+            Uri blobImage = await _azureImageService.UploadImageToAzureAsync(file, imageName);
             string image = blobImage.ToString().Replace('"', ' ').Trim();
             var author = new Author()
             {
@@ -73,6 +75,11 @@
                 .ToList();
 
             return result;
+        }
+
+        public async Task<IEnumerable<Author>> GetAuthorsToCreateAsync()
+        {
+            return await _authorRepository.All().ToListAsync();
         }
     }
 }

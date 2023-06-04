@@ -14,6 +14,8 @@
     using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Books;
     using BooksForYou.Services.Data.Genres;
+    using BooksForYou.Services.Data.Languages;
+    using BooksForYou.Services.Data.Publishers;
     using BooksForYou.Services.Data.Settings;
     using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.GoogleReCaptcha;
@@ -88,6 +90,8 @@
             services.AddScoped<IGenresService, GenresService>();
             services.AddScoped<IBooksService, BooksService>();
             services.AddScoped<IAuthorsService, AuthorService>();
+            services.AddScoped<ILanguagesService, LanguagesService>();
+            services.AddScoped<IPublisherService, PublisherService>();
             services.AddScoped<IAzureImageService, AzureImageService>();
             services.AddTransient(typeof(GoogleReCaptchaService));
         }

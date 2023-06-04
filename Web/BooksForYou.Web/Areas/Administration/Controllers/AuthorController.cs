@@ -44,6 +44,11 @@
         [HttpPost]
         public async Task<IActionResult> Create(AuthorCreateViewModel model, IFormFile file)
         {
+            if (file == null || file.Length == 0)
+            {
+                return this.View(model);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View();

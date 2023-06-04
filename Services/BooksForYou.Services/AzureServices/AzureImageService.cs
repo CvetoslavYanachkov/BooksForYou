@@ -19,7 +19,7 @@
             _azureOptions = azureOptions.Value;
         }
 
-        public async Task<Uri> UploadImageToAzureAsync(IFormFile file)
+        public async Task<Uri> UploadImageToAzureAsync(IFormFile file, string imageName)
         {
             string fileExtension = Path.GetExtension(file.FileName);
 
@@ -31,7 +31,7 @@
                  _azureOptions.ConnectionString,
                  _azureOptions.Container);
 
-            var uniqueName = Guid.NewGuid().ToString() + fileExtension;
+            var uniqueName = Guid.NewGuid().ToString() + imageName + fileExtension;
             BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
 
             await blobClient.UploadAsync(fileUploadStream, new BlobUploadOptions()

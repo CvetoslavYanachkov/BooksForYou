@@ -48,6 +48,8 @@
 
             public const int MaxPublisherDescription = 5000;
             public const int MinPublisherDescription = 20;
+
+            public const int PublisherPhoneNumber = 10;
         }
 
         public class Language

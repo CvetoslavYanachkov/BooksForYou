@@ -10,7 +10,6 @@
 
     public class BookCreateViewModel
     {
-
         [Required]
         public string ISBN { get; set; }
 
@@ -25,8 +24,6 @@
         public int AuthorId { get; set; }
 
         public int GenreId { get; set; }
-
-        public string ImageUrl { get; set; }
 
         public int PublisherId { get; set; }
 

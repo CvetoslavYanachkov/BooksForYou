@@ -4,6 +4,7 @@ using BooksForYou.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksForYou.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230604191652_FixLanguageIdInBooktable")]
+    partial class FixLanguageIdInBooktable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,7 +203,7 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Book", b =>
@@ -240,7 +242,7 @@ namespace BooksForYou.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LanguageId")
+                    b.Property<int?>("LanguagesId")
                         .IsRequired()
                         .HasColumnType("int");
 
@@ -269,11 +271,11 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("LanguageId");
+                    b.HasIndex("LanguagesId");
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Genre", b =>
@@ -314,7 +316,7 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Language", b =>
@@ -346,7 +348,7 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Languages", (string)null);
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Publisher", b =>
@@ -388,7 +390,7 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Publishers", (string)null);
+                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Setting", b =>
@@ -421,7 +423,7 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Settings", (string)null);
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -557,7 +559,7 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasOne("BooksForYou.Data.Models.Language", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId")
+                        .HasForeignKey("LanguagesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

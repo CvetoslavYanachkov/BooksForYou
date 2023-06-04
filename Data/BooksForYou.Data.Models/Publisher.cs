@@ -5,6 +5,8 @@
 
     using BooksForYou.Data.Common.Models;
 
+    using static BooksForYou.Data.Common.DataConstants.Publisher;
+
     public class Publisher : BaseDeletableModel<int>
     {
         public Publisher()
@@ -13,12 +15,16 @@
         }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(MaxPublisherName)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(3000)]
+        [StringLength(MaxPublisherDescription)]
         public string Description { get; set; }
+
+        [Required]
+        [StringLength(PublisherPhoneNumber)]
+        public string PhoneNumber { get; set; }
 
         public IEnumerable<Book> Books { get; set; }
     }

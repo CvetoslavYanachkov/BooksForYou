@@ -38,7 +38,7 @@
                     return googleResult.Success && googleResult.Score >= 0.5;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
