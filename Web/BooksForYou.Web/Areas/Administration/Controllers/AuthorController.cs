@@ -6,6 +6,7 @@
     using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Web.ViewModels.Administration.Authors;
+    using BooksForYou.Web.ViewModels.Administration.Publishers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -46,11 +47,13 @@
         {
             if (file == null || file.Length == 0)
             {
+                model.Genres = await _genresService.GetGenresToCreateAsync();
                 return this.View(model);
             }
 
             if (!ModelState.IsValid)
             {
+                model.Genres = await _genresService.GetGenresToCreateAsync();
                 return View();
             }
 
@@ -65,6 +68,43 @@
                 ModelState.AddModelError(string.Empty, "Something went wrong");
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await _authorsService.GetAuthorForEditAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, AuthorEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Genres = await _genresService.GetGenresToCreateAsync();
+                return View(model);
+            }
+
+            try
+            {
+                await _authorsService.UpdateAuthorAsync(id, model);
+
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong");
+                return View(model);
+            }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _authorsService.DeleteAuthorAsync(id);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

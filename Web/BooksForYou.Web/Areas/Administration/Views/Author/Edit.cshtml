@@ -1,8 +1,8 @@
-﻿@using BooksForYou.Web.ViewModels.Administration.Genres;
-@model GenreEditViewModel
+﻿@using BooksForYou.Web.ViewModels.Administration.Authors;
+@model AuthorEditViewModel
 
 @{
-    ViewData["Title"] = "Edit genre";
+    ViewData["Title"] = "Edit author";
 }
 
 
@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form id="editForm" method="post">
+        <form id="editForm" method="post" enctype="multipart/form-data">
             <input type="hidden" name="Id" value="@Model.Id" />
             <div class="mb-3">
                 <div class="text-center mb-3">
@@ -25,6 +25,32 @@
                     <label asp-for="@Model.Description" class="form-label">Description</label>
                     <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.Born" class="form-label">Born</label>
+                    <input asp-for="@Model.Born" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Born" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.GenreId" class="form-label">Genre</label>
+                    <select asp-for="@Model.GenreId" class="form-control">
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <option value="@genre.Id">@genre.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="GenreId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.Website" class="form-label">Website</label>
+                    <input asp-for="@Model.Website" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Website" class="text-danger"></span>
                 </div>
             </div>
         </form>

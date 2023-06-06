@@ -2,28 +2,34 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
     using BooksForYou.Services.AzureServices;
+    using BooksForYou.Services.Data.Genres;
     using BooksForYou.Web.ViewModels.Administration.Authors;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
     public class AuthorService : IAuthorsService
     {
-        private readonly IRepository<Author> _authorRepository;
+        private readonly IDeletableEntityRepository<Author> _authorRepository;
 
         private readonly IAzureImageService _azureImageService;
 
+        private readonly IGenresService _genresService;
+
         public AuthorService(
-            IRepository<Author> authorRepository,
-            IAzureImageService azureImageService)
+            IDeletableEntityRepository<Author> authorRepository,
+            IAzureImageService azureImageService,
+            IGenresService genresService)
         {
             _authorRepository = authorRepository;
             _azureImageService = azureImageService;
+            _genresService = genresService;
         }
 
         public async Task<Author> CreateAuthorAsync(AuthorCreateViewModel model, IFormFile file)
@@ -47,11 +53,40 @@
             return author;
         }
 
+        public async Task DeleteAuthorAsync(int id)
+        {
+            var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
+            if (author != null)
+            {
+                await _azureImageService.DeleteImageFromAzureAsync(author.ImageUrl);
+            }
+
+            _authorRepository.Delete(author);
+            await _authorRepository.SaveChangesAsync();
+        }
+
+        public async Task<AuthorEditViewModel> GetAuthorForEditAsync(int id)
+        {
+            var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
+            var genres = await _genresService.GetGenresToCreateAsync();
+            return new AuthorEditViewModel()
+            {
+                Id = id,
+                Name = author.Name,
+                Description = author.Description,
+                Born = author.Born,
+                Website = author.Website,
+                GenreId = author.GenreId,
+                Genres = genres
+            };
+        }
+
         public async Task<AuthorsListViewModel> GetAuthorsAsync(int pageNumber, int pageSize)
         {
             var authors = await _authorRepository.All()
                 .Select(a => new AuthorInListViewModel()
                 {
+                    Id = a.Id,
                     Name = a.Name,
                     Description = a.Description,
                     Born = a.Born,
@@ -80,6 +115,20 @@
         public async Task<IEnumerable<Author>> GetAuthorsToCreateAsync()
         {
             return await _authorRepository.All().ToListAsync();
+        }
+
+        public async Task UpdateAuthorAsync(int id, AuthorEditViewModel model)
+        {
+            var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
+
+            author.Id = id;
+            author.Name = model.Name;
+            author.Description = model.Description;
+            author.Born = model.Born;
+            author.Website = model.Website;
+            author.Genres = model.Genres;
+
+            await _authorRepository.SaveChangesAsync();
         }
     }
 }
