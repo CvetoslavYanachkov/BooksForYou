@@ -12,7 +12,7 @@
 
         Task UpdateUserAsync(string id, UserEditViewModel model);
 
-        Task<UserDeleteViewModel> GetUserForDeleteAsync(string id);
+        Task<UserDeleteViewModel> GetUserByIdAsync(string id);
 
         Task DeleteUserAsync(string id, UserDeleteViewModel model);
     }

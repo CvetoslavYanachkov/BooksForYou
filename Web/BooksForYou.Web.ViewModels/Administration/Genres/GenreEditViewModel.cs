@@ -2,7 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class GenreEditViewModel
+    using BooksForYou.Data.Models;
+    using BooksForYou.Services.Mapping;
+
+    public class GenreEditViewModel : IMapFrom<Genre>
     {
         public int Id { get; set; }
 

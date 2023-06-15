@@ -2,9 +2,12 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using BooksForYou.Data.Models;
+    using BooksForYou.Services.Mapping;
+
     using static BooksForYou.Data.Common.DataConstants.Publisher;
 
-    public class PublisherEditViewModel
+    public class PublisherEditViewModel : IMapFrom<Publisher>
     {
         public int Id { get; set; }
 

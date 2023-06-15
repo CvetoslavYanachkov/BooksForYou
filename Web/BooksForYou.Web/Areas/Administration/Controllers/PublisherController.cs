@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Services.Data.Publishers;
-    using BooksForYou.Web.ViewModels.Administration.Genres;
     using BooksForYou.Web.ViewModels.Administration.Publisher;
     using BooksForYou.Web.ViewModels.Administration.Publishers;
     using Microsoft.AspNetCore.Mvc;
@@ -59,7 +58,7 @@
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await _publisherService.GetPublisherForEditAsync(id);
+            var model = await _publisherService.GetPublisherForEditAsync<PublisherEditViewModel>(id);
 
             return View(model);
         }
@@ -85,12 +84,19 @@
             }
         }
 
-        [HttpGet]
         public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _publisherService.GetPublisherByIdAsync<PublisherDeleteViewModel>(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _publisherService.DeletePublisherAsync(id);
 
-            return View();
+            return RedirectToAction(nameof(All));
         }
     }
 }

@@ -66,7 +66,7 @@
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var model = await _userService.GetUserForDeleteAsync(id);
+            var model = await _userService.GetUserByIdAsync(id);
 
             return View(model);
         }

@@ -6,7 +6,6 @@
     using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Web.ViewModels.Administration.Authors;
-    using BooksForYou.Web.ViewModels.Administration.Publishers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -100,7 +99,16 @@
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _authorsService.GetAuthorByIdAsync<AuthorDeleteViewModel>(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _authorsService.DeleteAuthorAsync(id);
 

@@ -3,8 +3,9 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Administration.Authors;
     using BooksForYou.Web.ViewModels.Administration.Books;
+    using BooksForYou.Web.ViewModels.Authors;
+    using BooksForYou.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Http;
 
     public interface IBooksService
@@ -18,5 +19,7 @@
         Task<BookEditViewModel> GetBookForEditAsync(int id);
 
         Task DeleteBookAsync(int id);
+
+        Task<T> GetBookByIdAsync<T>(int id);
     }
 }

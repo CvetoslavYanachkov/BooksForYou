@@ -6,8 +6,7 @@
 
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Administration.Authors;
-    using BooksForYou.Web.ViewModels.Administration.Books;
+    using BooksForYou.Services.Mapping;
     using BooksForYou.Web.ViewModels.Administration.Publisher;
     using BooksForYou.Web.ViewModels.Administration.Publishers;
     using Microsoft.EntityFrameworkCore;
@@ -44,17 +43,18 @@
             await _publisherRepository.SaveChangesAsync();
         }
 
-        public async Task<PublisherEditViewModel> GetPublisherForEditAsync(int id)
+        public async Task<T> GetPublisherByIdAsync<T>(int id)
         {
-            var publisher = await _publisherRepository.All().Where(p => p.Id == id).FirstOrDefaultAsync();
+            var publisher = await _publisherRepository.All().Where(p => p.Id == id).To<T>().FirstOrDefaultAsync();
 
-            return new PublisherEditViewModel()
-            {
-                Id = publisher.Id,
-                Name = publisher.Name,
-                Description = publisher.Description,
-                PhoneNumber = publisher.PhoneNumber
-            };
+            return publisher;
+        }
+
+        public async Task<T> GetPublisherForEditAsync<T>(int id)
+        {
+            var publisher = await _publisherRepository.All().Where(p => p.Id == id).To<T>().FirstOrDefaultAsync();
+
+            return publisher;
         }
 
         public async Task<PublishersListViewModel> GetPublishersAsync(int pageNumber, int pageSize)

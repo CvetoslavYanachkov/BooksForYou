@@ -34,6 +34,7 @@
             _publishersService = publishersService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
             var books = await _booksService.GetBooksAsync(p, s);
@@ -60,6 +61,11 @@
         {
             if (file == null || file.Length == 0)
             {
+                model.Authors = await _authorService.GetAuthorsToCreateAsync();
+                model.Genres = await _genresService.GetGenresToCreateAsync();
+                model.Languages = await _languagesService.GetLanguagesToCreateAsync();
+                model.Publishers = await _publishersService.GetPublishersToCreateAsync();
+
                 return this.View(model);
             }
 
@@ -94,9 +100,51 @@
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
+            var model = await _booksService.GetBookByIdAsync<BookDeleteViewModel>(id);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {
             await _booksService.DeleteBookAsync(id);
 
-            return View();
+            return RedirectToAction(nameof(All));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await _booksService.GetBookForEditAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, BookEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Authors = await _authorService.GetAuthorsToCreateAsync();
+                model.Genres = await _genresService.GetGenresToCreateAsync();
+                model.Languages = await _languagesService.GetLanguagesToCreateAsync();
+                model.Publishers = await _publishersService.GetPublishersToCreateAsync();
+
+                return View(model);
+            }
+
+            try
+            {
+                await _booksService.UpdateBookAsync(id, model);
+
+                return RedirectToAction(nameof(All));
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong");
+                return View(model);
+            }
         }
     }
 }

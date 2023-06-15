@@ -56,7 +56,7 @@
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await _genresService.GetGenreForEditAsync(id);
+            var model = await _genresService.GetGenreForEditAsync<GenreEditViewModel>(id);
 
             return View(model);
         }
@@ -77,20 +77,15 @@
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await _genresService.GetGenreForDeleteAsync(id);
+            var model = await _genresService.GetGenreByIdAsync<GenreDeleteViewModel>(id);
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id, GenreDeleteViewModel model)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            await _genresService.DeleteGenreAsync(id, model);
+            await _genresService.DeleteGenreAsync(id);
 
             return RedirectToAction(nameof(All));
         }

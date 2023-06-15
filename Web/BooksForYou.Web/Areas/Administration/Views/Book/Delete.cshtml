@@ -1,0 +1,109 @@
+﻿@using BooksForYou.Web.ViewModels.Administration.Books;
+@model BookDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete book";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form id="editForm" method="post">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.ISBN" class="form-label">ISBN</label>
+                    <input asp-for="@Model.ISBN" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.Title" class="form-label">Name</label>
+                    <input asp-for="@Model.Title" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.Description" class="form-label">Description</label>
+                    <textarea asp-for="@Model.Description" class="form-control" readonly rows="5"></textarea>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.AuthorName" class="form-label">Author</label>
+                    <input asp-for="@Model.AuthorName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.GenreName" class="form-label">Genre</label>
+                    <input asp-for="@Model.GenreName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.PublisherName" class="form-label">Publisher</label>
+                    <input asp-for="@Model.PublisherName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.LanguageName" class="form-label">Language</label>
+                    <input asp-for="@Model.LanguageName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.Pages" class="form-label">Pages</label>
+                    <input asp-for="@Model.Pages" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.PublisheDate" class="form-label">Publishe date</label>
+                    <input asp-for="@Model.PublisheDate" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.ImageUrl" class="form-label">Image url</label>
+                    <input asp-for="@Model.ImageUrl" class="form-control" readonly />
+                </div>
+            </div>
+        </form>
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-danger mt-2" data-toggle="modal" data-target="#modalDelete">Delete</button>
+            <div>
+                <a asp-action="All">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal" id="modalDelete" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Are you sure you want to delete this book?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="editForm.submit()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,11 +14,11 @@
 
         Task UpdateGenreAsync(int id, GenreEditViewModel model);
 
-        Task<GenreEditViewModel> GetGenreForEditAsync(int id);
+        Task<T> GetGenreForEditAsync<T>(int id);
 
-        Task<GenreDeleteViewModel> GetGenreForDeleteAsync(int id);
+        Task<T> GetGenreByIdAsync<T>(int id);
 
-        Task DeleteGenreAsync(int id, GenreDeleteViewModel model);
+        Task DeleteGenreAsync(int id);
 
         Task<IEnumerable<Genre>> GetGenresToCreateAsync();
     }

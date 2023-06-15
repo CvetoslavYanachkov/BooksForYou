@@ -1,14 +1,20 @@
 ﻿namespace BooksForYou.Services.Data.Books
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
     using BooksForYou.Services.AzureServices;
+    using BooksForYou.Services.Data.Authors;
+    using BooksForYou.Services.Data.Genres;
+    using BooksForYou.Services.Data.Languages;
+    using BooksForYou.Services.Data.Publishers;
+    using BooksForYou.Services.Mapping;
     using BooksForYou.Web.ViewModels.Administration.Books;
+    using BooksForYou.Web.ViewModels.Authors;
+    using BooksForYou.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +22,25 @@
     {
         private readonly IDeletableEntityRepository<Book> _bookRepository;
         private readonly IAzureImageService _azureImageService;
+        private readonly IGenresService _genresService;
+        private readonly IAuthorsService _authorService;
+        private readonly ILanguagesService _languagesService;
+        private readonly IPublisherService _publishersService;
 
         public BooksService(
             IDeletableEntityRepository<Book> bookRepository,
-            IAzureImageService azureImageService)
+            IAzureImageService azureImageService,
+            IGenresService genresService,
+            IAuthorsService authorService,
+            ILanguagesService languagesService,
+            IPublisherService publishersService)
         {
             _bookRepository = bookRepository;
             _azureImageService = azureImageService;
+            _genresService = genresService;
+            _authorService = authorService;
+            _languagesService = languagesService;
+            _publishersService = publishersService;
         }
 
         public async Task<Book> CreateBookAsync(BookCreateViewModel model, IFormFile file)
@@ -54,13 +72,30 @@
         {
             var book = await _bookRepository.All().Where(b => b.Id == id).FirstOrDefaultAsync();
 
+            if (book != null)
+            {
+                await _azureImageService.DeleteImageFromAzureAsync(book.ImageUrl);
+            }
+
             _bookRepository.Delete(book);
             await _bookRepository.SaveChangesAsync();
+        }
+
+        public async Task<T> GetBookByIdAsync<T>(int id)
+        {
+            var book = await _bookRepository.All().Where(b => b.Id == id).To<T>().FirstOrDefaultAsync();
+
+            return book;
         }
 
         public async Task<BookEditViewModel> GetBookForEditAsync(int id)
         {
             var book = await _bookRepository.All().Where(b => b.Id == id).FirstOrDefaultAsync();
+
+            var authors = await _authorService.GetAuthorsToCreateAsync();
+            var genres = await _genresService.GetGenresToCreateAsync();
+            var languages = await _languagesService.GetLanguagesToCreateAsync();
+            var publishers = await _publishersService.GetPublishersToCreateAsync();
 
             return new BookEditViewModel()
             {
@@ -73,7 +108,11 @@
                 PublisherId = book.PublisherId,
                 Pages = book.Pages,
                 LanguageId = book.LanguageId,
-                PublisheDate = book.PublisheDate
+                PublisheDate = book.PublisheDate,
+                Authors = authors,
+                Genres = genres,
+                Languages = languages,
+                Publishers = publishers
             };
         }
 

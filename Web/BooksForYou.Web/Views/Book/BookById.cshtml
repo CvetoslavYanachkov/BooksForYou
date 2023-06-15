@@ -1,0 +1,50 @@
+﻿@using BooksForYou.Web.ViewModels.Books;
+@model BookSingleViewModel
+<div class="row">
+    <div class="col-md-3">
+
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <div class="text-center">
+                    <img class="mr-2 img-responsive" style="width: 20rem;"
+                         src="@Model.ImageUrl" alt="Book Image">
+                </div>
+                <ul class="list-group list-group-unbordered mb-3">
+                </ul>
+                <hr />
+                <div class="text-center">
+                    <a class="btn btn-outline-success" asp-route-Id="@Model.Id" asp-controller="Book" asp-action="AddToMyBooks" method="post"><b>Want ot read</b></a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-9">
+        <div class="card card-primary card-outline">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+
+                        <div class="post clearfix">
+                            <h1 class="book-title">@Model.Title</h1>
+                        </div>
+                        <h3 class="book-author"><a asp-route-Id="@Model.AuthorId" asp-controller="Author" asp-action="AuthorById" >@Model.AuthorName</a></h3>
+                        <h5 class="mt-0">@Model.Description</h5>
+                        <hr />
+                        <h6><b>First published: </b>@Model.PublisheDate</h6>
+                        <h6><b>Genre       </b>@Model.GenreName</h6>
+                        <hr />
+                        <h6><b>Format      </b>@Model.Pages</h6>
+                        <h6><b>ISBN        </b>@Model.ISBN</h6>
+                        <h6><b>Language    </b>@Model.LanguageName</h6>
+                        <h6><b>Publisher    </b>@Model.PublisherName</h6>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

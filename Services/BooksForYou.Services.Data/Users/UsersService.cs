@@ -33,7 +33,7 @@ public class UsersService : IUsersService
         _emailSender = emailSender;
     }
 
-    public async Task<UserDeleteViewModel> GetUserForDeleteAsync(string id)
+    public async Task<UserDeleteViewModel> GetUserByIdAsync(string id)
     {
         var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 

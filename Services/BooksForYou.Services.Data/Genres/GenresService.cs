@@ -7,6 +7,7 @@
 
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
+    using BooksForYou.Services.Mapping;
     using BooksForYou.Web.ViewModels.Administration.Genres;
     using Microsoft.EntityFrameworkCore;
 
@@ -33,41 +34,26 @@
             return genre;
         }
 
-        public async Task DeleteGenreAsync(int id, GenreDeleteViewModel model)
+        public async Task DeleteGenreAsync(int id)
         {
             var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
-
-            if (genre != null)
-            {
-                genre.Name = model.Name;
-            }
 
             _genreRepository.Delete(genre);
             await _genreRepository.SaveChangesAsync();
         }
 
-        public async Task<GenreDeleteViewModel> GetGenreForDeleteAsync(int id)
+        public async Task<T> GetGenreByIdAsync<T>(int id)
         {
-            var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+            var genre = await _genreRepository.All().Where(g => g.Id == id).To<T>().FirstOrDefaultAsync();
 
-            var model = new GenreDeleteViewModel
-            {
-                Name = genre.Name
-            };
-
-            return model;
+            return genre;
         }
 
-        public async Task<GenreEditViewModel> GetGenreForEditAsync(int id)
+        public async Task<T> GetGenreForEditAsync<T>(int id)
         {
-            var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+            var genre = await _genreRepository.All().Where(g => g.Id == id).To<T>().FirstOrDefaultAsync();
 
-            return new GenreEditViewModel()
-            {
-                Id = id,
-                Name = genre.Name,
-                Description = genre.Description
-            };
+            return genre;
         }
 
         public async Task<GenresListViewModel> GetGenresAsync(int pageNumber, int pageSize)

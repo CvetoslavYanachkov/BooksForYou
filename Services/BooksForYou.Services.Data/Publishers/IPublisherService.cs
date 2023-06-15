@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Administration.Authors;
     using BooksForYou.Web.ViewModels.Administration.Publisher;
     using BooksForYou.Web.ViewModels.Administration.Publishers;
 
@@ -16,9 +15,11 @@
 
         Task<IEnumerable<Publisher>> GetPublishersToCreateAsync();
 
-        Task<PublisherEditViewModel> GetPublisherForEditAsync(int id);
+        Task<T> GetPublisherForEditAsync<T>(int id);
 
         Task UpdatePublisherAsync(int id, PublisherEditViewModel model);
+
+        Task<T> GetPublisherByIdAsync<T>(int id);
 
         Task DeletePublisherAsync(int id);
     }

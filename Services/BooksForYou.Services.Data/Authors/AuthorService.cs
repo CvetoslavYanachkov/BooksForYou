@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,7 +9,9 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Services.AzureServices;
     using BooksForYou.Services.Data.Genres;
+    using BooksForYou.Services.Mapping;
     using BooksForYou.Web.ViewModels.Administration.Authors;
+    using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
 
@@ -56,6 +57,7 @@
         public async Task DeleteAuthorAsync(int id)
         {
             var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
+
             if (author != null)
             {
                 await _azureImageService.DeleteImageFromAzureAsync(author.ImageUrl);
@@ -69,6 +71,7 @@
         {
             var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
             var genres = await _genresService.GetGenresToCreateAsync();
+
             return new AuthorEditViewModel()
             {
                 Id = id,
@@ -117,6 +120,13 @@
             return await _authorRepository.All().ToListAsync();
         }
 
+        public async Task<T> GetAuthorByIdAsync<T>(int id)
+        {
+            var author = await _authorRepository.All().Where(g => g.Id == id).To<T>().FirstOrDefaultAsync();
+
+            return author;
+        }
+
         public async Task UpdateAuthorAsync(int id, AuthorEditViewModel model)
         {
             var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
@@ -126,9 +136,10 @@
             author.Description = model.Description;
             author.Born = model.Born;
             author.Website = model.Website;
-            author.Genres = model.Genres;
+            author.GenreId = model.GenreId;
 
             await _authorRepository.SaveChangesAsync();
         }
+
     }
 }

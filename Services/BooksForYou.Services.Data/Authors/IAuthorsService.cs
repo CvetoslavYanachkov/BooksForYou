@@ -5,7 +5,7 @@
 
     using BooksForYou.Data.Models;
     using BooksForYou.Web.ViewModels.Administration.Authors;
-    using BooksForYou.Web.ViewModels.Administration.Genres;
+    using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Http;
 
     public interface IAuthorsService
@@ -19,6 +19,8 @@
         Task UpdateAuthorAsync(int id, AuthorEditViewModel model);
 
         Task<AuthorEditViewModel> GetAuthorForEditAsync(int id);
+
+        Task<T> GetAuthorByIdAsync<T>(int id);
 
         Task DeleteAuthorAsync(int id);
     }

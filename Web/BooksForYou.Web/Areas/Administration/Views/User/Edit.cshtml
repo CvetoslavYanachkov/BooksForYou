@@ -6,8 +6,7 @@
 }
 
 <div class="row g-5">
-   @* <div class="col-md-7 col-lg-8">*@
-        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+           <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
             <form id="edit" method="post">
                 <input type="hidden" name="Id" value="@Model.Id" />
                 <div class="row g-3">
@@ -49,6 +48,7 @@
                     }
                 </div class="text-center mb-3">
                 <button type="submit" class="btn btn-primary btn-block">Save</button>
+                @*<button type="submit" class="btn btn-primary mt-2" data-toggle="modal" data-target="#modalEdit">Save changes</button>*@
           </form>
         </div>
     </div>
@@ -58,3 +58,25 @@
     <a asp-action="All">Back to List</a>
 </div>
 
+<!-- Modal -->
+<div class="modal" id="modalEdit" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you confirm this changes?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="editForm.submit()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
