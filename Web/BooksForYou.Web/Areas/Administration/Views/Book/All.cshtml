@@ -71,14 +71,14 @@
                                                 @book.Language
                                             </td>
                                             <td>
-                                                @book.PublisheDate
+                                                @book.PublisheDate.ToString("dd.MM.yyyy")
                                             </td>
                                             <td>
                                                 @book.Pages
                                             </td>
                                             <td>
                                                 <a asp-action="Edit" asp-route-id="@book.Id" class="text-warning">Edit</a> |
-                                                <a asp-action="Details" asp-route-id="@book.Id" class="text-primary">Details</a> |
+                                                <a asp-area="" asp-controller="Book" asp-action="BookById" asp-route-id="@book.Id" class="text-primary">Details</a> |
                                                 <a asp-action="Delete" asp-route-id="@book.Id" class="text-danger">Delete</a>
                                             </td>
                                         </tr>

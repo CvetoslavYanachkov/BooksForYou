@@ -83,6 +83,17 @@
 
 
         }
+        else if (this.User.IsInRole("Author"))
+        {
+            <li class="nav-item">
+                <a asp-area="" asp-controller="Author" asp-action="Create" class="nav-link">
+                    <i class="nav-icon fas fa-wallet"></i>
+                    <p>
+                        Create Author Test
+                    </p>
+                </a>
+            </li>
+        }
     }
     else
     {

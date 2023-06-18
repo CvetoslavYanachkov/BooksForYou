@@ -124,7 +124,7 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
                     var html = new StringBuilder();
                     html.AppendLine($"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You", "ceno1902@gmail.com", "mksd", html.ToString());
+                    await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You", "ceno1902@gmail.com", "Confirm email.", html.ToString());
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

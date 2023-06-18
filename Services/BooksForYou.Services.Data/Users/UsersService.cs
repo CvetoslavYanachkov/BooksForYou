@@ -11,6 +11,7 @@ using BooksForYou.Data.Models;
 using BooksForYou.Services.Messaging;
 using BooksForYou.Web.ViewModels.Administration.Users;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,17 +34,12 @@ public class UsersService : IUsersService
         _emailSender = emailSender;
     }
 
-    public async Task<UserDeleteViewModel> GetUserByIdAsync(string id)
+    [HttpGet]
+    public async Task<ApplicationUser> GetUserByIdAsync(string id)
     {
         var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
-        return new UserDeleteViewModel()
-        {
-            Id = id,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email
-        };
+        return user;
     }
 
     public async Task DeleteUserAsync(string id, UserDeleteViewModel model)

@@ -125,7 +125,7 @@
                    ISBN = b.ISBN,
                    Title = b.Title,
                    Description = b.Description,
-                   Author = b.Author.Name,
+                   Author = b.Author.User.FirstName + " " + b.Author.User.LastName,
                    Publisher = b.Publisher.Name,
                    Genre = b.Genre.Name,
                    Language = b.Language.Name,

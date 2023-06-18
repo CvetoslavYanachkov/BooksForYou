@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.Authors
+﻿namespace BooksForYou.Web.ViewModels.Authors
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -9,8 +9,6 @@
 
     public class AuthorCreateViewModel
     {
-        [Required]
-        [StringLength(MaxAuthorName, MinimumLength = MinAuthorName)]
         public string Name { get; set; }
 
         [Required]

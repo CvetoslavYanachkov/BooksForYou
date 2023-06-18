@@ -17,7 +17,6 @@
         }
 
         [Required]
-        [StringLength(MaxAuthorName)]
         public string Name { get; set; }
 
         [Required]
@@ -39,6 +38,11 @@
         public string Website { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public string UserId { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser User { get; set; }
 
         public IEnumerable<Genre> Genres { get; set; }
 

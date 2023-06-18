@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using BooksForYou.Data.Models;
     using BooksForYou.Web.ViewModels.Administration.Users;
 
     public interface IUsersService
@@ -12,7 +13,7 @@
 
         Task UpdateUserAsync(string id, UserEditViewModel model);
 
-        Task<UserDeleteViewModel> GetUserByIdAsync(string id);
+        Task<ApplicationUser> GetUserByIdAsync(string id);
 
         Task DeleteUserAsync(string id, UserDeleteViewModel model);
     }

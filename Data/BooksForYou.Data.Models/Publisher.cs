@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using BooksForYou.Data.Common.Models;
 
     using static BooksForYou.Data.Common.DataConstants.Publisher;
@@ -25,6 +25,11 @@
         [Required]
         [StringLength(PublisherPhoneNumber)]
         public string PhoneNumber { get; set; }
+
+        public string UserId { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser User { get; set; }
 
         public IEnumerable<Book> Books { get; set; }
     }

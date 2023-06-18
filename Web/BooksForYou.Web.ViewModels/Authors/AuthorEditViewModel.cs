@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.Authors
+﻿namespace BooksForYou.Web.ViewModels.Authors
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -22,9 +22,6 @@
         [Required]
         [StringLength(MaxAuthorBorn, MinimumLength = MinAuthorBorn)]
         public string Born { get; set; }
-
-        [Required]
-        public string Website { get; set; }
 
         public int GenreId { get; set; }
 

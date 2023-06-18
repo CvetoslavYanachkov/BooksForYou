@@ -12,7 +12,7 @@
     {
         Task<AuthorsListViewModel> GetAuthorsAsync(int pageNumber, int pageSize);
 
-        Task<Author> CreateAuthorAsync(AuthorCreateViewModel model, IFormFile file);
+        Task<Author> CreateAuthorAsync(string userId, AuthorCreateViewModel model, IFormFile file);
 
         Task<IEnumerable<Author>> GetAuthorsToCreateAsync();
 
@@ -23,5 +23,9 @@
         Task<T> GetAuthorByIdAsync<T>(int id);
 
         Task DeleteAuthorAsync(int id);
+
+        Task<bool> UserWithWebsiteExists(string website);
+
+        Task<bool> ExistsById(string id);
     }
 }

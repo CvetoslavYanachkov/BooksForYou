@@ -6,7 +6,7 @@
         <div class="card card-primary card-outline">
             <div class="card-body box-profile">
                 <div class="text-center">
-                    <img class="mr-2 img-responsive" style="width: 12rem;"
+                    <img class="mr-2 img-fluid" style="width: 12rem;"
                          src="@Model.ImageUrl" alt="Author Image">
                 </div>
                 <ul class="list-group list-group-unbordered mb-3">
@@ -28,15 +28,14 @@
                         </div>
                         <hr />
                         <h6><b>First published: </b>@Model.Born</h6>
-                        <h6><b>Website       </b>@Model.Website</h6>
+                        <h6><b>Website       </b><a href="@Model.Website">@Model.Website</a></h6>
                         <hr />
                         <h6><b>Genre      </b>@Model.GenreName</h6>
                         <hr />
-                        <h5 class="mt-0">@Model.Description</h5>
+                        <h5 class="mt-0">@Model.Description</h5> <h6 class="book-author"><a asp-area="Administrator" asp-route-Id="@Model.Id" asp-controller="Author" asp-action="Edit">Edit</a></h6>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -14,9 +14,6 @@
         <div class="col-12">
             <div class="card-body">
                 <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                    <p>
-                        <a asp-action="Create" class="text-primary">Create new author</a>
-                    </p>
                     <div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row">
                         <div class="col-sm-12">
                             <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
@@ -55,14 +52,13 @@
                                                 @author.Genre
                                             </td>
                                             <td>
-                                                @author.Website
+                                                <a href="@author.Website">@author.Website</a>
                                             </td>
                                             <td>
                                                 @author.Born
                                             </td>
                                             <td>
-                                                <a asp-action="Edit" asp-route-id="@author.Id" class="text-warning">Edit</a> |
-                                                <a asp-action="Details" asp-route-id="@author.Id" class="text-primary">Details</a> |
+                                                <a asp-area="" asp-controller="Author" asp-action="AuthorById" asp-route-id="@author.Id" class="text-primary">Details</a> |
                                                 <a asp-action="Delete" asp-route-id="@author.Id" class="text-danger">Delete</a>
                                             </td>
                                         </tr>

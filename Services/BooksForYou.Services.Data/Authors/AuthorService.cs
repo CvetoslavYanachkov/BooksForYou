@@ -9,7 +9,9 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Services.AzureServices;
     using BooksForYou.Services.Data.Genres;
+    using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.Mapping;
+    using BooksForYou.Services.Messaging;
     using BooksForYou.Web.ViewModels.Administration.Authors;
     using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Http;
@@ -23,29 +25,50 @@
 
         private readonly IGenresService _genresService;
 
+        private readonly IUsersService _usersService;
+
         public AuthorService(
-            IDeletableEntityRepository<Author> authorRepository,
-            IAzureImageService azureImageService,
-            IGenresService genresService)
+IDeletableEntityRepository<Author> authorRepository,
+IAzureImageService azureImageService,
+IGenresService genresService,
+IEmailSender emailSender,
+IUsersService usersService)
         {
             _authorRepository = authorRepository;
             _azureImageService = azureImageService;
             _genresService = genresService;
+            _usersService = usersService;
         }
 
-        public async Task<Author> CreateAuthorAsync(AuthorCreateViewModel model, IFormFile file)
+        public async Task<bool> ExistsById(string id)
         {
-            string imageName = model.Name.ToString().Replace(' ', '-').Trim(' ');
+            return await _authorRepository.All()
+                .AnyAsync(a => a.UserId == id);
+        }
+
+        public async Task<bool> UserWithWebsiteExists(string website)
+        {
+            return await _authorRepository.All()
+                .AnyAsync(a => a.Website == website);
+        }
+
+        public async Task<Author> CreateAuthorAsync(string userId, AuthorCreateViewModel model, IFormFile file)
+        {
+            var user = await _usersService.GetUserByIdAsync(userId);
+            string nameOfUser = user.FirstName + " " + user.LastName;
+
+            string imageName = nameOfUser.ToString().Replace(' ', '-').Trim(' ');
             Uri blobImage = await _azureImageService.UploadImageToAzureAsync(file, imageName);
             string image = blobImage.ToString().Replace('"', ' ').Trim();
             var author = new Author()
             {
-                Name = model.Name,
+                Name = nameOfUser,
                 Description = model.Description,
                 Born = model.Born,
                 Website = model.Website,
                 GenreId = model.GenreId,
                 ImageUrl = image,
+                UserId = userId
             };
 
             await _authorRepository.AddAsync(author);
@@ -75,10 +98,8 @@
             return new AuthorEditViewModel()
             {
                 Id = id,
-                Name = author.Name,
                 Description = author.Description,
                 Born = author.Born,
-                Website = author.Website,
                 GenreId = author.GenreId,
                 Genres = genres
             };
@@ -90,7 +111,7 @@
                 .Select(a => new AuthorInListViewModel()
                 {
                     Id = a.Id,
-                    Name = a.Name,
+                    Name = a.User.FirstName + " " + a.User.LastName,
                     Description = a.Description,
                     Born = a.Born,
                     Website = a.Website,
@@ -132,14 +153,11 @@
             var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
 
             author.Id = id;
-            author.Name = model.Name;
             author.Description = model.Description;
             author.Born = model.Born;
-            author.Website = model.Website;
             author.GenreId = model.GenreId;
 
             await _authorRepository.SaveChangesAsync();
         }
-
     }
 }

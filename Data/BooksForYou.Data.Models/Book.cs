@@ -21,10 +21,8 @@
         [StringLength(MaxBookDescription)]
         public string Description { get; set; }
 
-        [Required]
         public int AuthorId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(AuthorId))]
         public Author Author { get; set; }
 
@@ -38,10 +36,8 @@
         [Required]
         public string ImageUrl { get; set; }
 
-        [Required]
         public int PublisherId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(PublisherId))]
         public Publisher Publisher { get; set; }
 
