@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.Books
+﻿namespace BooksForYou.Web.ViewModels.Books
 {
     using System;
     using System.Collections.Generic;
@@ -8,8 +8,10 @@
 
     using static BooksForYou.Data.Common.DataConstants.Book;
 
-    public class BookCreateViewModel
+    public class BookEditViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         public string ISBN { get; set; }
 

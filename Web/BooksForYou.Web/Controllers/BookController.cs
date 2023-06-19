@@ -9,7 +9,6 @@
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Languages;
     using BooksForYou.Services.Data.Publishers;
-    using BooksForYou.Web.ViewModels.Administration.Books;
     using BooksForYou.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;

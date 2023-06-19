@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.Authors
+﻿namespace BooksForYou.Web.ViewModels.Authors
 {
     public class AuthorInListViewModel
     {

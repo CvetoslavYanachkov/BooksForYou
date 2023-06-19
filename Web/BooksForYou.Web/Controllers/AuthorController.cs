@@ -10,7 +10,6 @@
     using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Messaging;
-    using BooksForYou.Web.ViewModels.Administration.Authors;
     using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -102,7 +101,6 @@
             }
         }
 
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpGet]
         public async Task<IActionResult> AuthorById(int id)
         {

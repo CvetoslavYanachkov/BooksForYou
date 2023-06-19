@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Administration.Authors;
     using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Http;
 

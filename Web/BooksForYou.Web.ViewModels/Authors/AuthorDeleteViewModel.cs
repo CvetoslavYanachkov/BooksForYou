@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Administration.Authors
+﻿namespace BooksForYou.Web.ViewModels.Authors
 {
     using BooksForYou.Data.Models;
     using BooksForYou.Services.Mapping;

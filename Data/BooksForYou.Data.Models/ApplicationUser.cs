@@ -25,6 +25,15 @@
         [StringLength(MaxUserLastname)]
         public string LastName { get; set; }
 
+        [StringLength(MaxUserWebsite)]
+        public string Website { get; set; }
+
+        [StringLength(MaxUserDescription)]
+        public string Description { get; set; }
+
+        [StringLength(MaxUserBorn)]
+        public string Born { get; set; }
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 

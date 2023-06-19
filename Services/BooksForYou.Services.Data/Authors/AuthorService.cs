@@ -12,7 +12,6 @@
     using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.Mapping;
     using BooksForYou.Services.Messaging;
-    using BooksForYou.Web.ViewModels.Administration.Authors;
     using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;

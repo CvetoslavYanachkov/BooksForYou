@@ -9,6 +9,15 @@
 
             public const int MaxUserLastname = 20;
             public const int MinUserLastName = 3;
+
+            public const int MaxUserWebsite = 50;
+            public const int MinUserWebsite = 6;
+
+            public const int MaxUserDescription = 20;
+            public const int MinUserDescription = 5000;
+
+            public const int MaxUserBorn = 100;
+            public const int MinUserBorn = 5;
         }
 
         public class Book

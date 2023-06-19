@@ -12,7 +12,6 @@
     using BooksForYou.Services.Data.Languages;
     using BooksForYou.Services.Data.Publishers;
     using BooksForYou.Services.Mapping;
-    using BooksForYou.Web.ViewModels.Administration.Books;
     using BooksForYou.Web.ViewModels.Authors;
     using BooksForYou.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Http;
