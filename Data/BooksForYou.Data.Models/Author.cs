@@ -12,7 +12,6 @@
     {
         public Author()
         {
-            this.Genres = new List<Genre>();
             this.Books = new List<Book>();
         }
 
@@ -43,8 +42,6 @@
 
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; }
-
-        public IEnumerable<Genre> Genres { get; set; }
 
         public IEnumerable<Book> Books { get; set; }
     }

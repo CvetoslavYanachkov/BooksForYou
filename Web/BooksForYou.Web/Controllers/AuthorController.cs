@@ -166,8 +166,15 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = "Author")]
         public async Task<IActionResult> Edit(int id)
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            //if (userId != id)
+            //{
+            //    return BadRequest();
+            //}
             var model = await _authorsService.GetAuthorForEditAsync(id);
 
             return View(model);
