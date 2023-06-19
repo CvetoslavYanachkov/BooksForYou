@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Administration.Genres;
+    using BooksForYou.Web.ViewModels.Genres;
 
     public interface IGenresService
     {

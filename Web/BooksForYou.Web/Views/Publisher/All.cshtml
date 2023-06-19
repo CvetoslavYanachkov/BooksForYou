@@ -1,0 +1,97 @@
+﻿@using BooksForYou.Web.ViewModels.Publishers;
+@model PublishersListViewModel
+
+
+@{
+    ViewData["Title"] = "Publishers";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Manage publisherss</h3>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <p>
+                        <a asp-action="Create" class="text-primary">Create new publisher</a>
+                    </p>
+                    <div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row">
+                        <div class="col-sm-12">
+                            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Phone number</th>
+                                        <th>Operations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var publisher in Model.Publishers)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @publisher.Name
+                                            </td>
+                                            <td>
+                                                @{
+                                                    string x = publisher.Description;
+                                                    if (x != null && x.Length > 100)
+                                                    {
+                                                        x = x.Substring(0, 50);
+                                                    }
+                                                }
+                                                @Html.Raw(x)...
+                                            </td>
+                                            <td>
+                                                @publisher.PhoneNumber
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@publisher.Id" class="text-warning">Edit</a> |
+                                                <a asp-action="Details" asp-route-id="@publisher.Id" class="text-primary">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@publisher.Id" class="text-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-20 col-md-10">
+                            <paging page-no="@Model.PageNumber"
+                                    page-size="@Model.PageSize"
+                                    total-records="@Model.TotalRecords"
+                                    page-size-dropdown-items="5-10-20">
+                            </paging>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    </div>
+</div>
+
+@*@Html.PartialAsync("_Delete")*@
+
+@*@section scripts{
+    <script>
+        $("#showtable").on("click", "#viewbtn", function () {
+            var id = $(this).closest("tr").find("td").eq(0).html();
+            $.ajax({
+                url: "@Url.Action("ShowImg", "PartialTest")",
+                data: { id: id },
+                success: function (data) {
+                    $("#showmodal .modal-dialog").html(data);
+                    $("#showmodal").modal("show");
+                }
+            });
+        });
+    </script>
+}*@

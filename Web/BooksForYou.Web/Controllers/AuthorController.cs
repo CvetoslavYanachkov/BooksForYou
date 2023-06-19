@@ -10,6 +10,7 @@
     using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Messaging;
+    using BooksForYou.Web.ViewModels.Administration.Authors;
     using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -31,6 +32,33 @@
             _authorsService = authorsService;
             _emailSender = emailSender;
             _genresService = genresService;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
+        {
+            var authors = await _authorsService.GetAuthorsAsync(p, s);
+
+            return View(authors);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _authorsService.GetAuthorByIdAsync<AuthorDeleteViewModel>(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _authorsService.DeleteAuthorAsync(id);
+
+            return RedirectToAction(nameof(All));
         }
 
         [HttpGet]

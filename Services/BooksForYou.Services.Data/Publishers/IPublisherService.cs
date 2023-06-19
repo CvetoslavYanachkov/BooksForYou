@@ -4,8 +4,7 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Administration.Publisher;
-    using BooksForYou.Web.ViewModels.Administration.Publishers;
+    using BooksForYou.Web.ViewModels.Publishers;
 
     public interface IPublisherService
     {

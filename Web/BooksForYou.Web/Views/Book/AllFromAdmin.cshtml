@@ -1,0 +1,107 @@
+﻿@using BooksForYou.Web.ViewModels.Books;
+@model BooksListViewModel
+
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Manage Books</h3>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <p>
+                        <a asp-action="Create" class="text-primary">Create new book</a>
+                    </p>
+                    <div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row">
+                        <div class="col-sm-12">
+                            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>ISBN</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Author</th>
+                                        <th>Genre</th>
+                                        <th>Publisher</th>
+                                        <th>Language</th>
+                                        <th>Publisher date</th>
+                                        <th>Pages</th>
+                                        <th>Operations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var book in Model.Books)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@book.ImageUrl" class="media-object" style="width:50px">
+                                            </td>
+                                            <td>
+                                                @book.ISBN
+                                            </td>
+                                            <td>
+                                                @book.Title
+                                            </td>
+                                            <td>
+                                                @{
+                                                    string x = book.Description;
+                                                    if (x != null && x.Length > 150)
+                                                    {
+                                                        x = x.Substring(0, 50);
+                                                    }
+                                                }
+                                                @Html.Raw(x)...
+                                            </td>
+                                            <td>
+                                                @book.Author
+                                            </td>
+                                            <td>
+                                                @book.Genre
+                                            </td>
+                                            <td>
+                                                @book.Publisher
+                                            </td>
+                                            <td>
+                                                @book.Language
+                                            </td>
+                                            <td>
+                                                @book.PublisheDate.ToString("dd.MM.yyyy")
+                                            </td>
+                                            <td>
+                                                @book.Pages
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@book.Id" class="text-warning">Edit</a> |
+                                                <a asp-area="" asp-controller="Book" asp-action="BookById" asp-route-id="@book.Id" class="text-primary">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@book.Id" class="text-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-20 col-md-10">
+                            <paging page-no="@Model.PageNumber"
+                                    page-size="@Model.PageSize"
+                                    total-records="@Model.TotalRecords"
+                                    page-size-dropdown-items="5-10-20">
+                            </paging>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    </div>
+</div>*@

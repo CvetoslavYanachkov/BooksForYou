@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Administration.Users;
+    using BooksForYou.Web.ViewModels.Users;
 
     public interface IUsersService
     {

@@ -1,0 +1,93 @@
+﻿using BooksForYou.Web.Areas.Administration.Controllers;
+
+namespace BooksForYou.Web.Controllers
+{
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using BooksForYou.Common;
+    using BooksForYou.Data.Models;
+    using BooksForYou.Services.Data.Users;
+    using BooksForYou.Web.ViewModels.Users;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    public class UserController : BaseController
+    {
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUsersService _userService;
+
+        public UserController(
+           RoleManager<ApplicationRole> roleManager,
+           SignInManager<ApplicationUser> signInManager,
+           IUsersService userService)
+        {
+            _roleManager = roleManager;
+            _signInManager = signInManager;
+            _userService = userService;
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> CreateRole()
+        {
+            await _roleManager.CreateAsync(new ApplicationRole()
+            {
+                Name = "Author"
+            });
+
+            return Ok();
+        }
+
+        public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
+        {
+            var users = await _userService.GetUsersAsync(p, s);
+
+            return View(users);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var model = await _userService.GetUserForEditAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, UserEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await _userService.UpdateUserAsync(id, model);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var model = await _userService.GetUserByIdAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, UserDeleteViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await _userService.DeleteUserAsync(id, model);
+
+            return RedirectToAction(nameof(All));
+        }
+
+    }
+}

@@ -7,8 +7,7 @@
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
     using BooksForYou.Services.Mapping;
-    using BooksForYou.Web.ViewModels.Administration.Publisher;
-    using BooksForYou.Web.ViewModels.Administration.Publishers;
+    using BooksForYou.Web.ViewModels.Publishers;
     using Microsoft.EntityFrameworkCore;
 
     public class PublisherService : IPublisherService

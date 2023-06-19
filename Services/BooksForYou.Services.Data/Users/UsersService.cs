@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using BooksForYou.Data.Common.Repositories;
 using BooksForYou.Data.Models;
 using BooksForYou.Services.Messaging;
-using BooksForYou.Web.ViewModels.Administration.Users;
+using BooksForYou.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

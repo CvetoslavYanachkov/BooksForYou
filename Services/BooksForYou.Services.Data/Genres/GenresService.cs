@@ -8,7 +8,7 @@
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
     using BooksForYou.Services.Mapping;
-    using BooksForYou.Web.ViewModels.Administration.Genres;
+    using BooksForYou.Web.ViewModels.Genres;
     using Microsoft.EntityFrameworkCore;
 
     public class GenresService : IGenresService
