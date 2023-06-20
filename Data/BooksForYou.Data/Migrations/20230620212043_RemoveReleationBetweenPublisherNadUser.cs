@@ -4,39 +4,39 @@
 
 namespace BooksForYou.Data.Migrations
 {
-    public partial class AddReferencess : Migration
+    public partial class RemoveReleationBetweenPublisherNadUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Authors_AspNetUsers_UserId",
-                table: "Authors");
+                name: "FK_Publishers_AspNetUsers_UserId",
+                table: "Publishers");
 
             migrationBuilder.DropIndex(
-                name: "IX_Authors_UserId",
-                table: "Authors");
+                name: "IX_Publishers_UserId",
+                table: "Publishers");
 
             migrationBuilder.DropColumn(
                 name: "UserId",
-                table: "Authors");
+                table: "Publishers");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
                 name: "UserId",
-                table: "Authors",
+                table: "Publishers",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Authors_UserId",
-                table: "Authors",
+                name: "IX_Publishers_UserId",
+                table: "Publishers",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Authors_AspNetUsers_UserId",
-                table: "Authors",
+                name: "FK_Publishers_AspNetUsers_UserId",
+                table: "Publishers",
                 column: "UserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");

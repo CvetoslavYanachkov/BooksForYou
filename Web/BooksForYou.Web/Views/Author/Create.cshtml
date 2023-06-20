@@ -11,13 +11,12 @@
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-action="Create" method="post" enctype="multipart/form-data">
-            @*<div class="mb-3">
+            <div class="mb-3">
                 <div class="text-center mb-3">
                     <label asp-for="@Model.Name" class="form-label">Name</label>
                     <input asp-for="@Model.Name" class="form-control" readonly />
-                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-            </div>*@
+            </div>
             <div class="mb-3">
                 <div class="text-center mb-3">
                     <label asp-for="@Model.Description" class="form-label">Description</label>
@@ -52,10 +51,10 @@
                 </div>
             </div>
             @*<div class="text-center mb-3">*@
-                <div class="form-group mt-3">
-                    <label class="mr-2">Upload your Image:</label>
-                    <input type="file" name="file">
-                </div>
+            <div class="form-group mt-3">
+                <label class="mr-2">Upload your Image:</label>
+                <input type="file" name="file">
+            </div>
             @*</div>*@
             <div class="mb-3">
                 <input class="btn btn-primary" type="submit" value="Add" />

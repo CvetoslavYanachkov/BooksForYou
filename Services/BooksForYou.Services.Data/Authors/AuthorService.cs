@@ -14,6 +14,7 @@
     using BooksForYou.Services.Messaging;
     using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
     public class AuthorService : IAuthorsService
@@ -27,11 +28,11 @@
         private readonly IUsersService _usersService;
 
         public AuthorService(
-IDeletableEntityRepository<Author> authorRepository,
-IAzureImageService azureImageService,
-IGenresService genresService,
-IEmailSender emailSender,
-IUsersService usersService)
+          IDeletableEntityRepository<Author> authorRepository,
+          IAzureImageService azureImageService,
+          IGenresService genresService,
+          IEmailSender emailSender,
+          IUsersService usersService)
         {
             _authorRepository = authorRepository;
             _azureImageService = azureImageService;
@@ -67,7 +68,7 @@ IUsersService usersService)
                 Website = model.Website,
                 GenreId = model.GenreId,
                 ImageUrl = image,
-                UserId = userId
+                UserId = userId,
             };
 
             await _authorRepository.AddAsync(author);

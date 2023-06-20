@@ -16,5 +16,7 @@
         Task<ApplicationUser> GetUserByIdAsync(string id);
 
         Task DeleteUserAsync(string id, UserDeleteViewModel model);
+
+        Task<string> GetNameOfUser(string id);
     }
 }

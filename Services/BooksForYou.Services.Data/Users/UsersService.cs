@@ -34,12 +34,19 @@ public class UsersService : IUsersService
         _emailSender = emailSender;
     }
 
-    [HttpGet]
     public async Task<ApplicationUser> GetUserByIdAsync(string id)
     {
         var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         return user;
+    }
+
+    public async Task<string> GetNameOfUser(string id)
+    {
+        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
+        var nameofUser = user.FirstName + " " + user.LastName;
+
+        return nameofUser;
     }
 
     public async Task DeleteUserAsync(string id, UserDeleteViewModel model)
@@ -60,7 +67,6 @@ public class UsersService : IUsersService
     public async Task<UserEditViewModel> GetUserForEditAsync(string id)
     {
         var user = await _userRepository.All().Where(x => x.Id == id).FirstOrDefaultAsync();
-
         var roles = await _roleRepository.All().ToListAsync();
 
         var userRoles = await _signInManager.UserManager.GetRolesAsync(user);

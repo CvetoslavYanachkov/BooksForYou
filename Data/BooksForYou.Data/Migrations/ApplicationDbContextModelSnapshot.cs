@@ -86,8 +86,8 @@ namespace BooksForYou.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -99,6 +99,9 @@ namespace BooksForYou.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -502,6 +505,9 @@ namespace BooksForYou.Data.Migrations
                     b.Property<string>("ProviderKey")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
@@ -510,6 +516,8 @@ namespace BooksForYou.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("UserId");
 
@@ -570,7 +578,7 @@ namespace BooksForYou.Data.Migrations
             modelBuilder.Entity("BooksForYou.Data.Models.Book", b =>
                 {
                     b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
-                        .WithMany("Books")
+                        .WithMany("Vots")
                         .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("BooksForYou.Data.Models.Author", "Author")
@@ -636,6 +644,10 @@ namespace BooksForYou.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
+                        .WithMany("Books")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -675,6 +687,8 @@ namespace BooksForYou.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
+
+                    b.Navigation("Vots");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Author", b =>

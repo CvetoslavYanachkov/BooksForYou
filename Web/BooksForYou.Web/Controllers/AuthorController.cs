@@ -9,11 +9,13 @@
     using BooksForYou.Common;
     using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Genres;
+    using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.Messaging;
     using BooksForYou.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using NuGet.Packaging.Signing;
 
     public class AuthorController : Controller
     {
@@ -23,14 +25,18 @@
 
         private readonly IEmailSender _emailSender;
 
+        private readonly IUsersService _userService;
+
         public AuthorController(
             IAuthorsService authorsService,
             IEmailSender emailSender,
-            IGenresService genresService)
+            IGenresService genresService,
+            IUsersService userService)
         {
             _authorsService = authorsService;
             _emailSender = emailSender;
             _genresService = genresService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -63,8 +69,12 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var nameOfAuthor = await _userService.GetNameOfUser(userId);
+
             var model = new AuthorCreateViewModel()
             {
+                Name = nameOfAuthor,
                 Genres = await _genresService.GetGenresToCreateAsync()
             };
 
@@ -131,13 +141,6 @@
         public async Task<IActionResult> RequestToBecome(AuthorBecomeViewModel model)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (await _authorsService.ExistsById(userId))
-            {
-                return BadRequest();
-
-                //return RedirectToAction(nameof(Index), nameof(HomeController));
-            }
 
             if (await _authorsService.UserWithWebsiteExists(model.Website))
             {

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using BooksForYou.Data.Common.Models;
     using Microsoft.AspNetCore.Identity;
@@ -34,6 +35,13 @@
         [StringLength(MaxUserBorn)]
         public string Born { get; set; }
 
+        //public int GenreId { get; set; }
+
+        //[ForeignKey(nameof(GenreId))]
+        //public Genre Genre { get; set; }
+
+        public string ImageUrl { get; set; }
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 
@@ -50,6 +58,8 @@
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<IdentityUserLogin<string>> Books { get; set; }
+
+        public virtual ICollection<Book> Vots { get; set; }
     }
 }

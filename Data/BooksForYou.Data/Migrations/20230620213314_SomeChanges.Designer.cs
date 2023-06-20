@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksForYou.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230603211607_SeedLanguages")]
-    partial class SeedLanguages
+    [Migration("20230620213314_SomeChanges")]
+    partial class SomeChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,6 +73,10 @@ namespace BooksForYou.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Born")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -82,6 +86,10 @@ namespace BooksForYou.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -93,6 +101,9 @@ namespace BooksForYou.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -136,6 +147,10 @@ namespace BooksForYou.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Website")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -190,8 +205,10 @@ namespace BooksForYou.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Website")
                         .IsRequired()
@@ -203,6 +220,8 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Authors");
                 });
 
@@ -213,6 +232,9 @@ namespace BooksForYou.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
@@ -264,6 +286,8 @@ namespace BooksForYou.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("GenreId");
@@ -284,9 +308,6 @@ namespace BooksForYou.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -310,8 +331,6 @@ namespace BooksForYou.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("IsDeleted");
 
@@ -385,9 +404,14 @@ namespace BooksForYou.Data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Publishers");
                 });
@@ -483,6 +507,9 @@ namespace BooksForYou.Data.Migrations
                     b.Property<string>("ProviderKey")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
@@ -491,6 +518,8 @@ namespace BooksForYou.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("UserId");
 
@@ -539,11 +568,21 @@ namespace BooksForYou.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Genre");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Book", b =>
                 {
+                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
+                        .WithMany("Vots")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("BooksForYou.Data.Models.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId")
@@ -577,11 +616,13 @@ namespace BooksForYou.Data.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("BooksForYou.Data.Models.Genre", b =>
+            modelBuilder.Entity("BooksForYou.Data.Models.Publisher", b =>
                 {
-                    b.HasOne("BooksForYou.Data.Models.Author", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("AuthorId");
+                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -604,6 +645,10 @@ namespace BooksForYou.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
+                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
+                        .WithMany("Books")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
@@ -637,18 +682,20 @@ namespace BooksForYou.Data.Migrations
 
             modelBuilder.Entity("BooksForYou.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Books");
+
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
+
+                    b.Navigation("Vots");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Author", b =>
                 {
                     b.Navigation("Books");
-
-                    b.Navigation("Genres");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Genre", b =>
