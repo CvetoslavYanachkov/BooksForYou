@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksForYou.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230620211100_InitialCreate")]
+    [Migration("20230621213401_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,9 +212,6 @@ namespace BooksForYou.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Website")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -224,8 +221,6 @@ namespace BooksForYou.Data.Migrations
                     b.HasIndex("GenreId");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Authors");
                 });
@@ -409,14 +404,9 @@ namespace BooksForYou.Data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Publishers");
                 });
@@ -512,9 +502,6 @@ namespace BooksForYou.Data.Migrations
                     b.Property<string>("ProviderKey")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
@@ -523,8 +510,6 @@ namespace BooksForYou.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("UserId");
 
@@ -584,23 +569,17 @@ namespace BooksForYou.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Genre");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Book", b =>
                 {
                     b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
-                        .WithMany("Vots")
+                        .WithMany("Books")
                         .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("BooksForYou.Data.Models.Author", "Author")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -632,15 +611,6 @@ namespace BooksForYou.Data.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("BooksForYou.Data.Models.Publisher", b =>
-                {
-                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("BooksForYou.Data.Models.ApplicationRole", null)
@@ -661,10 +631,6 @@ namespace BooksForYou.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
-                        .WithMany("Books")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("BooksForYou.Data.Models.ApplicationUser", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
@@ -705,13 +671,6 @@ namespace BooksForYou.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
-
-                    b.Navigation("Vots");
-                });
-
-            modelBuilder.Entity("BooksForYou.Data.Models.Author", b =>
-                {
-                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("BooksForYou.Data.Models.Genre", b =>

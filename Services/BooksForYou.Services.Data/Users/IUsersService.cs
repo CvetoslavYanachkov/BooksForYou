@@ -1,5 +1,7 @@
 ﻿namespace BooksForYou.Services.Data.Users
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
@@ -18,5 +20,11 @@
         Task DeleteUserAsync(string id, UserDeleteViewModel model);
 
         Task<string> GetNameOfUser(string id);
+
+        Task<bool> UserWithWebsiteExists(string website);
+
+        Task<bool> ExistsById(string id);
+
+        IEnumerable<T> GetUsers<T>();
     }
 }

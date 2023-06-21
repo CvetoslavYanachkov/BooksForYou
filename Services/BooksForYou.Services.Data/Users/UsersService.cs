@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using BooksForYou.Data.Common.Repositories;
 using BooksForYou.Data.Models;
+using BooksForYou.Services.Mapping;
 using BooksForYou.Services.Messaging;
 using BooksForYou.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Identity;
@@ -173,5 +174,25 @@ public class UsersService : IUsersService
         user.LastName = model.LastName;
         user.Email = model.Email;
         await _userRepository.SaveChangesAsync();
+    }
+
+    public async Task<bool> UserWithWebsiteExists(string website)
+    {
+        return await _userRepository.All()
+            .AnyAsync(a => a.Website == website);
+    }
+
+    public async Task<bool> ExistsById(string id)
+    {
+        return await _userRepository.All()
+            .AnyAsync(a => a.Id == id);
+    }
+
+    public IEnumerable<T> GetUsers<T>()
+    {
+        var authorRole = _roleRepository.All().Where(a => a.Name == "Author").FirstOrDefault();
+        var users = _userRepository.All().Where(u => u.Roles.Any(r => r.RoleId == authorRole.Id));
+
+        return _userRepository.All().Where(u => u.Roles.Any(r => r.RoleId == authorRole.Id)).To<T>().ToList();
     }
 }

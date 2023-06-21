@@ -49,24 +49,6 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await _authorsService.GetAuthorByIdAsync<AuthorDeleteViewModel>(id);
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            await _authorsService.DeleteAuthorAsync(id);
-
-            return RedirectToAction(nameof(All));
-        }
-
-        [HttpGet]
         public async Task<IActionResult> Create()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -125,7 +107,7 @@
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (await _authorsService.ExistsById(userId) == true)
+            if (await _userService.ExistsById(userId) == true)
             {
                 //Some error message
 
@@ -142,7 +124,7 @@
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (await _authorsService.UserWithWebsiteExists(model.Website))
+            if (await _userService.UserWithWebsiteExists(model.Website))
             {
                 ModelState.AddModelError(nameof(model.Website),
                     "The website already exist.");

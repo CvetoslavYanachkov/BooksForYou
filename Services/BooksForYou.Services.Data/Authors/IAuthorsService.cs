@@ -20,11 +20,5 @@
         Task<AuthorEditViewModel> GetAuthorForEditAsync(int id);
 
         Task<T> GetAuthorByIdAsync<T>(int id);
-
-        Task DeleteAuthorAsync(int id);
-
-        Task<bool> UserWithWebsiteExists(string website);
-
-        Task<bool> ExistsById(string id);
     }
 }

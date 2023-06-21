@@ -27,11 +27,6 @@
         [StringLength(PublisherPhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        public string UserId { get; set; }
-
-        [ForeignKey(nameof(UserId))]
-        public ApplicationUser User { get; set; }
-
         public IEnumerable<Book> Books { get; set; }
     }
 }

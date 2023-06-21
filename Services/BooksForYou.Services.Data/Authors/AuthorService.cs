@@ -40,18 +40,6 @@
             _usersService = usersService;
         }
 
-        public async Task<bool> ExistsById(string id)
-        {
-            return await _authorRepository.All()
-                .AnyAsync(a => a.UserId == id);
-        }
-
-        public async Task<bool> UserWithWebsiteExists(string website)
-        {
-            return await _authorRepository.All()
-                .AnyAsync(a => a.Website == website);
-        }
-
         public async Task<Author> CreateAuthorAsync(string userId, AuthorCreateViewModel model, IFormFile file)
         {
             var user = await _usersService.GetUserByIdAsync(userId);
@@ -68,26 +56,12 @@
                 Website = model.Website,
                 GenreId = model.GenreId,
                 ImageUrl = image,
-                UserId = userId,
             };
 
             await _authorRepository.AddAsync(author);
             await _authorRepository.SaveChangesAsync();
 
             return author;
-        }
-
-        public async Task DeleteAuthorAsync(int id)
-        {
-            var author = await _authorRepository.All().Where(a => a.Id == id).FirstOrDefaultAsync();
-
-            if (author != null)
-            {
-                await _azureImageService.DeleteImageFromAzureAsync(author.ImageUrl);
-            }
-
-            _authorRepository.Delete(author);
-            await _authorRepository.SaveChangesAsync();
         }
 
         public async Task<AuthorEditViewModel> GetAuthorForEditAsync(int id)
@@ -111,7 +85,7 @@
                 .Select(a => new AuthorInListViewModel()
                 {
                     Id = a.Id,
-                    Name = a.User.FirstName + " " + a.User.LastName,
+                    Name = a.Name,
                     Description = a.Description,
                     Born = a.Born,
                     Website = a.Website,

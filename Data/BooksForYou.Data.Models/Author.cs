@@ -10,11 +10,6 @@
 
     public class Author : BaseDeletableModel<int>
     {
-        public Author()
-        {
-            this.Books = new List<Book>();
-        }
-
         [Required]
         public string Name { get; set; }
 
@@ -37,12 +32,5 @@
         public string Website { get; set; }
 
         public string ImageUrl { get; set; }
-
-        public string UserId { get; set; }
-
-        [ForeignKey(nameof(UserId))]
-        public ApplicationUser User { get; set; }
-
-        public IEnumerable<Book> Books { get; set; }
     }
 }
