@@ -35,7 +35,7 @@
         [StringLength(MaxUserBorn)]
         public string Born { get; set; }
 
-        public int GenreId { get; set; }
+        public int? GenreId { get; set; }
 
         [ForeignKey(nameof(GenreId))]
         public Genre Genre { get; set; }

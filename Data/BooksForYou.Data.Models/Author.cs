@@ -21,10 +21,8 @@
         [StringLength(MaxAuthorBorn)]
         public string Born { get; set; }
 
-        [Required]
         public int GenreId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(GenreId))]
         public Genre Genre { get; set; }
 

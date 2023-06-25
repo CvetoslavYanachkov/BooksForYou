@@ -52,7 +52,7 @@
                 ISBN = model.ISBN,
                 Title = model.Title,
                 Description = model.Description,
-                AuthorId = model.AuthorId,
+                //AuthorId = model.AuthorId,
                 GenreId = model.GenreId,
                 PublisherId = model.PublisherId,
                 Pages = model.Pages,
@@ -102,7 +102,7 @@
                 ISBN = book.ISBN,
                 Title = book.Title,
                 Description = book.Description,
-                AuthorId = book.AuthorId,
+               // AuthorId = book.AuthorId,
                 GenreId = book.GenreId,
                 PublisherId = book.PublisherId,
                 Pages = book.Pages,
@@ -124,7 +124,7 @@
                    ISBN = b.ISBN,
                    Title = b.Title,
                    Description = b.Description,
-                   Author = b.Author.Name,
+                   //Author = b.Author.Name,
                    Publisher = b.Publisher.Name,
                    Genre = b.Genre.Name,
                    Language = b.Language.Name,
@@ -159,7 +159,7 @@
             book.ISBN = model.ISBN;
             book.Title = model.Title;
             book.Description = model.Description;
-            book.AuthorId = model.AuthorId;
+           // book.AuthorId = model.AuthorId;
             book.PublisherId = model.PublisherId;
             book.GenreId = model.GenreId;
             book.LanguageId = model.LanguageId;
