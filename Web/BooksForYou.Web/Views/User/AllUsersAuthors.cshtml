@@ -1,5 +1,5 @@
-﻿@using BooksForYou.Web.ViewModels.Authors;
-@model AuthorsListViewModel
+﻿@using BooksForYou.Web.ViewModels.Users;
+@model UsersAuthorsListViewModel
 
 
 @{
@@ -29,14 +29,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var author in Model.Authors)
+                                    @foreach (var author in Model.Users)
                                     {
                                         <tr>
                                             <th>
                                                 <img src="@author.ImageUrl" class="media-object" style="width:50px">
                                             </th>
                                             <td>
-                                                @author.Name
+                                                @author.FirstName
+                                            </td>
+                                            <td>
+                                                @author.LastName
                                             </td>
                                             <td>
                                                 @{
@@ -58,8 +61,7 @@
                                                 @author.Born
                                             </td>
                                             <td>
-                                                <a asp-area="" asp-controller="Author" asp-action="AuthorById" asp-route-id="@author.Id" class="text-primary">Details</a> |
-                                                <a asp-action="Delete" asp-route-id="@author.Id" class="text-danger">Delete</a>
+                                                <a asp-area="" asp-controller="Author" asp-action="AuthorById" asp-route-id="@author.Id" class="text-primary">Details</a>
                                             </td>
                                         </tr>
                                     }

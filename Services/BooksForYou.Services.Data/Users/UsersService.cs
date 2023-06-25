@@ -1,74 +1,77 @@
 ﻿namespace BooksForYou.Services.Data.Users;
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-
+using Azure.Core;
+using BooksForYou.Common;
 using BooksForYou.Data.Common.Repositories;
 using BooksForYou.Data.Models;
+using BooksForYou.Services.AzureServices;
+using BooksForYou.Services.Data.Genres;
 using BooksForYou.Services.Mapping;
 using BooksForYou.Services.Messaging;
 using BooksForYou.Web.ViewModels.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 public class UsersService : IUsersService
 {
-    private readonly IDeletableEntityRepository<ApplicationUser> _userRepository;
-    private readonly IDeletableEntityRepository<ApplicationRole> _roleRepository;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IEmailSender _emailSender;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly IGenresService _genresService;
+    private readonly IAzureImageService _azureImageService;
+    private readonly LinkGenerator _linkGenerator;
 
     public UsersService(
         IDeletableEntityRepository<ApplicationUser> userRepository,
         IDeletableEntityRepository<ApplicationRole> roleRepository,
         SignInManager<ApplicationUser> signInManager,
-        IEmailSender emailSender)
+        IEmailSender emailSender,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager,
+        IGenresService genresService,
+        LinkGenerator linkGenerator)
     {
-        _userRepository = userRepository;
         _signInManager = signInManager;
-        _roleRepository = roleRepository;
         _emailSender = emailSender;
+        _userManager = userManager;
+        _roleManager = roleManager;
+        _genresService = genresService;
+        _linkGenerator = linkGenerator;
     }
 
     public async Task<ApplicationUser> GetUserByIdAsync(string id)
     {
-        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
+        var user = await _userManager.FindByIdAsync(id);
 
         return user;
     }
 
     public async Task<string> GetNameOfUser(string id)
     {
-        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
+        var user = await _userManager.FindByIdAsync(id);
         var nameofUser = user.FirstName + " " + user.LastName;
 
         return nameofUser;
     }
 
-    public async Task DeleteUserAsync(string id, UserDeleteViewModel model)
-    {
-        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
-
-        if (user != null)
-        {
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
-            model.Email = user.Email;
-        }
-
-        _userRepository.Delete(user);
-        await _userRepository.SaveChangesAsync();
-    }
-
     public async Task<UserEditViewModel> GetUserForEditAsync(string id)
     {
-        var user = await _userRepository.All().Where(x => x.Id == id).FirstOrDefaultAsync();
-        var roles = await _roleRepository.All().ToListAsync();
+        var user = await _userManager.FindByIdAsync(id);
+        var roles = await _roleManager.Roles.ToListAsync();
 
         var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
 
@@ -88,18 +91,18 @@ public class UsersService : IUsersService
         };
     }
 
-    public async Task<UserListViewModel> GetUsersAsync(int pageNumber, int pageSize)
+    public async Task<UsersListViewModel> GetUsersAsync(int pageNumber, int pageSize)
     {
-        var users = await _userRepository.All().
-       Select(x => new UserInListViewModel()
-       {
-           Id = x.Id,
-           FirstName = x.FirstName,
-           LastName = x.LastName,
-           Email = x.Email,
-       }).ToListAsync();
+        var users = await _userManager.Users.
+        Select(x => new UserInListViewModel()
+        {
+            Id = x.Id,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Email = x.Email,
+        }).ToListAsync();
 
-        var result = new UserListViewModel()
+        var result = new UsersListViewModel()
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
@@ -107,18 +110,18 @@ public class UsersService : IUsersService
         };
 
         result.Users = users
-            .OrderByDescending(x => x.FirstName)
-            .ThenByDescending(x => x.LastName)
-            .Skip((pageNumber * pageSize) - pageSize)
-            .Take(pageSize)
-            .ToList();
+        .OrderByDescending(x => x.FirstName)
+        .ThenByDescending(x => x.LastName)
+        .Skip((pageNumber * pageSize) - pageSize)
+        .Take(pageSize)
+        .ToList();
 
         return result;
     }
 
     public async Task UpdateUserAsync(string id, UserEditViewModel model)
     {
-        var user = await _userRepository.All().Where(u => u.Id == id).FirstOrDefaultAsync();
+        var user = await _userManager.FindByIdAsync(id);
 
         var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
 
@@ -173,26 +176,110 @@ public class UsersService : IUsersService
         user.FirstName = model.FirstName;
         user.LastName = model.LastName;
         user.Email = model.Email;
-        await _userRepository.SaveChangesAsync();
+        await _userManager.UpdateAsync(user);
     }
 
     public async Task<bool> UserWithWebsiteExists(string website)
     {
-        return await _userRepository.All()
-            .AnyAsync(a => a.Website == website);
+        return await _userManager.Users.AnyAsync(u => u.Website == website);
     }
 
     public async Task<bool> ExistsById(string id)
     {
-        return await _userRepository.All()
-            .AnyAsync(a => a.Id == id);
+        return await _userManager.Users.AnyAsync(u => u.Id == id);
     }
 
-    public IEnumerable<T> GetUsers<T>()
+    public async Task<UsersAuthorsListViewModel> GetUsersWithRoleAuthorAsync(int pageNumber, int pageSize)
     {
-        var authorRole = _roleRepository.All().Where(a => a.Name == "Author").FirstOrDefault();
-        var users = _userRepository.All().Where(u => u.Roles.Any(r => r.RoleId == authorRole.Id));
+        var usersAuthors = await _userManager.GetUsersInRoleAsync("Author");
 
-        return _userRepository.All().Where(u => u.Roles.Any(r => r.RoleId == authorRole.Id)).To<T>().ToList();
+        var users = usersAuthors.
+        Select(x => new UserAuthorInListViewModel()
+        {
+            Id = x.Id,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            Description = x.Description,
+            Born = x.Born,
+            Genre = x.Genre.Name,
+            ImageUrl = x.ImageUrl,
+            Website = x.Website
+        }).ToList();
+
+        var result = new UsersAuthorsListViewModel()
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalRecords = users.Count()
+        };
+
+        result.Users = users
+            .OrderBy(x => x.FirstName)
+            .OrderByDescending(x => x.LastName)
+            .Skip((pageNumber * pageSize) - pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return result;
+    }
+
+    public async Task<IEnumerable<ApplicationUser>> GetUsersWithRoleAuthorAsync()
+    {
+        var usersAuthors = await _userManager.GetUsersInRoleAsync("Author");
+
+        return usersAuthors;
+    }
+
+    public async Task<UserAuthorEditViewModel> GetUserWithRoleAuthorForEditAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        var genres = await _genresService.GetGenresToCreateAsync();
+        return new UserAuthorEditViewModel()
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Description = user.Description,
+            Born = user.Born,
+            GenreId = (int)user.GenreId,
+            ImageUrl = user.ImageUrl,
+            Genres = genres
+        };
+    }
+
+    public async Task UpdateUserAuthorAsync(string id, UserAuthorEditViewModel model)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null)
+        {
+            // return $"Unable to load user with ID '{id}'.";
+        }
+
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.Description = model.Description;
+        user.Born = model.Born;
+        user.ImageUrl = model.ImageUrl;
+
+        await _userManager.UpdateAsync(user);
+    }
+
+    public async Task UserBecomeAuthorAsync(string id, UserBecomesAuthorViewModel model, IFormFile file)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        string nameOfUserAuthor = user.FirstName + " " + user.LastName;
+
+        string imageName = nameOfUserAuthor.ToString().Replace(' ', '-').Trim(' ');
+        Uri blobImage = await _azureImageService.UploadImageToAzureAsync(file, imageName);
+        string image = blobImage.ToString().Replace('"', ' ').Trim();
+
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.Description = model.Description;
+        user.Born = model.Born;
+        user.ImageUrl = image;
+        user.GenreId = model.GenreId;
+
+        await _userManager.UpdateAsync(user);
     }
 }

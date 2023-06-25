@@ -5,19 +5,21 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
+    using BooksForYou.Web.ViewModels.Authors;
     using BooksForYou.Web.ViewModels.Users;
+    using Microsoft.AspNetCore.Http;
 
     public interface IUsersService
     {
-        Task<UserListViewModel> GetUsersAsync(int pageNumber, int pageSize);
+        Task<UsersListViewModel> GetUsersAsync(int pageNumber, int pageSize);
 
         Task<UserEditViewModel> GetUserForEditAsync(string id);
 
         Task UpdateUserAsync(string id, UserEditViewModel model);
 
-        Task<ApplicationUser> GetUserByIdAsync(string id);
+        Task UpdateUserAuthorAsync(string id, UserAuthorEditViewModel model);
 
-        Task DeleteUserAsync(string id, UserDeleteViewModel model);
+        Task<ApplicationUser> GetUserByIdAsync(string id);
 
         Task<string> GetNameOfUser(string id);
 
@@ -25,6 +27,10 @@
 
         Task<bool> ExistsById(string id);
 
-        IEnumerable<T> GetUsers<T>();
+        Task<UsersAuthorsListViewModel> GetUsersWithRoleAuthorAsync(int pageNumber, int pageSize);
+
+        Task<IEnumerable<ApplicationUser>> GetUsersWithRoleAuthorAsync();
+
+        Task UserBecomeAuthorAsync(string id, UserBecomesAuthorViewModel model, IFormFile file);
     }
 }
