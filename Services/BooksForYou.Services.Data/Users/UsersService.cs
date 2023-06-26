@@ -43,14 +43,14 @@ public class UsersService : IUsersService
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
         IGenresService genresService,
-        LinkGenerator linkGenerator)
+        IAzureImageService azureImageService)
     {
         _signInManager = signInManager;
         _emailSender = emailSender;
         _userManager = userManager;
         _roleManager = roleManager;
         _genresService = genresService;
-        _linkGenerator = linkGenerator;
+        _azureImageService = azureImageService;
     }
 
     public async Task<ApplicationUser> GetUserByIdAsync(string id)
@@ -151,11 +151,11 @@ public class UsersService : IUsersService
         {
             await _signInManager.UserManager.AddToRolesAsync(user, rolesToAdd);
 
-            if (rolesToAdd.Contains("Author"))
+            if (rolesToAdd.Contains(GlobalConstants.AuthorRoleName))
             {
                 var html = new StringBuilder();
                 html.AppendLine($"<h1>{"Congratulations!"}</h1>");
-                html.AppendLine($"<h3>{"You are already Author. Please go in your profile and fill in the author form."}</h3>");
+                html.AppendLine($"<h3>{"You are already Author. Please signIn and fill the author form."}</h3>");
                 await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Author", html.ToString());
             }
 
@@ -186,12 +186,13 @@ public class UsersService : IUsersService
 
     public async Task<bool> ExistsById(string id)
     {
-        return await _userManager.Users.AnyAsync(u => u.Id == id);
+        var user = await _userManager.FindByIdAsync(id);
+        return await _userManager.IsInRoleAsync(user, GlobalConstants.AuthorRoleName);
     }
 
     public async Task<UsersAuthorsListViewModel> GetUsersWithRoleAuthorAsync(int pageNumber, int pageSize)
     {
-        var usersAuthors = await _userManager.GetUsersInRoleAsync("Author");
+        var usersAuthors = await _userManager.GetUsersInRoleAsync(GlobalConstants.AuthorRoleName);
 
         var users = usersAuthors.
         Select(x => new UserAuthorInListViewModel()
@@ -225,7 +226,7 @@ public class UsersService : IUsersService
 
     public async Task<IEnumerable<ApplicationUser>> GetUsersWithRoleAuthorAsync()
     {
-        var usersAuthors = await _userManager.GetUsersInRoleAsync("Author");
+        var usersAuthors = await _userManager.GetUsersInRoleAsync(GlobalConstants.AuthorRoleName);
 
         return usersAuthors;
     }

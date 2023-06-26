@@ -11,6 +11,7 @@
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Languages;
     using BooksForYou.Services.Data.Publishers;
+    using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.Mapping;
     using BooksForYou.Web.ViewModels.Authors;
     using BooksForYou.Web.ViewModels.Books;
@@ -25,6 +26,7 @@
         private readonly IAuthorsService _authorService;
         private readonly ILanguagesService _languagesService;
         private readonly IPublisherService _publishersService;
+        private readonly IUsersService _userService;
 
         public BooksService(
             IDeletableEntityRepository<Book> bookRepository,
@@ -32,7 +34,8 @@
             IGenresService genresService,
             IAuthorsService authorService,
             ILanguagesService languagesService,
-            IPublisherService publishersService)
+            IPublisherService publishersService,
+            IUsersService userService)
         {
             _bookRepository = bookRepository;
             _azureImageService = azureImageService;
@@ -40,6 +43,7 @@
             _authorService = authorService;
             _languagesService = languagesService;
             _publishersService = publishersService;
+            _userService = userService;
         }
 
         public async Task<Book> CreateBookAsync(BookCreateViewModel model, IFormFile file)
@@ -52,7 +56,6 @@
                 ISBN = model.ISBN,
                 Title = model.Title,
                 Description = model.Description,
-                //AuthorId = model.AuthorId,
                 GenreId = model.GenreId,
                 PublisherId = model.PublisherId,
                 Pages = model.Pages,

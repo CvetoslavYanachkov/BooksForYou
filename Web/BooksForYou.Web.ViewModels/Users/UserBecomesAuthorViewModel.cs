@@ -35,6 +35,9 @@
         public string Born { get; set; }
 
         [Required]
+        public string Website { get; set; }
+
+        [Required]
         public int GenreId { get; set; }
 
         public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();

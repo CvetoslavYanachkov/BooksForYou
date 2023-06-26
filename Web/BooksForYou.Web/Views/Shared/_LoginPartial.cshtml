@@ -83,13 +83,13 @@
 
 
         }
-        else if (this.User.IsInRole("Author"))
+        else if (this.User.IsInRole(GlobalConstants.AuthorRoleName))
         {
             <li class="nav-item">
-                <a asp-area="" asp-controller="Author" asp-action="Create" class="nav-link">
+                <a asp-area="" asp-controller="User" asp-action="BecomeAuthor" class="nav-link">
                     <i class="nav-icon fas fa-wallet"></i>
                     <p>
-                        Create Author Test
+                        Author form.
                     </p>
                 </a>
             </li>

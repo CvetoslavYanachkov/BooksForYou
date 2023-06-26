@@ -5,5 +5,7 @@
         public const string SystemName = "Books For You";
 
         public const string AdministratorRoleName = "Administrator";
+
+        public const string AuthorRoleName = "Author";
     }
 }
