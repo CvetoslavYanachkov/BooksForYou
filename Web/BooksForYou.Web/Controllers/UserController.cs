@@ -23,7 +23,7 @@
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IUsersService _userService;
+        private readonly IUsersService _usersService;
         private readonly IGenresService _genresService;
         private readonly IEmailSender _emailSender;
 
@@ -36,7 +36,7 @@
         {
             _roleManager = roleManager;
             _signInManager = signInManager;
-            _userService = userService;
+            _usersService = userService;
             _genresService = genresService;
             _emailSender = emailSender;
         }
@@ -55,14 +55,14 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
-            var users = await _userService.GetUsersAsync(p, s);
+            var users = await _usersService.GetUsersAsync(p, s);
 
             return View(users);
         }
 
         public async Task<IActionResult> AllUsersAuthors([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
-            var users = await _userService.GetUsersWithRoleAuthorAsync(p, s);
+            var users = await _usersService.GetUsersWithRoleAuthorAsync(p, s);
 
             return View(users);
         }
@@ -71,7 +71,7 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(string id)
         {
-            var model = await _userService.GetUserForEditAsync(id);
+            var model = await _usersService.GetUserForEditAsync(id);
 
             return View(model);
         }
@@ -85,7 +85,7 @@
                 return View(model);
             }
 
-            await _userService.UpdateUserAsync(id, model);
+            await _usersService.UpdateUserAsync(id, model);
 
             return RedirectToAction(nameof(All));
         }
@@ -97,9 +97,11 @@
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (await _userService.ExistsById(userId) == true)
+            if (await _usersService.ExistsById(userId) == true)
             {
                 return BadRequest();
+
+                //  " message : You are already author!"
             }
 
             var model = new UserRequestToBecomeAuthorViewModel();
@@ -112,7 +114,7 @@
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (await _userService.UserWithWebsiteExists(model.Website))
+            if (await _usersService.UserWithWebsiteExists(model.Website))
             {
                 ModelState.AddModelError(nameof(model.Website), "The website already exist.");
             }
@@ -141,18 +143,13 @@
         public async Task<IActionResult> BecomeAuthor()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var nameOfAuthor = await _userService.GetNameOfUser(userId);
 
-            var model = new UserBecomesAuthorViewModel()
-            {
-                Genres = await _genresService.GetGenresToCreateAsync()
-            };
-
+            var model = await _usersService.GetUserWithRoleAuthorForEditAsync(userId);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> BecomeAuthor(UserBecomesAuthorViewModel model, IFormFile file)
+        public async Task<IActionResult> BecomeAuthor(UserAuthorEditViewModel model, IFormFile file)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -165,14 +162,14 @@
             if (!ModelState.IsValid)
             {
                 model.Genres = await _genresService.GetGenresToCreateAsync();
-                return View();
+                return View(model);
             }
 
             try
             {
-                await _userService.UserBecomeAuthorAsync(userId, model, file);
+                await _usersService.UserBecomeAuthorAsync(userId, model, file);
 
-                return RedirectToAction(nameof(AllUsersAuthors));
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception)
             {

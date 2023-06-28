@@ -105,7 +105,7 @@
                 ISBN = book.ISBN,
                 Title = book.Title,
                 Description = book.Description,
-               // AuthorId = book.AuthorId,
+                // AuthorId = book.AuthorId,
                 GenreId = book.GenreId,
                 PublisherId = book.PublisherId,
                 Pages = book.Pages,

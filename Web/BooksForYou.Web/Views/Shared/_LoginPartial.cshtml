@@ -10,7 +10,7 @@
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 @*<i class="fas fa-user-alt"></i>*@
-                <gravatar-img email="@User.Identity?.Name" size="30" class="img-circle elevation-2"></gravatar-img>
+                <gravatar-img email="@User.Identity.?.Name" size="30" class="img-circle elevation-2"></gravatar-img>
                 <p>  @this.User.Identity.Name!</p>
             </a>
         </li>

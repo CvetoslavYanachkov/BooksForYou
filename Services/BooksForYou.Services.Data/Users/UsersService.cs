@@ -234,16 +234,18 @@ public class UsersService : IUsersService
     public async Task<UserAuthorEditViewModel> GetUserWithRoleAuthorForEditAsync(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
+
         var genres = await _genresService.GetGenresToCreateAsync();
         return new UserAuthorEditViewModel()
         {
+            Id = id,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Description = user.Description,
             Born = user.Born,
-            GenreId = (int)user.GenreId,
-            ImageUrl = user.ImageUrl,
-            Genres = genres
+            GenreId = user.GenreId,
+            Genres = genres,
+            Website = user.Website
         };
     }
 
@@ -260,12 +262,12 @@ public class UsersService : IUsersService
         user.LastName = model.LastName;
         user.Description = model.Description;
         user.Born = model.Born;
-        user.ImageUrl = model.ImageUrl;
+        user.GenreId = model.GenreId;
 
         await _userManager.UpdateAsync(user);
     }
 
-    public async Task UserBecomeAuthorAsync(string id, UserBecomesAuthorViewModel model, IFormFile file)
+    public async Task UserBecomeAuthorAsync(string id, UserAuthorEditViewModel model, IFormFile file)
     {
         var user = await _userManager.FindByIdAsync(id);
         string nameOfUserAuthor = user.FirstName + " " + user.LastName;
@@ -274,10 +276,12 @@ public class UsersService : IUsersService
         Uri blobImage = await _azureImageService.UploadImageToAzureAsync(file, imageName);
         string image = blobImage.ToString().Replace('"', ' ').Trim();
 
+        user.Id = model.Id;
         user.FirstName = model.FirstName;
         user.LastName = model.LastName;
         user.Description = model.Description;
         user.Born = model.Born;
+        user.Website = model.Website;
         user.ImageUrl = image;
         user.GenreId = model.GenreId;
 

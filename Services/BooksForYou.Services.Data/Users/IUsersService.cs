@@ -31,6 +31,8 @@
 
         Task<IEnumerable<ApplicationUser>> GetUsersWithRoleAuthorAsync();
 
-        Task UserBecomeAuthorAsync(string id, UserBecomesAuthorViewModel model, IFormFile file);
+        Task UserBecomeAuthorAsync(string id, UserAuthorEditViewModel model, IFormFile file);
+
+        Task<UserAuthorEditViewModel> GetUserWithRoleAuthorForEditAsync(string id);
     }
 }

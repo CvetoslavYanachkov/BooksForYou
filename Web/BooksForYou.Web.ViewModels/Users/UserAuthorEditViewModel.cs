@@ -30,11 +30,10 @@
         [StringLength(MaxUserBorn, MinimumLength = MinUserBorn)]
         public string Born { get; set; }
 
-        [Required]
-        public int GenreId { get; set; }
+        public int? GenreId { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        public string Website { get; set; }
 
         public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();
     }
