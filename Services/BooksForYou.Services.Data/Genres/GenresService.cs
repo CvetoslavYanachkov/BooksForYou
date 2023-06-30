@@ -58,6 +58,7 @@
 
         public async Task<GenresListViewModel> GetGenresAsync(int pageNumber, int pageSize)
         {
+            var ges = await _genreRepository.All().ToListAsync();
             var genres = await _genreRepository.All()
                .Select(x => new GenreInListViewModel()
                {

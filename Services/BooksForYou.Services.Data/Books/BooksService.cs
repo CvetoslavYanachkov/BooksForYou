@@ -7,13 +7,11 @@
     using BooksForYou.Data.Common.Repositories;
     using BooksForYou.Data.Models;
     using BooksForYou.Services.AzureServices;
-    using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Languages;
     using BooksForYou.Services.Data.Publishers;
     using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.Mapping;
-    using BooksForYou.Web.ViewModels.Authors;
     using BooksForYou.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
@@ -23,7 +21,6 @@
         private readonly IDeletableEntityRepository<Book> _bookRepository;
         private readonly IAzureImageService _azureImageService;
         private readonly IGenresService _genresService;
-        private readonly IAuthorsService _authorService;
         private readonly ILanguagesService _languagesService;
         private readonly IPublisherService _publishersService;
         private readonly IUsersService _userService;
@@ -32,7 +29,6 @@
             IDeletableEntityRepository<Book> bookRepository,
             IAzureImageService azureImageService,
             IGenresService genresService,
-            IAuthorsService authorService,
             ILanguagesService languagesService,
             IPublisherService publishersService,
             IUsersService userService)
@@ -40,7 +36,6 @@
             _bookRepository = bookRepository;
             _azureImageService = azureImageService;
             _genresService = genresService;
-            _authorService = authorService;
             _languagesService = languagesService;
             _publishersService = publishersService;
             _userService = userService;
@@ -56,6 +51,7 @@
                 ISBN = model.ISBN,
                 Title = model.Title,
                 Description = model.Description,
+                UserId = model.UserAuthorId,
                 GenreId = model.GenreId,
                 PublisherId = model.PublisherId,
                 Pages = model.Pages,
@@ -94,7 +90,7 @@
         {
             var book = await _bookRepository.All().Where(b => b.Id == id).FirstOrDefaultAsync();
 
-            var authors = await _authorService.GetAuthorsToCreateAsync();
+            var usersAuthors = await _userService.GetUsersAuthorsToCreateAsync();
             var genres = await _genresService.GetGenresToCreateAsync();
             var languages = await _languagesService.GetLanguagesToCreateAsync();
             var publishers = await _publishersService.GetPublishersToCreateAsync();
@@ -105,13 +101,13 @@
                 ISBN = book.ISBN,
                 Title = book.Title,
                 Description = book.Description,
-                // AuthorId = book.AuthorId,
+                UserAuthorId = book.UserId,
                 GenreId = book.GenreId,
                 PublisherId = book.PublisherId,
                 Pages = book.Pages,
                 LanguageId = book.LanguageId,
                 PublisheDate = book.PublisheDate,
-                Authors = authors,
+                UsersAuthors = usersAuthors,
                 Genres = genres,
                 Languages = languages,
                 Publishers = publishers
@@ -120,14 +116,14 @@
 
         public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize)
         {
-            var books = await _bookRepository.All()
+                       var books = await _bookRepository.All()
                .Select(b => new BookInListViewModel()
                {
                    Id = b.Id,
                    ISBN = b.ISBN,
                    Title = b.Title,
                    Description = b.Description,
-                   //Author = b.Author.Name,
+                   UserAuthor = b.UserAuthor.FirstName + " " + b.UserAuthor.LastName,
                    Publisher = b.Publisher.Name,
                    Genre = b.Genre.Name,
                    Language = b.Language.Name,
@@ -137,21 +133,21 @@
                })
               .ToListAsync();
 
-            var result = new BooksListViewModel()
+                       var result = new BooksListViewModel()
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 TotalRecords = books.Count()
             };
 
-            result.Books = books
+                       result.Books = books
                 .OrderByDescending(x => x.Id)
                 .OrderByDescending(x => x.Title)
                 .Skip((pageNumber * pageSize) - pageSize)
                 .Take(pageSize)
                 .ToList();
 
-            return result;
+                       return result;
         }
 
         public async Task UpdateBookAsync(int id, BookEditViewModel model)
@@ -162,7 +158,7 @@
             book.ISBN = model.ISBN;
             book.Title = model.Title;
             book.Description = model.Description;
-           // book.AuthorId = model.AuthorId;
+            book.UserId = model.UserAuthorId;
             book.PublisherId = model.PublisherId;
             book.GenreId = model.GenreId;
             book.LanguageId = model.LanguageId;

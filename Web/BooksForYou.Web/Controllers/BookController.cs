@@ -4,11 +4,11 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Common;
-    using BooksForYou.Services.Data.Authors;
     using BooksForYou.Services.Data.Books;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Languages;
     using BooksForYou.Services.Data.Publishers;
+    using BooksForYou.Services.Data.Users;
     using BooksForYou.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -18,20 +18,20 @@
     {
         private readonly IBooksService _booksService;
         private readonly IGenresService _genresService;
-        private readonly IAuthorsService _authorService;
+        private readonly IUsersService _userService;
         private readonly ILanguagesService _languagesService;
         private readonly IPublisherService _publishersService;
 
         public BookController(
             IBooksService booksService,
             IGenresService genresService,
-            IAuthorsService authorService,
+            IUsersService userService,
             ILanguagesService languagesService,
             IPublisherService publishersService)
         {
             _booksService = booksService;
             _genresService = genresService;
-            _authorService = authorService;
+            _userService = userService;
             _languagesService = languagesService;
             _publishersService = publishersService;
         }
@@ -66,7 +66,7 @@
         {
             var model = new BookCreateViewModel()
             {
-                Authors = await _authorService.GetAuthorsToCreateAsync(),
+                UsersAuthors = await _userService.GetUsersAuthorsToCreateAsync(),
                 Genres = await _genresService.GetGenresToCreateAsync(),
                 Languages = await _languagesService.GetLanguagesToCreateAsync(),
                 Publishers = await _publishersService.GetPublishersToCreateAsync()
@@ -80,7 +80,7 @@
         {
             if (file == null || file.Length == 0)
             {
-                model.Authors = await _authorService.GetAuthorsToCreateAsync();
+                model.UsersAuthors = await _userService.GetUsersAuthorsToCreateAsync();
                 model.Genres = await _genresService.GetGenresToCreateAsync();
                 model.Languages = await _languagesService.GetLanguagesToCreateAsync();
                 model.Publishers = await _publishersService.GetPublishersToCreateAsync();
@@ -90,7 +90,7 @@
 
             if (!ModelState.IsValid)
             {
-                model.Authors = await _authorService.GetAuthorsToCreateAsync();
+                model.UsersAuthors = await _userService.GetUsersAuthorsToCreateAsync();
                 model.Genres = await _genresService.GetGenresToCreateAsync();
                 model.Languages = await _languagesService.GetLanguagesToCreateAsync();
                 model.Publishers = await _publishersService.GetPublishersToCreateAsync();
@@ -107,7 +107,7 @@
             catch (Exception)
             {
                 ModelState.AddModelError(string.Empty, "Something went wrong");
-                model.Authors = await _authorService.GetAuthorsToCreateAsync();
+                model.UsersAuthors = await _userService.GetUsersAuthorsToCreateAsync();
                 model.Genres = await _genresService.GetGenresToCreateAsync();
                 model.Languages = await _languagesService.GetLanguagesToCreateAsync();
                 model.Publishers = await _publishersService.GetPublishersToCreateAsync();
@@ -145,7 +145,7 @@
         {
             if (!ModelState.IsValid)
             {
-                model.Authors = await _authorService.GetAuthorsToCreateAsync();
+                model.UsersAuthors = await _userService.GetUsersAuthorsToCreateAsync();
                 model.Genres = await _genresService.GetGenresToCreateAsync();
                 model.Languages = await _languagesService.GetLanguagesToCreateAsync();
                 model.Publishers = await _publishersService.GetPublishersToCreateAsync();

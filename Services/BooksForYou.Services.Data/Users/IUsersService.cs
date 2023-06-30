@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
 
     using BooksForYou.Data.Models;
-    using BooksForYou.Web.ViewModels.Authors;
     using BooksForYou.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Http;
 
@@ -29,10 +28,12 @@
 
         Task<UsersAuthorsListViewModel> GetUsersWithRoleAuthorAsync(int pageNumber, int pageSize);
 
-        Task<IEnumerable<ApplicationUser>> GetUsersWithRoleAuthorAsync();
-
         Task UserBecomeAuthorAsync(string id, UserAuthorEditViewModel model, IFormFile file);
 
         Task<UserAuthorEditViewModel> GetUserWithRoleAuthorForEditAsync(string id);
+
+        Task<IEnumerable<ApplicationUser>> GetUsersAuthorsToCreateAsync();
+
+        Task<T> GetUserAuthorByIdAsync<T>(string id);
     }
 }

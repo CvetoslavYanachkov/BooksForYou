@@ -21,10 +21,10 @@
         [StringLength(MaxBookDescription)]
         public string Description { get; set; }
 
-        //public int AuthorId { get; set; }
+        public string UserId { get; set; }
 
-        //[ForeignKey(nameof(AuthorId))]
-        //public Author Author { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser UserAuthor { get; set; }
 
         [Required]
         public int GenreId { get; set; }

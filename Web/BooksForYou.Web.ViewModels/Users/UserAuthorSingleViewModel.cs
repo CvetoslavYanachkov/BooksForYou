@@ -1,15 +1,17 @@
-﻿namespace BooksForYou.Web.ViewModels.Authors;
+﻿namespace BooksForYou.Web.ViewModels.Users;
 
 using System;
 
 using BooksForYou.Data.Models;
 using BooksForYou.Services.Mapping;
 
-public class AuthorSingleViewModel : IMapFrom<Author>
+public class UserAuthorSingleViewModel : IMapFrom<ApplicationUser>
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
 
-    public string Name { get; set; }
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
 
     public string Description { get; set; }
 

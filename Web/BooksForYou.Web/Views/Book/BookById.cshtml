@@ -34,7 +34,7 @@
                         <div class="post clearfix">
                             <h1 class="book-title">@Model.Title</h1>
                         </div>
-                        <h3 class="book-author"><a asp-route-Id="@Model.AuthorId" asp-controller="Author" asp-action="AuthorById">@Model.AuthorName</a></h3>
+                        <h3 class="book-author"><a asp-route-Id="@Model.AuthorId" asp-controller="User" asp-action="UserAuthorById">@Model.AuthorName</a></h3>
                         <h5 class="mt-0">@Model.Description</h5>
                         <hr />
                         <h6><b>First published </b>@Model.PublisheDate.ToString("dd.MM.yyyy")</h6>

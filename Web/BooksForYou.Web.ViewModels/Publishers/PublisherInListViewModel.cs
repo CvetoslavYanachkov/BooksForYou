@@ -1,4 +1,4 @@
-﻿namespace BooksForYou.Web.ViewModels.Publishers
+﻿    namespace BooksForYou.Web.ViewModels.Publishers
 {
     public class PublisherInListViewModel
     {

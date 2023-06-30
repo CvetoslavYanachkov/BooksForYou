@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 
 public class UsersService : IUsersService
 {
@@ -158,14 +159,6 @@ public class UsersService : IUsersService
                 html.AppendLine($"<h3>{"You are already Author. Please signIn and fill the author form."}</h3>");
                 await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Author", html.ToString());
             }
-
-            if (rolesToAdd.Contains("Publisher"))
-            {
-                var html = new StringBuilder();
-                html.AppendLine($"<h1>{"Congratulations!"}</h1>");
-                html.AppendLine($"<h3>{"You are already Publisher. Please go in your profile and fill in the publisher form."}</h3>");
-                await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Publisher", html.ToString());
-            }
         }
 
         if (rolesToRemove.Any())
@@ -192,29 +185,32 @@ public class UsersService : IUsersService
 
     public async Task<UsersAuthorsListViewModel> GetUsersWithRoleAuthorAsync(int pageNumber, int pageSize)
     {
-        var usersAuthors = await _userManager.GetUsersInRoleAsync(GlobalConstants.AuthorRoleName);
+        var roleAuthor = await _roleManager.FindByNameAsync(GlobalConstants.AuthorRoleName);
 
-        var users = usersAuthors.
-        Select(x => new UserAuthorInListViewModel()
-        {
-            Id = x.Id,
-            FirstName = x.FirstName,
-            LastName = x.LastName,
-            Description = x.Description,
-            Born = x.Born,
-            Genre = x.Genre.Name,
-            ImageUrl = x.ImageUrl,
-            Website = x.Website
-        }).ToList();
+        var usersAuthors = await _userManager.Users
+            .Include(x => x.Genre)
+            .ThenInclude(x => x.Books)
+            .Where(x => x.Roles.Any(x => x.RoleId == roleAuthor.Id))
+            .Select(x => new UserAuthorInListViewModel()
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Description = x.Description,
+                Born = x.Born,
+                Genre = x.Genre.Name,
+                ImageUrl = x.ImageUrl,
+                Website = x.Website
+            }).ToListAsync();
 
         var result = new UsersAuthorsListViewModel()
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
-            TotalRecords = users.Count()
+            TotalRecords = usersAuthors.Count()
         };
 
-        result.Users = users
+        result.Users = usersAuthors
             .OrderBy(x => x.FirstName)
             .OrderByDescending(x => x.LastName)
             .Skip((pageNumber * pageSize) - pageSize)
@@ -222,13 +218,6 @@ public class UsersService : IUsersService
             .ToList();
 
         return result;
-    }
-
-    public async Task<IEnumerable<ApplicationUser>> GetUsersWithRoleAuthorAsync()
-    {
-        var usersAuthors = await _userManager.GetUsersInRoleAsync(GlobalConstants.AuthorRoleName);
-
-        return usersAuthors;
     }
 
     public async Task<UserAuthorEditViewModel> GetUserWithRoleAuthorForEditAsync(string id)
@@ -286,5 +275,29 @@ public class UsersService : IUsersService
         user.GenreId = model.GenreId;
 
         await _userManager.UpdateAsync(user);
+    }
+
+    public async Task<IEnumerable<ApplicationUser>> GetUsersAuthorsToCreateAsync()
+    {
+        var roleAuthor = await _roleManager.FindByNameAsync(GlobalConstants.AuthorRoleName);
+
+        var usersAuthors = await _userManager.Users.
+            Include(x => x.Genre)
+            .ThenInclude(x => x.Books)
+            .Where(x => x.Roles.Any(x => x.RoleId == roleAuthor.Id))
+            .ToListAsync();
+
+        return usersAuthors;
+    }
+
+    public async Task<T> GetUserAuthorByIdAsync<T>(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        var roleAuthor = await _roleManager.FindByNameAsync(GlobalConstants.AuthorRoleName);
+        var userAuthor = await _userManager.Users
+            .Where(x => x.Roles.Any(x => x.RoleId == roleAuthor.Id))
+            .To<T>()
+            .FirstOrDefaultAsync();
+        return userAuthor;
     }
 }

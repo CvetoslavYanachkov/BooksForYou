@@ -11,7 +11,6 @@
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.Messaging;
-    using BooksForYou.Web.ViewModels.Authors;
     using BooksForYou.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -40,17 +39,6 @@
             _genresService = genresService;
             _emailSender = emailSender;
         }
-
-        //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        //public async Task<IActionResult> CreateRole()
-        //{
-        //    await _roleManager.CreateAsync(new ApplicationRole()
-        //    {
-        //        Name = "Author"
-        //    });
-
-        //    return Ok();
-        //}
 
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 5)
@@ -176,6 +164,14 @@
                 ModelState.AddModelError(string.Empty, "Something went wrong");
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserAuthorById(string id)
+        {
+            var authorModel = await _usersService.GetUserAuthorByIdAsync<UserAuthorSingleViewModel>(id);
+
+            return View(authorModel);
         }
     }
 }

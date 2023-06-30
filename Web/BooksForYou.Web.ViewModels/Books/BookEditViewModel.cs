@@ -23,7 +23,7 @@
         [StringLength(MaxBookDescription, MinimumLength = MinBookDescription)]
         public string Description { get; set; }
 
-        public int AuthorId { get; set; }
+        public string UserAuthorId { get; set; }
 
         public int GenreId { get; set; }
 
@@ -38,7 +38,7 @@
 
         public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();
 
-        public IEnumerable<Author> Authors { get; set; } = new List<Author>();
+        public IEnumerable<ApplicationUser> UsersAuthors { get; set; } = new List<ApplicationUser>();
 
         public IEnumerable<Language> Languages { get; set; } = new List<Language>();
 

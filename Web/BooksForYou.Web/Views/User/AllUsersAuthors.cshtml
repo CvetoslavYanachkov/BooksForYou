@@ -20,7 +20,8 @@
                                 <thead>
                                     <tr>
                                         <th>Image</th>
-                                        <th>Name</th>
+                                        <th>First name</th>
+                                        <th>Last name</th>
                                         <th>Description</th>
                                         <th>Genre</th>
                                         <th>Website</th>
@@ -29,21 +30,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var author in Model.Users)
+                                    @foreach (var userAuthor in Model.Users)
                                     {
                                         <tr>
                                             <th>
-                                                <img src="@author.ImageUrl" class="media-object" style="width:50px">
+                                                <img src="@userAuthor.ImageUrl" class="media-object" style="width:50px">
                                             </th>
                                             <td>
-                                                @author.FirstName
+                                                @userAuthor.FirstName
                                             </td>
                                             <td>
-                                                @author.LastName
+                                                @userAuthor.LastName
                                             </td>
                                             <td>
                                                 @{
-                                                    string x = author.Description;
+                                                    string x = userAuthor.Description;
                                                     if (x != null && x.Length > 100)
                                                     {
                                                         x = x.Substring(0, 50);
@@ -52,16 +53,16 @@
                                                 @Html.Raw(x)...
                                             </td>
                                             <td>
-                                                @author.Genre
+                                                @userAuthor.Genre
                                             </td>
                                             <td>
-                                                <a href="@author.Website">@author.Website</a>
+                                                <a href="@userAuthor.Website">@userAuthor.Website</a>
                                             </td>
                                             <td>
-                                                @author.Born
+                                                @userAuthor.Born
                                             </td>
                                             <td>
-                                                <a asp-area="" asp-controller="Author" asp-action="AuthorById" asp-route-id="@author.Id" class="text-primary">Details</a>
+                                                <a asp-area="" asp-controller="User" asp-action="UserAuthorById" asp-route-id="@userAuthor.Id" class="text-primary">Details</a>
                                             </td>
                                         </tr>
                                     }

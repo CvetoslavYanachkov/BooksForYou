@@ -29,18 +29,6 @@
             public const int MinBookDescription = 20;
         }
 
-        public class Author
-        {
-            public const int MaxAuthorName = 50;
-            public const int MinAuthorName = 3;
-
-            public const int MaxAuthorDescription = 5000;
-            public const int MinAuthorDescription = 20;
-
-            public const int MaxAuthorBorn = 100;
-            public const int MinAuthorBorn = 5;
-        }
-
         public class Genre
         {
             public const int MaxGenreName = 50;
