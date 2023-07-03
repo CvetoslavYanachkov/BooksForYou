@@ -15,9 +15,11 @@
 
         public string Description { get; set; }
 
-        public int AuthorId { get; set; }
+        public string UserId { get; set; }
 
-        public string AuthorName { get; set; }
+        public string UserAuthorFirstName { get; set; }
+
+        public string UserAuthorLastName { get; set; }
 
         public string GenreName { get; set; }
 
