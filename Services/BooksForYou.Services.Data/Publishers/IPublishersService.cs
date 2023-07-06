@@ -6,7 +6,7 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Web.ViewModels.Publishers;
 
-    public interface IPublisherService
+    public interface IPublishersService
     {
         Task<PublishersListViewModel> GetPublishersAsync(int pageNumber, int pageSize);
 

@@ -10,11 +10,11 @@
     using BooksForYou.Web.ViewModels.Publishers;
     using Microsoft.EntityFrameworkCore;
 
-    public class PublisherService : IPublisherService
+    public class PublishersService : IPublishersService
     {
         private readonly IDeletableEntityRepository<Publisher> _publisherRepository;
 
-        public PublisherService(IDeletableEntityRepository<Publisher> publisherRepository)
+        public PublishersService(IDeletableEntityRepository<Publisher> publisherRepository)
         {
             _publisherRepository = publisherRepository;
         }

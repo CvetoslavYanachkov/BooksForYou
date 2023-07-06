@@ -11,13 +11,15 @@
                 </div>
                 <ul class="list-group list-group-unbordered mb-3">
                 </ul>
-                <div class="text-center">
-                    <i class="fa fa-star fa-lg"></i>
-                    <i class="fa fa-star fa-lg"></i>
-                    <i class="fa fa-star fa-lg"></i>
-                    <i class="fa fa-star fa-lg"></i>
-                    <i class="fa fa-star fa-lg"></i>
-                </div>
+                @*<div class="text-center">*@
+                    <ul class="item-rating">
+                        <li class="star-fill" data-vote="1"><i class="fa fa-star fa-lg"></i></li>
+                        <li class="star-fill" data-vote="2"><i class="fa fa-star fa-lg"></i></li>
+                        <li class="star-fill" data-vote="3"><i class="fa fa-star fa-lg"></i></li>
+                        <li class="star-fill" data-vote="4"><i class="fa fa-star fa-lg"></i></li>
+                        <li class="star-fill" data-vote="5"><i class="fa fa-star fa-lg"></i></li>
+                    </ul>
+                @*</div>*@
                 <hr />
                 <div class="text-center">
                     <a class="btn btn-outline-success" asp-route-Id="@Model.Id" asp-controller="Book" asp-action="AddToMyBooks" method="post"><b>Want ot read</b></a>

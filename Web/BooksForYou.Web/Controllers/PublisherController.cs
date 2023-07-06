@@ -13,9 +13,9 @@ namespace BooksForYou.Web.Controllers
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class PublisherController : BaseController
     {
-        private readonly IPublisherService _publisherService;
+        private readonly IPublishersService _publisherService;
 
-        public PublisherController(IPublisherService publisherService)
+        public PublisherController(IPublishersService publisherService)
         {
             _publisherService = publisherService;
         }

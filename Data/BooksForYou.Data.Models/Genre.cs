@@ -9,6 +9,11 @@
 
     public class Genre : BaseDeletableModel<int>
     {
+        public Genre()
+        {
+            Books = new HashSet<Book>();
+        }
+
         [MaxLength(MaxGenreName)]
         public string Name { get; set; }
 
@@ -16,6 +21,6 @@
         [StringLength(MaxGenreDescription)]
         public string Description { get; set; }
 
-        public IEnumerable<Book> Books { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }

@@ -18,6 +18,8 @@
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Books = new HashSet<Book>();
+            this.Votes = new HashSet<Vote>();
         }
 
         [StringLength(MaxUserFirstname)]
@@ -60,6 +62,6 @@
 
         public virtual ICollection<Book> Books { get; set; }
 
-        //public virtual ICollection<Book> Vots { get; set; }
+        public virtual ICollection<Vote> Votes { get; set; }
     }
 }

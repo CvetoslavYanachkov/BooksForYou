@@ -20,14 +20,14 @@
         private readonly IGenresService _genresService;
         private readonly IUsersService _userService;
         private readonly ILanguagesService _languagesService;
-        private readonly IPublisherService _publishersService;
+        private readonly IPublishersService _publishersService;
 
         public BookController(
             IBooksService booksService,
             IGenresService genresService,
             IUsersService userService,
             ILanguagesService languagesService,
-            IPublisherService publishersService)
+            IPublishersService publishersService)
         {
             _booksService = booksService;
             _genresService = genresService;
@@ -167,3 +167,4 @@
         }
     }
 }
+ 

@@ -22,7 +22,7 @@
         private readonly IAzureImageService _azureImageService;
         private readonly IGenresService _genresService;
         private readonly ILanguagesService _languagesService;
-        private readonly IPublisherService _publishersService;
+        private readonly IPublishersService _publishersService;
         private readonly IUsersService _userService;
 
         public BooksService(
@@ -30,7 +30,7 @@
             IAzureImageService azureImageService,
             IGenresService genresService,
             ILanguagesService languagesService,
-            IPublisherService publishersService,
+            IPublishersService publishersService,
             IUsersService userService)
         {
             _bookRepository = bookRepository;
