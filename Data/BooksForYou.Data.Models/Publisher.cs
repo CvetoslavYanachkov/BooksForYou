@@ -12,7 +12,7 @@
     {
         public Publisher()
         {
-            this.Books = new List<Book>();
+            this.Books = new HashSet<Book>();
         }
 
         [Required]
@@ -27,6 +27,6 @@
         [StringLength(PublisherPhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        public IEnumerable<Book> Books { get; set; }
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

@@ -85,14 +85,17 @@
         }
         else if (this.User.IsInRole(GlobalConstants.AuthorRoleName))
         {
-            <li class="nav-item">
-                <a asp-area="" asp-controller="User" asp-action="BecomeAuthor" class="nav-link">
-                    <i class="nav-icon fas fa-wallet"></i>
-                    <p>
-                        Author form.
-                    </p>
-                </a>
-            </li>
+            @if (UserManager.GetUserAsync(User).Result.Description == null)
+            {
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="User" asp-action="BecomeAuthor" class="nav-link">
+                        <i class="nav-icon fas fa-wallet"></i>
+                        <p>
+                            Author form.
+                        </p>
+                    </a>
+                </li>
+            }
         }
     }
     else

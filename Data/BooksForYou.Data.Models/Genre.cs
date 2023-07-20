@@ -21,6 +21,6 @@
         [StringLength(MaxGenreDescription)]
         public string Description { get; set; }
 
-        public ICollection<Book> Books { get; set; }
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

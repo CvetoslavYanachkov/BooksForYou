@@ -18,7 +18,7 @@
 
         public double GetAverageVote(int bookId)
         {
-            var averageVote = _votesRepository.All()
+            double averageVote = _votesRepository.All()
                 .Where(x => x.BookId == bookId)
                 .Average(x => x.Value);
 

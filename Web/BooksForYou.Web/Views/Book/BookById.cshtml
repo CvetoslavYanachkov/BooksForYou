@@ -1,5 +1,10 @@
 ﻿@using BooksForYou.Web.ViewModels.Books;
 @model BookSingleViewModel
+<link rel="stylesheet" href="~/css/StarsVote.css">
+@{
+    ViewData["Title"] = "Book";
+}
+
 <div class="row">
     <div class="col-md-3">
 
@@ -11,21 +16,31 @@
                 </div>
                 <ul class="list-group list-group-unbordered mb-3">
                 </ul>
-                @*<div class="text-center">*@
-                    <ul class="item-rating">
-                        <li class="star-fill" data-vote="1"><i class="fa fa-star fa-lg"></i></li>
-                        <li class="star-fill" data-vote="2"><i class="fa fa-star fa-lg"></i></li>
-                        <li class="star-fill" data-vote="3"><i class="fa fa-star fa-lg"></i></li>
-                        <li class="star-fill" data-vote="4"><i class="fa fa-star fa-lg"></i></li>
-                        <li class="star-fill" data-vote="5"><i class="fa fa-star fa-lg"></i></li>
-                    </ul>
-                @*</div>*@
+                <div class="star-rating">
+                    <input type="radio" name="stars" id="star-a" data-vote="5" />
+                    <label for="star-a"></label>
+
+                    <input type="radio" name="stars" id="star-b" data-vote="4" />
+                    <label for="star-b"></label>
+
+                    <input type="radio" name="stars" id="star-c" data-vote="3" />
+                    <label for="star-c"></label>
+
+                    <input type="radio" name="stars" id="star-d" data-vote="2" />
+                    <label for="star-d"></label>
+
+                    <input type="radio" name="stars" id="star-e" data-vote="1" />
+                    <label for="star-e"></label>
+                    <span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span>
+                </div>
                 <hr />
                 <div class="text-center">
                     <a class="btn btn-outline-success" asp-route-Id="@Model.Id" asp-controller="Book" asp-action="AddToMyBooks" method="post"><b>Want ot read</b></a>
                 </div>
             </div>
+
         </div>
+
     </div>
     <div class="col-md-9">
         <div class="card card-primary card-outline">
@@ -42,7 +57,7 @@
                         <h6><b>First published </b>@Model.PublisheDate.ToString("dd.MM.yyyy")</h6>
                         <h6><b>Genre       </b>@Model.GenreName</h6>
                         <hr />
-                        <h6><b>Format      </b>@Model.Pages</h6>
+                        <h6><b>Pages      </b>@Model.Pages</h6>
                         <h6><b>ISBN        </b>@Model.ISBN</h6>
                         <h6><b>Language    </b>@Model.LanguageName</h6>
                         <h6><b>Publisher    </b>@Model.PublisherName</h6>
@@ -54,3 +69,31 @@
         </div>
     </div>
 </div>
+<form method="post" id="antyForgeryForm"></form>
+@section Scripts{
+    <script>
+        $("input[data-vote]").each(function (el) {
+            $(this).click(function () {
+                var value = ($(this).attr("data-vote"));
+                var bookId = @Model.Id;
+                var antiForgeryToken = $('#antyForgeryForm input[name=__RequestVerificationToken]').val();
+                console.log(antiForgeryToken)
+                var data = { bookId: bookId, value: value };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Vote",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': antiForgeryToken
+                    },
+                    success: function (data) {
+                        $('#averageVoteValue').html(data.averageVote.toFixed(1))
+                    },
+                    contentType: 'application/json'
+                })
+            })
+        });
+    </script>
+}
+

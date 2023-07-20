@@ -21,6 +21,7 @@
     using BooksForYou.Services.GoogleReCaptcha;
     using BooksForYou.Services.Mapping;
     using BooksForYou.Services.Messaging;
+    using BooksForYou.Web.ModelBinders;
     using BooksForYou.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
@@ -68,13 +69,18 @@
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
-            services.AddControllersWithViews(
-                options =>
+            services.AddControllersWithViews()
+                .AddMvcOptions(options =>
                 {
-                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                    options.ModelBinderProviders.Insert(0, new DoubleModelBinderProvider());
                 }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
 
             services.AddSingleton(configuration);
 
@@ -91,7 +97,7 @@
             services.AddScoped<IBooksService, BooksService>();
             services.AddScoped<ILanguagesService, LanguagesService>();
             services.AddScoped<IPublishersService, PublishersService>();
-            services.AddScoped<IAzureImageService, AzureImageService>();
+            services.AddSingleton<IAzureImageService, AzureImageService>();
             services.AddTransient(typeof(GoogleReCaptchaService));
             services.AddScoped<IVotesService, VotesService>();
         }

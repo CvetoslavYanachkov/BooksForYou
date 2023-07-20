@@ -88,6 +88,7 @@ namespace BooksForYou.Web.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return Page();
         }
     }

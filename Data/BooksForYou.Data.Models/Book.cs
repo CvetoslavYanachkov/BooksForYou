@@ -1,6 +1,8 @@
 ﻿namespace BooksForYou.Data.Models
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +12,11 @@
 
     public class Book : BaseDeletableModel<int>
     {
+        public Book()
+        {
+            Votes = new HashSet<Vote>();
+        }
+
         [Required]
         public string ISBN { get; set; }
 
@@ -54,5 +61,7 @@
         [Required]
         [DataType(nameof(DataType))]
         public DateTime PublisheDate { get; set; }
+
+        public virtual ICollection<Vote> Votes { get; set; }
     }
 }

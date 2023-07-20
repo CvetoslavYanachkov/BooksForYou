@@ -16,8 +16,6 @@
 
         Task UpdateUserAsync(string id, UserEditViewModel model);
 
-        Task UpdateUserAuthorAsync(string id, UserAuthorEditViewModel model);
-
         Task<ApplicationUser> GetUserByIdAsync(string id);
 
         Task<string> GetNameOfUser(string id);
@@ -26,11 +24,11 @@
 
         Task<bool> ExistsById(string id);
 
-        Task<UsersAuthorsListViewModel> GetUsersWithRoleAuthorAsync(int pageNumber, int pageSize);
+        Task<UsersAuthorsListViewModel> GetUsersAuthorsAsync(int pageNumber, int pageSize);
 
-        Task UserBecomeAuthorAsync(string id, UserAuthorEditViewModel model, IFormFile file);
+        Task UserBecomeAuthorAsync(string id, UserBecomesAuthorViewModel model, IFormFile file);
 
-        Task<UserAuthorEditViewModel> GetUserWithRoleAuthorForEditAsync(string id);
+        Task<UserBecomesAuthorViewModel> GetUserBecomeAuthorAsync(string id);
 
         Task<IEnumerable<ApplicationUser>> GetUsersAuthorsToCreateAsync();
 

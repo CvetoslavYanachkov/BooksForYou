@@ -34,7 +34,6 @@ public class UsersService : IUsersService
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IGenresService _genresService;
     private readonly IAzureImageService _azureImageService;
-    private readonly LinkGenerator _linkGenerator;
 
     public UsersService(
         IDeletableEntityRepository<ApplicationUser> userRepository,
@@ -183,7 +182,7 @@ public class UsersService : IUsersService
         return await _userManager.IsInRoleAsync(user, GlobalConstants.AuthorRoleName);
     }
 
-    public async Task<UsersAuthorsListViewModel> GetUsersWithRoleAuthorAsync(int pageNumber, int pageSize)
+    public async Task<UsersAuthorsListViewModel> GetUsersAuthorsAsync(int pageNumber, int pageSize)
     {
         var roleAuthor = await _roleManager.FindByNameAsync(GlobalConstants.AuthorRoleName);
 
@@ -220,12 +219,12 @@ public class UsersService : IUsersService
         return result;
     }
 
-    public async Task<UserAuthorEditViewModel> GetUserWithRoleAuthorForEditAsync(string id)
+    public async Task<UserBecomesAuthorViewModel> GetUserBecomeAuthorAsync(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
 
         var genres = await _genresService.GetGenresToCreateAsync();
-        return new UserAuthorEditViewModel()
+        return new UserBecomesAuthorViewModel()
         {
             Id = id,
             FirstName = user.FirstName,
@@ -238,25 +237,7 @@ public class UsersService : IUsersService
         };
     }
 
-    public async Task UpdateUserAuthorAsync(string id, UserAuthorEditViewModel model)
-    {
-        var user = await _userManager.FindByIdAsync(id);
-
-        if (user == null)
-        {
-            // return $"Unable to load user with ID '{id}'.";
-        }
-
-        user.FirstName = model.FirstName;
-        user.LastName = model.LastName;
-        user.Description = model.Description;
-        user.Born = model.Born;
-        user.GenreId = model.GenreId;
-
-        await _userManager.UpdateAsync(user);
-    }
-
-    public async Task UserBecomeAuthorAsync(string id, UserAuthorEditViewModel model, IFormFile file)
+    public async Task UserBecomeAuthorAsync(string id, UserBecomesAuthorViewModel model, IFormFile file)
     {
         var user = await _userManager.FindByIdAsync(id);
         string nameOfUserAuthor = user.FirstName + " " + user.LastName;

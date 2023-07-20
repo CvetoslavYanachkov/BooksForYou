@@ -50,7 +50,7 @@
 
         public async Task<IActionResult> AllUsersAuthors([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
-            var users = await _usersService.GetUsersWithRoleAuthorAsync(p, s);
+            var users = await _usersService.GetUsersAuthorsAsync(p, s);
 
             return View(users);
         }
@@ -78,22 +78,21 @@
             return RedirectToAction(nameof(All));
         }
 
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> RequestToBecome()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (await _usersService.ExistsById(userId) == true)
+             if (await _usersService.ExistsById(userId) == true)
             {
                 return BadRequest();
 
                 //  " message : You are already author!"
             }
 
-            var model = new UserRequestToBecomeAuthorViewModel();
-            return View(model);
+             var model = new UserRequestToBecomeAuthorViewModel();
+             return View(model);
         }
 
         [HttpPost]
@@ -132,12 +131,12 @@
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var model = await _usersService.GetUserWithRoleAuthorForEditAsync(userId);
+            var model = await _usersService.GetUserBecomeAuthorAsync(userId);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> BecomeAuthor(UserAuthorEditViewModel model, IFormFile file)
+        public async Task<IActionResult> BecomeAuthor(UserBecomesAuthorViewModel model, IFormFile file)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

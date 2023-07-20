@@ -1,11 +1,12 @@
 ﻿namespace BooksForYou.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     using BooksForYou.Services.Data.Votes;
     using BooksForYou.Web.ViewModels.Votes;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
 
     [ApiController]
     [Route("api/[controller]")]
@@ -27,8 +28,6 @@
             var averageVote = _votesService.GetAverageVote(model.BookId);
 
             return new PostVoteResponseModel { AverageVote = averageVote };
-
-
         }
     }
 }

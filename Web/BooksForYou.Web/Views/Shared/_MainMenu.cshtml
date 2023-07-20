@@ -1,4 +1,5 @@
-﻿<nav class="mt-2">
+﻿@using BooksForYou.Common;
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
@@ -26,13 +27,17 @@
                 </p>
             </a>
         </li>
-        <li class="nav-item">
-            <a asp-area="" asp-controller="User" asp-action="RequestToBecome" class="nav-link">
-                <i class="nav-icon fas fa-wallet"></i>
-                <p>
-                    Become author
-                </p>
-            </a>
-        </li>
+        @if (!User.IsInRole(GlobalConstants.AuthorRoleName))
+        {
+            <li class="nav-item">
+                <a asp-area="" asp-controller="User" asp-action="RequestToBecome" class="nav-link">
+                    <i class="nav-icon fas fa-wallet"></i>
+                    <p>
+                        Become author
+                    </p>
+                </a>
+            </li>
+        }
+
     </ul>
 </nav>
