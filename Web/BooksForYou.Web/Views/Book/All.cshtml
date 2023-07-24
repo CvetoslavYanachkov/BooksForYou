@@ -6,48 +6,95 @@
 }
 
 <div class="card-text-center">
-    <div class="card-header">
+@*    <div class="card-header">
         <h3 class="card-title-center"> Books</h3>
-    </div>
-    <div class="text-center row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-deck">
-                    <div class="card-body">
-                        <div class="row"><div class="col-sm-4 col-md-4"></div><div class="col-sm-4 col-md-4"></div></div><div class="row">
-                            @foreach (var book in Model.Books)
-                            {
-                                <div class="card col-2" style="width: 13rem;">
-                                    <h3 class="card-title mt-3">@book.Title</h3>
-                                    <hr>
-                                    <a asp-action="BookById" asp-route-id="@book.Id">
-                                        <img class="mr-2 img-fluid" style="width: 12rem;"
-                                             src="@book.ImageUrl" alt="Book Image">
-                                    </a>
-                                    <div class="card-body">
-                                        <p class="mb-0">@book.UserAuthor</p>
-                                        <p class="mb-0">@book.Genre</p>
-                                    </div>
+    </div>*@
+    <div class="col-md-10 offset-md-1">
+     @*   <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="@Model.Genre" class="form-label">Genre</label>
+                    <select asp-for="@Model.Genre" class="form-control">    
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <option value="@genre">@genre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="@Model.PageNumber" class="form-label">Pages</label>
+                    <select asp-for="@Model.PageNumber" class="form-control">
+                        @foreach (var book in Model.Books)
+                        {
+                            <option value="@book.Pages">Page</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Order By:</label>
+                    <select class="select2" style="width: 100%;">
+                        <option selected>Title</option>
+                        <option>Date</option>
+                    </select>
+                </div>
+            </div>
+        </div>*@
+        <form method="get">
+        <div class="form-group mb-5">
+            <div class="input-group input-group-lg">
+                    <input asp-for="SearchTerm" class="form-control form-control-lg" placeholder="Book">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-lg btn-default">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </form>
+        <div class="text-center row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-deck">
+                        <div class="card-body">
+                            <div class="row"><div class="col-sm-4 col-md-4"></div><div class="col-sm-4 col-md-4"></div></div><div class="row">
+                                @foreach (var book in Model.Books)
+                                {
+                                    <div class="card col-2" style="width: 13rem;">
+                                        <h3 class="card-title mt-3">@book.Title</h3>
+                                        <hr>
+                                        <a asp-action="BookById" asp-route-id="@book.Id">
+                                            <img class="mr-2 img-fluid" style="width: 12rem;"
+                                                 src="@book.ImageUrl" alt="Book Image">
+                                        </a>
+                                        <div class="card-body">
+                                            <p class="mb-0">@book.UserAuthor</p>
+                                            <p class="mb-0">@book.Genre</p>
+                                        </div>
 
-                                    <form class="input-group-sm" asp-route-bookId="@book.Id" asp-controller="Book" asp-action="AddToMyBooks" method="post">
-                                        <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-2" />
-                                    </form>
-                                </div>
-                            }
+                                        <form class="input-group-sm" asp-route-bookId="@book.Id" asp-controller="Book" asp-action="AddToMyBooks" method="post">
+                                            <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-2" />
+                                        </form>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-20 col-md-10">
-                    <paging page-no="@Model.PageNumber"
-                            page-size="@Model.PageSize"
-                            total-records="@Model.TotalRecords"
-                            page-size-dropdown-items="6-12-24">
-                    </paging>
+                <div class="row">
+                    <div class="col-sm-20 col-md-10">
+                        <paging page-no="@Model.PageNumber"
+                                page-size="@Model.PageSize"
+                                total-records="@Model.TotalRecords"
+                                page-size-dropdown-items="6-12-24">
+                        </paging>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    </div>
 

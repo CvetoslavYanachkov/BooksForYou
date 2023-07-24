@@ -114,9 +114,17 @@
             };
         }
 
-        public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize)
+        public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize, string searchTerm = null)
         {
-                       var books = await _bookRepository.All()
+            var booksQuery = _bookRepository.All().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                booksQuery = booksQuery.Where(b =>
+                b.Title.ToLower().Contains(searchTerm.ToLower()));
+            }
+
+            var books = await booksQuery
                .Select(b => new BookInListViewModel()
                {
                    Id = b.Id,
@@ -133,21 +141,57 @@
                })
               .ToListAsync();
 
-                       var result = new BooksListViewModel()
+            var result = new BooksListViewModel()
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 TotalRecords = books.Count()
             };
 
-                       result.Books = books
+            result.Books = books
                 .OrderByDescending(x => x.Id)
                 .OrderByDescending(x => x.Title)
                 .Skip((pageNumber * pageSize) - pageSize)
                 .Take(pageSize)
                 .ToList();
 
-                       return result;
+            return result;
+        }
+
+        public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize)
+        {
+            var books = await _bookRepository.All()
+        .Select(b => new BookInListViewModel()
+        {
+            Id = b.Id,
+            ISBN = b.ISBN,
+            Title = b.Title,
+            Description = b.Description,
+            UserAuthor = b.UserAuthor.FirstName + " " + b.UserAuthor.LastName,
+            Publisher = b.Publisher.Name,
+            Genre = b.Genre.Name,
+            Language = b.Language.Name,
+            Pages = b.Pages,
+            PublisheDate = b.PublisheDate,
+            ImageUrl = b.ImageUrl
+        })
+       .ToListAsync();
+
+            var result = new BooksListViewModel()
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalRecords = books.Count()
+            };
+
+            result.Books = books
+     .OrderByDescending(x => x.Id)
+     .OrderByDescending(x => x.Title)
+     .Skip((pageNumber * pageSize) - pageSize)
+     .Take(pageSize)
+     .ToList();
+
+            return result;
         }
 
         public async Task UpdateBookAsync(int id, BookEditViewModel model)

@@ -13,6 +13,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     public class BookController : BaseController
     {
@@ -54,9 +55,9 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery] int p = 1, [FromQuery] int s = 6)
+        public async Task<IActionResult> All([FromQuery] string searchTerm, [FromQuery] int p = 1, [FromQuery] int s = 6)
         {
-            var books = await _booksService.GetBooksAsync(p, s);
+            var books = await _booksService.GetBooksAsync(p, s, searchTerm);
 
             return View(books);
         }
@@ -167,4 +168,3 @@
         }
     }
 }
- 

@@ -10,6 +10,8 @@
 
         public int PageSize { get; set; }
 
+        public string SearchTerm { get; set; }
+
         public List<BookInListViewModel> Books { get; set; }
     }
 }

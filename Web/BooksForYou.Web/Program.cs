@@ -2,6 +2,7 @@
 {
     using System;
     using System.Configuration;
+    using System.Globalization;
     using System.Reflection;
 
     using BooksForYou.Data;
