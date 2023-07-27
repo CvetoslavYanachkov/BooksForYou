@@ -114,29 +114,44 @@
             };
         }
 
-        public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize, string searchTerm = null)
+        public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize, BookSorting sorting, string searchTerm = null, string genre = null)
         {
             var booksQuery = _bookRepository.All().AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            if (string.IsNullOrWhiteSpace(genre) == false)
             {
-                booksQuery = booksQuery.Where(b =>
-                b.Title.ToLower().Contains(searchTerm.ToLower()));
+                booksQuery = booksQuery
+                    .Where(b => b.Genre.Name == genre);
             }
+
+            if (string.IsNullOrWhiteSpace(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                booksQuery = booksQuery
+                    .Where(b => EF.Functions.Like(b.Title.ToLower(), searchTerm) ||
+                    EF.Functions.Like(b.UserAuthor.FirstName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(b.UserAuthor.LastName.ToLower(), searchTerm));
+            }
+
+            booksQuery = sorting switch
+            {
+                BookSorting.ISBN => booksQuery
+                .OrderBy(b => b.ISBN),
+                BookSorting.PublishDate => booksQuery
+                .OrderBy(b => b.PublisheDate),
+                BookSorting.Pages => booksQuery
+                .OrderBy(b => b.Pages),
+                _ => booksQuery.OrderByDescending(b => b.Id)
+            };
 
             var books = await booksQuery
                .Select(b => new BookInListViewModel()
                {
                    Id = b.Id,
-                   ISBN = b.ISBN,
                    Title = b.Title,
-                   Description = b.Description,
                    UserAuthor = b.UserAuthor.FirstName + " " + b.UserAuthor.LastName,
-                   Publisher = b.Publisher.Name,
                    Genre = b.Genre.Name,
-                   Language = b.Language.Name,
-                   Pages = b.Pages,
-                   PublisheDate = b.PublisheDate,
                    ImageUrl = b.ImageUrl
                })
               .ToListAsync();

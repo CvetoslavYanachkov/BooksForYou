@@ -55,11 +55,18 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery] string searchTerm, [FromQuery] int p = 1, [FromQuery] int s = 6)
+        public async Task<IActionResult> All([FromQuery]AllBooksQueryModel query)
         {
-            var books = await _booksService.GetBooksAsync(p, s, searchTerm);
+            var books = await _booksService.GetBooksAsync(
+                query.p,
+                query.s,
+                query.Sorting,
+                query.SearchTerm,
+                query.Genre);
+            query.Genres = await _genresService.GetGenreNames();
+            query.Books = books.Books;
 
-            return View(books);
+            return View(query);
         }
 
         [HttpGet]

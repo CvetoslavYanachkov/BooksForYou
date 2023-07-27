@@ -58,7 +58,6 @@
 
         public async Task<GenresListViewModel> GetGenresAsync(int pageNumber, int pageSize)
         {
-            var ges = await _genreRepository.All().ToListAsync();
             var genres = await _genreRepository.All()
                .Select(x => new GenreInListViewModel()
                {
@@ -98,6 +97,14 @@
         public async Task<IEnumerable<Genre>> GetGenresToCreateAsync()
         {
             return await _genreRepository.All().ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetGenreNames()
+        {
+            return await _genreRepository.AllAsNoTracking()
+                .Select(g => g.Name)
+                .Distinct()
+                .ToListAsync();
         }
     }
 }

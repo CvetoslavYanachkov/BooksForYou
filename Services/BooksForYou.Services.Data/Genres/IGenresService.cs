@@ -21,5 +21,7 @@
         Task DeleteGenreAsync(int id);
 
         Task<IEnumerable<Genre>> GetGenresToCreateAsync();
+
+        Task<IEnumerable<string>> GetGenreNames();
     }
 }

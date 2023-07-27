@@ -275,10 +275,11 @@ public class UsersService : IUsersService
     {
         var user = await _userManager.FindByIdAsync(id);
         var roleAuthor = await _roleManager.FindByNameAsync(GlobalConstants.AuthorRoleName);
+
         var userAuthor = await _userManager.Users
-            .Where(x => x.Roles.Any(x => x.RoleId == roleAuthor.Id))
+            .Where(x => x.Roles.Any(x => x.RoleId == roleAuthor.Id) && x.Id == id)
             .To<T>()
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(u => user.Id == id);
         return userAuthor;
     }
 }

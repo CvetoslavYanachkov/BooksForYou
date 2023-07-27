@@ -1,20 +1,21 @@
 ﻿@using BooksForYou.Web.ViewModels.Books;
-@model BooksListViewModel
+@model AllBooksQueryModel
 
 @{
     ViewData["Title"] = "Books";
 }
 
 <div class="card-text-center">
-@*    <div class="card-header">
-        <h3 class="card-title-center"> Books</h3>
+    @*    <div class="card-header">
+    <h3 class="card-title-center"> Books</h3>
     </div>*@
     <div class="col-md-10 offset-md-1">
-     @*   <div class="row">
+        <div class="row">
             <div class="col-6">
                 <div class="form-group">
                     <label asp-for="@Model.Genre" class="form-label">Genre</label>
-                    <select asp-for="@Model.Genre" class="form-control">    
+                    <select asp-for="@Model.Genre" class="form-control">
+                        <option value="">All</option>
                         @foreach (var genre in Model.Genres)
                         {
                             <option value="@genre">@genre</option>
@@ -33,7 +34,17 @@
                     </select>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="form-group col-md-3">
+                <div class="form-group">
+                    <label asp-for="Sorting"></label>
+                    <select asp-for="Sorting" class="form-control">
+                        <option value="0">Pages</option>
+                        <option value="1">Publish Date</option>
+                        <option value="2">ISBN</option>
+                    </select>
+                </div>
+            </div>
+           @* <div class="col-3">
                 <div class="form-group">
                     <label>Order By:</label>
                     <select class="select2" style="width: 100%;">
@@ -41,19 +52,19 @@
                         <option>Date</option>
                     </select>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
+        </div>
         <form method="get">
-        <div class="form-group mb-5">
-            <div class="input-group input-group-lg">
-                    <input asp-for="SearchTerm" class="form-control form-control-lg" placeholder="Book">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-lg btn-default">
-                        <i class="fa fa-search"></i>
-                    </button>
+            <div class="form-group mb-5">
+                <div class="input-group input-group-lg">
+                    <input asp-for="SearchTerm" class="form-control form-control-lg" placeholder="...">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-lg btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         </form>
         <div class="text-center row">
             <div class="col-12">
@@ -61,6 +72,10 @@
                     <div class="card-deck">
                         <div class="card-body">
                             <div class="row"><div class="col-sm-4 col-md-4"></div><div class="col-sm-4 col-md-4"></div></div><div class="row">
+                                @if (!Model.Books.Any())
+                                {
+                                    <h2 class="text-center">No books found by the given criteria!</h2>
+                                }
                                 @foreach (var book in Model.Books)
                                 {
                                     <div class="card col-2" style="width: 13rem;">
@@ -96,5 +111,5 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
