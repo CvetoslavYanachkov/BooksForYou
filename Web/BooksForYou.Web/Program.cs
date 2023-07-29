@@ -16,7 +16,6 @@
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Services.Data.Languages;
     using BooksForYou.Services.Data.Publishers;
-    using BooksForYou.Services.Data.Settings;
     using BooksForYou.Services.Data.Users;
     using BooksForYou.Services.Data.Votes;
     using BooksForYou.Services.GoogleReCaptcha;
@@ -92,7 +91,6 @@
 
             // Application services
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(configuration.GetValue<string>("SendGridApiKey")));
-            services.AddTransient<ISettingsService, SettingsService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IGenresService, GenresService>();
             services.AddScoped<IBooksService, BooksService>();

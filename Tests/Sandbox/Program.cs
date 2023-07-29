@@ -11,7 +11,6 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Data.Repositories;
     using BooksForYou.Data.Seeding;
-    using BooksForYou.Services.Data.Settings;
     using BooksForYou.Services.Messaging;
 
     using CommandLine;
@@ -52,9 +51,6 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
-
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);
         }
@@ -81,7 +77,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
     }
 }
