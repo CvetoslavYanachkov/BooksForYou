@@ -25,7 +25,6 @@
             {
                 Name = model.Name,
                 Description = model.Description,
-                PhoneNumber = model.PhoneNumber
             };
 
             await _publisherRepository.AddAsync(publisher);
@@ -64,7 +63,6 @@
         Id = p.Id,
         Name = p.Name,
         Description = p.Description,
-        PhoneNumber = p.PhoneNumber
     })
     .ToListAsync();
 
@@ -96,7 +94,6 @@
 
             publisher.Name = model.Name;
             publisher.Description = model.Description;
-            publisher.PhoneNumber = model.PhoneNumber;
 
             await _publisherRepository.SaveChangesAsync();
         }

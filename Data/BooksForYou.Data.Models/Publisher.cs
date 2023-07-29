@@ -23,10 +23,6 @@
         [StringLength(MaxPublisherDescription)]
         public string Description { get; set; }
 
-        [Required]
-        [StringLength(PublisherPhoneNumber)]
-        public string PhoneNumber { get; set; }
-
         public virtual ICollection<Book> Books { get; set; }
     }
 }

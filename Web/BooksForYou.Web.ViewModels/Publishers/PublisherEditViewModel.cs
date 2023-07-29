@@ -18,9 +18,5 @@
         [Required]
         [StringLength(MaxPublisherDescription, MinimumLength = MinPublisherDescription)]
         public string Description { get; set; }
-
-        [Required]
-        [StringLength(PublisherPhoneNumber)]
-        public string PhoneNumber { get; set; }
     }
 }

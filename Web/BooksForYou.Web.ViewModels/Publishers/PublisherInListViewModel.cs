@@ -1,4 +1,4 @@
-﻿    namespace BooksForYou.Web.ViewModels.Publishers
+﻿namespace BooksForYou.Web.ViewModels.Publishers
 {
     public class PublisherInListViewModel
     {
@@ -8,6 +8,5 @@
 
         public string Description { get; set; }
 
-        public string PhoneNumber { get; set; }
     }
 }

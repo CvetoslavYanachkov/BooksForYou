@@ -101,5 +101,13 @@ namespace BooksForYou.Web.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await _publisherService.GetPublisherForEditAsync<PublisherDetailsViewModel>(id);
+
+            return View(model);
+        }
     }
 }

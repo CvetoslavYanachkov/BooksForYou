@@ -279,7 +279,7 @@ public class UsersService : IUsersService
         var userAuthor = await _userManager.Users
             .Where(x => x.Roles.Any(x => x.RoleId == roleAuthor.Id) && x.Id == id)
             .To<T>()
-            .FirstOrDefaultAsync(u => user.Id == id);
+            .FirstOrDefaultAsync();
         return userAuthor;
     }
 }

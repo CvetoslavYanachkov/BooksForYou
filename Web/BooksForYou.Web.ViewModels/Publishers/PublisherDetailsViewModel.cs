@@ -3,7 +3,7 @@
     using BooksForYou.Data.Models;
     using BooksForYou.Services.Mapping;
 
-    public class PublisherDeleteViewModel : IMapFrom<Publisher>
+    public class PublisherDetailsViewModel : IMapFrom<Publisher>
     {
         public int Id { get; set; }
 

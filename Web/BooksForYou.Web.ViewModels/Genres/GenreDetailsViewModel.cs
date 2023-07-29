@@ -1,9 +1,9 @@
-﻿namespace BooksForYou.Web.ViewModels.Publishers
+﻿namespace BooksForYou.Web.ViewModels.Genres
 {
     using BooksForYou.Data.Models;
     using BooksForYou.Services.Mapping;
 
-    public class PublisherDeleteViewModel : IMapFrom<Publisher>
+    public class GenreDetailsViewModel : IMapFrom<Genre>
     {
         public int Id { get; set; }
 
