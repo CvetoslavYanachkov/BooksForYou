@@ -22,6 +22,14 @@
                 </button>
             </form>
         </li>
+        <li class="nav-item">
+            <a asp-area="" asp-controller="Book" asp-action="MyBooks" class="nav-link">
+                <i class="nav-icon fas fa-wallet"></i>
+                <p>
+                   My Books
+                </p>
+            </a>
+        </li>
 
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

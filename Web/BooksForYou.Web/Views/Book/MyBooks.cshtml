@@ -1,0 +1,57 @@
+﻿@using BooksForYou.Web.ViewModels.Books;
+@model BooksListViewModel
+
+@{
+    ViewData["Title"] = " My books";
+}
+
+<div class="card-text-center">
+       <div class="card-header">
+    <h3 class="card-title-center">My Books</h3>
+    </div>
+    <div class="text-center row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-deck">
+                    <div class="card-body">
+                        <div class="row"><div class="col-sm-4 col-md-4"></div><div class="col-sm-4 col-md-4"></div></div><div class="row">
+                            @foreach (var book in Model.Books)
+                            {
+                                <div class="card col-2" style="width: 13rem;">
+                                    <h3 class="card-title mt-3">@book.Title</h3>
+                                    <hr>
+                                    <a asp-action="BookByIdFromMyBooks" asp-route-id="@book.Id">
+                                        <img class="mr-2 img-fluid" style="width: 12rem;"
+                                             src="@book.ImageUrl" alt="Book Image">
+                                    </a>
+                                    <div class="card-body">
+                                        <p class="mb-0">@book.UserAuthor</p>
+                                        <p class="mb-0">@book.Genre</p>
+                                    </div>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <form class="input-group-sm" asp-route-bookId="@book.Id" asp-controller="Book" asp-action="RemoveBookFromMyBooks" method="post">
+                                            <input type="submit" value=" Read " class="fs-6 btn btn-outline-success mb-3 p-2" />
+                                        </form>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-20 col-md-10">
+                    <paging page-no="@Model.PageNumber"
+                            page-size="@Model.PageSize"
+                            total-records="@Model.TotalRecords"
+                            page-size-dropdown-items="6-12-24">
+                    </paging>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+

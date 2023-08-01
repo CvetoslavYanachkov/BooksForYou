@@ -18,7 +18,7 @@
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Books = new HashSet<Book>();
+            this.UsersBooks = new HashSet<UserBook>();
             this.Votes = new HashSet<Vote>();
         }
 
@@ -60,7 +60,7 @@
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<UserBook> UsersBooks { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
     }

@@ -15,6 +15,7 @@
         public Book()
         {
             Votes = new HashSet<Vote>();
+            UsersBooks = new HashSet<UserBook>();
         }
 
         [Required]
@@ -31,7 +32,7 @@
         public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public ApplicationUser UserAuthor { get; set; }
+        public ApplicationUser User { get; set; }
 
         [Required]
         public int GenreId { get; set; }
@@ -63,5 +64,7 @@
         public DateTime PublisheDate { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
+
+        public virtual ICollection<UserBook> UsersBooks { get; set; }
     }
 }

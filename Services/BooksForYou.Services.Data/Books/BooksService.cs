@@ -86,6 +86,11 @@
             return book;
         }
 
+        public async Task<Book> GetBookByIdAsync(int id)
+        {
+            return await _bookRepository.AllAsNoTracking().Where(b => b.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task<BookEditViewModel> GetBookForEditAsync(int id)
         {
             var book = await _bookRepository.All().Where(b => b.Id == id).FirstOrDefaultAsync();
@@ -130,8 +135,8 @@
 
                 booksQuery = booksQuery
                     .Where(b => EF.Functions.Like(b.Title.ToLower(), searchTerm) ||
-                    EF.Functions.Like(b.UserAuthor.FirstName.ToLower(), searchTerm) ||
-                    EF.Functions.Like(b.UserAuthor.LastName.ToLower(), searchTerm));
+                    EF.Functions.Like(b.User.FirstName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(b.User.LastName.ToLower(), searchTerm));
             }
 
             booksQuery = sorting switch
@@ -150,7 +155,7 @@
                {
                    Id = b.Id,
                    Title = b.Title,
-                   UserAuthor = b.UserAuthor.FirstName + " " + b.UserAuthor.LastName,
+                   UserAuthor = b.User.FirstName + " " + b.User.LastName,
                    Genre = b.Genre.Name,
                    ImageUrl = b.ImageUrl
                })
@@ -182,7 +187,7 @@
             ISBN = b.ISBN,
             Title = b.Title,
             Description = b.Description,
-            UserAuthor = b.UserAuthor.FirstName + " " + b.UserAuthor.LastName,
+            UserAuthor = b.User.FirstName + " " + b.User.LastName,
             Publisher = b.Publisher.Name,
             Genre = b.Genre.Name,
             Language = b.Language.Name,
@@ -226,6 +231,99 @@
             book.PublisheDate = model.PublisheDate;
 
             await _bookRepository.SaveChangesAsync();
+        }
+
+        public async Task AddBookToMyBooksAsync(string userId, int bookId)
+        {
+            var user = await _userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+            var book = await _bookRepository.AllAsNoTracking().Where(b => b.Id == bookId).FirstOrDefaultAsync();
+
+            if (book == null)
+            {
+                throw new ArgumentException("Invalid Movie ID");
+            }
+
+            if (!user.UsersBooks.Any(x => x.BookId == bookId))
+            {
+                user.UsersBooks.Add(new UserBook()
+                {
+                    BookId = book.Id,
+                    UserId = user.Id,
+                    Book = book,
+                    User = user
+                });
+
+                await _userService.UpdateUserAsync(user);
+            }
+        }
+
+        public async Task RemoveBookFromMyBooksAsync(int bookId, string userId)
+        {
+            var user = await _userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+
+
+            var book = user.UsersBooks.FirstOrDefault(b => b.BookId == bookId);
+
+            if (book != null)
+            {
+                user.UsersBooks.Remove(book);
+
+                await _userService.UpdateUserAsync(user);
+            }
+        }
+
+        public async Task<BooksListViewModel> GetMyBooksAsync(int pageNumber, int pageSize, string userId)
+        {
+            var user = await _userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+            var books = _bookRepository.AllAsNoTracking().Where(b => b.UsersBooks.Any(x => x.UserId == userId))
+                .Select(b => new BookInListViewModel()
+                {
+                    Id = b.Id,
+                    ISBN = b.ISBN,
+                    Title = b.Title,
+                    Description = b.Description,
+                    UserAuthor = b.User.FirstName + " " + b.User.LastName,
+                    Publisher = b.Publisher.Name,
+                    Genre = b.Genre.Name,
+                    Language = b.Language.Name,
+                    Pages = b.Pages,
+                    PublisheDate = b.PublisheDate,
+                    ImageUrl = b.ImageUrl
+                }).ToList();
+
+            var result = new BooksListViewModel()
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalRecords = books.Count()
+            };
+
+            result.Books = books
+     .OrderByDescending(x => x.Id)
+     .OrderByDescending(x => x.Title)
+     .Skip((pageNumber * pageSize) - pageSize)
+     .Take(pageSize)
+     .ToList();
+
+            return result;
         }
     }
 }

@@ -44,14 +44,14 @@
                     </select>
                 </div>
             </div>
-           @* <div class="col-3">
-                <div class="form-group">
-                    <label>Order By:</label>
-                    <select class="select2" style="width: 100%;">
-                        <option selected>Title</option>
-                        <option>Date</option>
-                    </select>
-                </div>
+            @* <div class="col-3">
+            <div class="form-group">
+            <label>Order By:</label>
+            <select class="select2" style="width: 100%;">
+            <option selected>Title</option>
+            <option>Date</option>
+            </select>
+            </div>
             </div>*@
         </div>
         <form method="get">
@@ -89,10 +89,12 @@
                                             <p class="mb-0">@book.UserAuthor</p>
                                             <p class="mb-0">@book.Genre</p>
                                         </div>
-
-                                        <form class="input-group-sm" asp-route-bookId="@book.Id" asp-controller="Book" asp-action="AddToMyBooks" method="post">
-                                            <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-2" />
-                                        </form>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <form class="input-group-sm" asp-route-bookId="@book.Id" asp-controller="Book" asp-action="AddBookToMyBooks" method="post">
+                                                <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-2" />
+                                            </form>
+                                        }
                                     </div>
                                 }
                             </div>

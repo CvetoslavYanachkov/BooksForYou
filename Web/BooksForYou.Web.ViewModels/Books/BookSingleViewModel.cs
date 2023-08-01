@@ -19,9 +19,9 @@
 
         public string UserId { get; set; }
 
-        public string UserAuthorFirstName { get; set; }
+        public string UserFirstName { get; set; }
 
-        public string UserAuthorLastName { get; set; }
+        public string UserLastName { get; set; }
 
         public string GenreName { get; set; }
 

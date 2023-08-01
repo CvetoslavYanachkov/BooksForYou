@@ -14,6 +14,7 @@ using BooksForYou.Common;
 using BooksForYou.Data.Common.Repositories;
 using BooksForYou.Data.Models;
 using BooksForYou.Services.AzureServices;
+using BooksForYou.Services.Data.Books;
 using BooksForYou.Services.Data.Genres;
 using BooksForYou.Services.Mapping;
 using BooksForYou.Services.Messaging;
@@ -34,16 +35,16 @@ public class UsersService : IUsersService
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IGenresService _genresService;
     private readonly IAzureImageService _azureImageService;
+    private readonly IDeletableEntityRepository<ApplicationUser> _userRepository;
 
     public UsersService(
-        IDeletableEntityRepository<ApplicationUser> userRepository,
-        IDeletableEntityRepository<ApplicationRole> roleRepository,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
         IGenresService genresService,
-        IAzureImageService azureImageService)
+        IAzureImageService azureImageService,
+        IDeletableEntityRepository<ApplicationUser> userRepository)
     {
         _signInManager = signInManager;
         _emailSender = emailSender;
@@ -51,11 +52,15 @@ public class UsersService : IUsersService
         _roleManager = roleManager;
         _genresService = genresService;
         _azureImageService = azureImageService;
+        _userRepository = userRepository;
     }
 
     public async Task<ApplicationUser> GetUserByIdAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await _userRepository.All()
+            .Where(u => u.Id == id)
+            .Include(u => u.UsersBooks)
+            .FirstOrDefaultAsync();
 
         return user;
     }
@@ -281,5 +286,11 @@ public class UsersService : IUsersService
             .To<T>()
             .FirstOrDefaultAsync();
         return userAuthor;
+    }
+
+    public async Task UpdateUserAsync(ApplicationUser user)
+    {
+        _userRepository.Update(user);
+        await _userRepository.SaveChangesAsync();
     }
 }

@@ -33,5 +33,7 @@
         Task<IEnumerable<ApplicationUser>> GetUsersAuthorsToCreateAsync();
 
         Task<T> GetUserAuthorByIdAsync<T>(string id);
+
+        Task UpdateUserAsync(ApplicationUser user);
     }
 }

@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Manage publisherss</h3>
+        <h3 class="card-title">Manage publishers</h3>
     </div>
     <div class="row">
         <div class="col-12">
@@ -74,20 +74,3 @@
     </div>
 </div>
 
-@*@Html.PartialAsync("_Delete")*@
-
-@*@section scripts{
-    <script>
-        $("#showtable").on("click", "#viewbtn", function () {
-            var id = $(this).closest("tr").find("td").eq(0).html();
-            $.ajax({
-                url: "@Url.Action("ShowImg", "PartialTest")",
-                data: { id: id },
-                success: function (data) {
-                    $("#showmodal .modal-dialog").html(data);
-                    $("#showmodal").modal("show");
-                }
-            });
-        });
-    </script>
-}*@

@@ -1,6 +1,9 @@
 ﻿namespace BooksForYou.Web.Controllers
 {
     using System;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using BooksForYou.Common;
@@ -14,6 +17,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.Extensions.FileSystemGlobbing;
 
     public class BookController : BaseController
     {
@@ -53,6 +57,14 @@
 
             return View(bookModel);
         }
+
+        public async Task<IActionResult> BookByIdFromMyBooks(int id)
+        {
+            var bookModel = await _booksService.GetBookByIdAsync<BookSingleViewModel>(id);
+
+            return View(bookModel);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> All([FromQuery]AllBooksQueryModel query)
@@ -172,6 +184,37 @@
                 ModelState.AddModelError(string.Empty, "Something went wrong");
                 return View(model);
             }
+        }
+
+        public async Task<IActionResult> AddBookToMyBooks(int bookId)
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                await _booksService.AddBookToMyBooksAsync(userId, bookId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return RedirectToAction(nameof(All));
+        }
+
+        public async Task<IActionResult> MyBooks([FromQuery] int p = 1, [FromQuery] int s = 6)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = await _booksService.GetMyBooksAsync(p, s, userId);
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> RemoveBookFromMyBooks(int bookId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _booksService.RemoveBookFromMyBooksAsync(bookId, userId);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }
