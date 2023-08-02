@@ -9,6 +9,13 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ModelBinders\**" />
+    <Content Remove="ModelBinders\**" />
+    <EmbeddedResource Remove="ModelBinders\**" />
+    <None Remove="ModelBinders\**" />
+  </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
 	</ItemGroup>

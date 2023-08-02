@@ -2,16 +2,16 @@
 @model BookDeleteViewModel
 
 @{
-    ViewData["Title"] = "Delete book";
+    ViewBag.Title = "Delete book";
 }
-
+    
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form id="editForm" method="post">
+        <form id="deleteForm" method="post">
             <input type="hidden" name="Id" value="@Model.Id" />
             <div class="mb-3">
                 <div class="text-center mb-3">
@@ -75,6 +75,11 @@
             </div>
         </form>
         <div class="text-center mb-3">
+            <form method="post" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
+            </form>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+        </div>
+        <div class="text-center mb-3">
             <button type="submit" class="btn btn-danger mt-2" data-toggle="modal" data-target="#modalDelete">Delete</button>
             <div>
                 <a asp-action="All">Back to List</a>
@@ -86,7 +91,7 @@
 
 
 <!-- Modal -->
-<div class="modal" id="modalDelete" tabindex="-1" role="dialog">
+<div class="modal" id="deleteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,7 +107,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger" onclick="editForm.submit()">Yes</button>
+                <button type="button" class="btn btn-danger" onclick="deleteForm.submit()">Yes</button>
             </div>
         </div>
     </div>

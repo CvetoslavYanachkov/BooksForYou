@@ -21,7 +21,6 @@
     using BooksForYou.Services.GoogleReCaptcha;
     using BooksForYou.Services.Mapping;
     using BooksForYou.Services.Messaging;
-    using BooksForYou.Web.ModelBinders;
     using BooksForYou.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
@@ -73,7 +72,6 @@
                 .AddMvcOptions(options =>
                 {
                     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
-                    options.ModelBinderProviders.Insert(0, new DoubleModelBinderProvider());
                 }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();

@@ -2,7 +2,7 @@
 @model BookSingleViewModel
 <link rel="stylesheet" href="~/css/StarsVote.css">
 @{
-    ViewData["Title"] = "Book";
+    ViewBag.Title = "Book";
 }
 
 <div class="row">
@@ -36,9 +36,11 @@
                 <hr />
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <div class="text-center">
                        <form class="input-group-sm" asp-route-bookId="@Model.Id" asp-controller="Book" asp-action="AddBookToMyBooks" method="post">
-                        <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-2" />
+                        <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-10" />
                     </form>
+                    </div>
                 }
             </div>
 

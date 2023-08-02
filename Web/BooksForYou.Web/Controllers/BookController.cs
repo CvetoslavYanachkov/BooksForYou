@@ -69,14 +69,14 @@
         [HttpGet]
         public async Task<IActionResult> All([FromQuery]AllBooksQueryModel query)
         {
-            var books = await _booksService.GetBooksAsync(
+            var result = await _booksService.GetBooksAsync(
                 query.p,
                 query.s,
                 query.Sorting,
                 query.SearchTerm,
                 query.Genre);
             query.Genres = await _genresService.GetGenreNames();
-            query.Books = books.Books;
+            query.Books = result.Books;
 
             return View(query);
         }
@@ -144,7 +144,7 @@
             return View(model);
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             await _booksService.DeleteBookAsync(id);
@@ -177,7 +177,7 @@
             {
                 await _booksService.UpdateBookAsync(id, model);
 
-                return RedirectToAction(nameof(All));
+                return RedirectToAction(nameof(AllFromAdmin));
             }
             catch (Exception)
             {
