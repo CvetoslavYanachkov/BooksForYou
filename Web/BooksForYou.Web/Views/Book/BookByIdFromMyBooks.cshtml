@@ -8,47 +8,47 @@
 <div class="row">
     <div class="col-md-3">
 
-        <div class="card card-primary card-outline">
-            <div class="card-body box-book">
+        @* <div class="card card-primary card-outline">*@
+        <div class="card-body box-book">
+            <div class="text-center">
+                <img class="mr-2 img-fluid" style="width: 20rem;"
+                     src="@Model.ImageUrl" alt="Book Image">
+            </div>
+            <ul class="list-group list-group-unbordered mb-3">
+            </ul>
+            <div class="star-rating">
+                <input type="radio" name="stars" id="star-a" data-vote="5" />
+                <label for="star-a"></label>
+
+                <input type="radio" name="stars" id="star-b" data-vote="4" />
+                <label for="star-b"></label>
+
+                <input type="radio" name="stars" id="star-c" data-vote="3" />
+                <label for="star-c"></label>
+
+                <input type="radio" name="stars" id="star-d" data-vote="2" />
+                <label for="star-d"></label>
+
+                <input type="radio" name="stars" id="star-e" data-vote="1" />
+                <label for="star-e"></label>
+                <span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span>
+            </div>
+            <hr />
+            @if (User.Identity.IsAuthenticated)
+            {
                 <div class="text-center">
-                    <img class="mr-2 img-fluid" style="width: 20rem;"
-                         src="@Model.ImageUrl" alt="Book Image">
-                </div>
-                <ul class="list-group list-group-unbordered mb-3">
-                </ul>
-                <div class="star-rating">
-                    <input type="radio" name="stars" id="star-a" data-vote="5" />
-                    <label for="star-a"></label>
-
-                    <input type="radio" name="stars" id="star-b" data-vote="4" />
-                    <label for="star-b"></label>
-
-                    <input type="radio" name="stars" id="star-c" data-vote="3" />
-                    <label for="star-c"></label>
-
-                    <input type="radio" name="stars" id="star-d" data-vote="2" />
-                    <label for="star-d"></label>
-
-                    <input type="radio" name="stars" id="star-e" data-vote="1" />
-                    <label for="star-e"></label>
-                    <span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span>
-                </div>
-                <hr />
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="text-center">
                     <form class="input-group-sm" asp-route-bookId="@Model.Id" asp-controller="Book" asp-action="RemoveBookFromMyBooks" method="post">
                         <input class="fs-6 btn btn-success mb-3 p-10" type="submit" value="Read" />
                     </form>
-                    </div>
-                }
-            </div>
-
+                </div>
+            }
         </div>
+
+        @*</div>*@
 
     </div>
     <div class="col-md-9">
-        <div class="card card-primary card-outline">
+       @* <div class="card card-primary card-outline">*@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-        </div>
+        @*</div>*@
     </div>
 </div>
 <form method="post" id="antyForgeryForm"></form>
