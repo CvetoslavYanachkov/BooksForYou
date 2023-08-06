@@ -36,11 +36,9 @@
             <hr />
             @if (User.Identity.IsAuthenticated)
             {
-                <div class="text-center">
-                    <form class="input-group-sm" asp-route-bookId="@Model.Id" asp-controller="Book" asp-action="RemoveBookFromMyBooks" method="post">
-                        <input class="fs-6 btn btn-success mb-3 p-10" type="submit" value="Read" />
-                    </form>
-                </div>
+                <form class="input-group-sm" asp-route-bookId="@Model.Id" asp-controller="Book" asp-action="RemoveBookFromMyBooks" method="post">
+                    <input type="submit" value=" Read " class="fs-6 btn btn-outline-success mb-3 p-2" />
+                </form>
             }
         </div>
 
@@ -48,28 +46,28 @@
 
     </div>
     <div class="col-md-9">
-       @* <div class="card card-primary card-outline">*@
-            <div class="card-body">
-                <div class="tab-content">
-                    <div class="active tab-pane" id="activity">
+        @* <div class="card card-primary card-outline">*@
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
 
-                        <div class="post clearfix">
-                            <h1 class="book-title">@Model.Title</h1>
-                        </div>
-                        <h3 class="book-author"><a asp-route-Id="@Model.UserId" asp-controller="User" asp-action="UserAuthorById">@Model.UserFirstName @Model.UserLastName</a></h3>
-                        <h5 class="mt-0">@Model.Description</h5>
-                        <hr />
-                        <h6><b>First published </b>@Model.PublisheDate.ToString("dd.MM.yyyy")</h6>
-                        <h6><b>Genre       </b>@Model.GenreName</h6>
-                        <hr />
-                        <h6><b>Pages      </b>@Model.Pages</h6>
-                        <h6><b>ISBN        </b>@Model.ISBN</h6>
-                        <h6><b>Language    </b>@Model.LanguageName</h6>
-                        <h6><b>Publisher    </b>@Model.PublisherName</h6>
-
+                    <div class="post clearfix">
+                        <h1 class="book-title">@Model.Title</h1>
                     </div>
+                    <h3 class="book-author"><a asp-route-Id="@Model.UserId" asp-controller="User" asp-action="UserAuthorById">@Model.UserFirstName @Model.UserLastName</a></h3>
+                    <h5 class="mt-0">@Model.Description</h5>
+                    <hr />
+                    <h6><b>First published </b>@Model.PublisheDate.ToString("dd.MM.yyyy")</h6>
+                    <h6><b>Genre       </b>@Model.GenreName</h6>
+                    <hr />
+                    <h6><b>Pages      </b>@Model.Pages</h6>
+                    <h6><b>ISBN        </b>@Model.ISBN</h6>
+                    <h6><b>Language    </b>@Model.LanguageName</h6>
+                    <h6><b>Publisher    </b>@Model.PublisherName</h6>
+
                 </div>
             </div>
+        </div>
 
         @*</div>*@
     </div>

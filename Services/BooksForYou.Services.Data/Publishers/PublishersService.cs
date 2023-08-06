@@ -83,6 +83,14 @@
             return result;
         }
 
+        public async Task<IEnumerable<string>> GetPublishersNameAsync()
+        {
+            return await _publisherRepository.AllAsNoTracking()
+                .Select(p => p.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Publisher>> GetPublishersToCreateAsync()
         {
             return await _publisherRepository.AllAsNoTracking().ToListAsync();

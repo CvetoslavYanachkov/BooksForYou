@@ -8,7 +8,7 @@
 
     public interface IBooksService
     {
-        Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize, BookSorting sorting, string searchTerm = null, string genre = null);
+        Task<BooksQueryModel> GetBooksAsync(BookSorting sorting, string? searchTerm = null, string? genre = null, string publisher = null, int currentPage = 1, int booksPerPage = 1);
 
         Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize);
 

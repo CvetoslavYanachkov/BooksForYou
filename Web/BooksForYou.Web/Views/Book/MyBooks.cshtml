@@ -22,7 +22,6 @@
                         @foreach (var book in Model.Books)
                         {
                             <div class="col-md-3">
-                                @*<div class="card mb-3">*@
                                 <div class="card card-primary card-outline">
                                     <div class="card-body box-book">
                                         <div class="text-center">
@@ -39,8 +38,8 @@
                                             </div>
                                             @if (User.Identity.IsAuthenticated)
                                             {
-                                                <form class="input-group-sm" asp-route-bookId="@book.Id" asp-controller="Book" asp-action="AddBookToMyBooks" method="post">
-                                                    <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-2" />
+                                                <form class="input-group-sm" asp-route-bookId="@book.Id" asp-controller="Book" asp-action="RemoveBookFromMyBooks" method="post">
+                                                    <input type="submit" value=" Read " class="fs-6 btn btn-outline-success mb-3 p-2" />
                                                 </form>
                                             }
                                         </div>

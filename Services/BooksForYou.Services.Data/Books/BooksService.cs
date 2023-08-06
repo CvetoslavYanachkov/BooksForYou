@@ -119,14 +119,21 @@
             };
         }
 
-        public async Task<BooksListViewModel> GetBooksAsync(int pageNumber, int pageSize, BookSorting sorting, string searchTerm = null, string genre = null)
+        public async Task<BooksQueryModel> GetBooksAsync(BookSorting sorting, string searchTerm = null, string genre = null, string publisher = null, int currentPage = 1, int booksPerPage = 1)
         {
+            var result = new BooksQueryModel();
             var booksQuery = _bookRepository.All().AsQueryable();
 
             if (string.IsNullOrWhiteSpace(genre) == false)
             {
                 booksQuery = booksQuery
                     .Where(b => b.Genre.Name == genre);
+            }
+
+            if (string.IsNullOrWhiteSpace(publisher) == false)
+            {
+                booksQuery = booksQuery
+                    .Where(b => b.Publisher.Name == publisher);
             }
 
             if (string.IsNullOrWhiteSpace(searchTerm) == false)
@@ -150,7 +157,9 @@
                 _ => booksQuery.OrderByDescending(b => b.Id)
             };
 
-            var books = await booksQuery
+            result.Books = await booksQuery
+                .Skip((currentPage - 1) * booksPerPage)
+                .Take(booksPerPage)
                .Select(b => new BookInListViewModel()
                {
                    Id = b.Id,
@@ -159,21 +168,9 @@
                    Genre = b.Genre.Name,
                    ImageUrl = b.ImageUrl
                })
-              .ToListAsync();
+                .ToListAsync();
 
-            var result = new BooksListViewModel()
-            {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                TotalRecords = books.Count()
-            };
-
-            result.Books = books
-                .OrderByDescending(x => x.Id)
-                .OrderByDescending(x => x.Title)
-                .Skip((pageNumber * pageSize) - pageSize)
-                .Take(pageSize)
-                .ToList();
+            result.TotalBooksRecords = await booksQuery.CountAsync();
 
             return result;
         }
@@ -297,15 +294,9 @@
                 .Select(b => new BookInListViewModel()
                 {
                     Id = b.Id,
-                    ISBN = b.ISBN,
                     Title = b.Title,
-                    Description = b.Description,
                     UserAuthor = b.User.FirstName + " " + b.User.LastName,
-                    Publisher = b.Publisher.Name,
                     Genre = b.Genre.Name,
-                    Language = b.Language.Name,
-                    Pages = b.Pages,
-                    PublisheDate = b.PublisheDate,
                     ImageUrl = b.ImageUrl
                 }).ToList();
 

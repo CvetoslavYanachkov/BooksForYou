@@ -22,6 +22,6 @@
 
         Task<IEnumerable<Genre>> GetGenresToCreateAsync();
 
-        Task<IEnumerable<string>> GetGenreNames();
+        Task<IEnumerable<string>> GetGenreNamesAsync();
     }
 }

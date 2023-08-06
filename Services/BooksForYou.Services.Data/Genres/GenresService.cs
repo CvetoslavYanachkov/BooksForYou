@@ -99,7 +99,7 @@
             return await _genreRepository.All().ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetGenreNames()
+        public async Task<IEnumerable<string>> GetGenreNamesAsync()
         {
             return await _genreRepository.AllAsNoTracking()
                 .Select(g => g.Name)

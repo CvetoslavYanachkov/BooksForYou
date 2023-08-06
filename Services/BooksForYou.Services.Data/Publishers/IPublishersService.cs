@@ -21,5 +21,7 @@
         Task<T> GetPublisherByIdAsync<T>(int id);
 
         Task DeletePublisherAsync(int id);
+
+        Task<IEnumerable<string>> GetPublishersNameAsync();
     }
 }

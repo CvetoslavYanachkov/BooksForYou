@@ -70,12 +70,16 @@
         public async Task<IActionResult> All([FromQuery]AllBooksQueryModel query)
         {
             var result = await _booksService.GetBooksAsync(
-                query.p,
-                query.s,
                 query.Sorting,
                 query.SearchTerm,
-                query.Genre);
-            query.Genres = await _genresService.GetGenreNames();
+                query.Genre,
+                query.Publisher,
+                query.CurrentPage,
+                AllBooksQueryModel.BooksPerPage);
+
+            query.TotalRecords = result.TotalBooksRecords;
+            query.Genres = await _genresService.GetGenreNamesAsync();
+            query.Publishers = await _publishersService.GetPublishersNameAsync();
             query.Books = result.Books;
 
             return View(query);
