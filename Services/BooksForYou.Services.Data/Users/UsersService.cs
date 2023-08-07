@@ -161,7 +161,7 @@ public class UsersService : IUsersService
                 var html = new StringBuilder();
                 html.AppendLine($"<h1>{"Congratulations!"}</h1>");
                 html.AppendLine($"<h3>{"You are already Author. Please signIn and fill the author form."}</h3>");
-                await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Author", html.ToString());
+                await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", GlobalConstants.AdminMail, "Author", html.ToString());
             }
         }
 

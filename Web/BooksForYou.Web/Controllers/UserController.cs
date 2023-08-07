@@ -121,7 +121,7 @@
             html.AppendLine($"<h1>{"Request to become author!"}</h1>");
             html.AppendLine($"<h3>{"Dear Administrator,pls would you like to make me an author?"}</h3>");
             html.AppendLine($"<h3>{$"Dear Administrator,pls visit this link <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>"}</h3>");
-            await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", "ceno1902@gmail.com", "Admin", html.ToString());
+            await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", GlobalConstants.AdminMail, "Admin", html.ToString());
 
             //To do new view about confirmation of request from Author to Admin!
             return RedirectToAction("All", "Book");
