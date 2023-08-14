@@ -86,9 +86,11 @@
              var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
              if (await _usersService.ExistsById(userId) == true)
-             {
-                return RedirectToAction("All", "Book");
-             }
+            {
+                return BadRequest();
+
+                //  " message : You are already author!"
+            }
 
              var model = new UserRequestToBecomeAuthorViewModel();
              return View(model);
@@ -110,11 +112,18 @@
                 return View(model);
             }
 
+            var callbackUrl = Url.Page(
+                       $"/User/BecomeAuthor/{userId}",
+                       pageHandler: null,
+                       values: new { },
+                       protocol: Request.Scheme);
             var html = new StringBuilder();
             html.AppendLine($"<h1>{"Request to become author!"}</h1>");
             html.AppendLine($"<h3>{"Dear Administrator,pls would you like to make me an author?"}</h3>");
+            html.AppendLine($"<h3>{$"Dear Administrator,pls visit this link <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>"}</h3>");
             await _emailSender.SendEmailAsync("cyanachkov@gmail.com", "Books For You!", GlobalConstants.AdminMail, "Admin", html.ToString());
 
+            //To do new view about confirmation of request from Author to Admin!
             return RedirectToAction("All", "Book");
         }
 

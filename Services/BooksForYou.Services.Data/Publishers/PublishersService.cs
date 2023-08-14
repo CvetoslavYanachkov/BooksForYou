@@ -33,6 +33,14 @@
             return publisher;
         }
 
+        public async Task DeletePublisherAsync(int id)
+        {
+            var publisher = await _publisherRepository.All().Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            _publisherRepository.Delete(publisher);
+            await _publisherRepository.SaveChangesAsync();
+        }
+
         public async Task<T> GetPublisherByIdAsync<T>(int id)
         {
             var publisher = await _publisherRepository.All().Where(p => p.Id == id).To<T>().FirstOrDefaultAsync();
@@ -75,7 +83,7 @@
             return result;
         }
 
-        public async Task<List<string>> GetPublishersNamesAsync()
+        public async Task<IEnumerable<string>> GetPublishersNameAsync()
         {
             return await _publisherRepository.AllAsNoTracking()
                 .Select(p => p.Name)
@@ -83,7 +91,7 @@
                 .ToListAsync();
         }
 
-        public async Task<List<Publisher>> GetPublishersToCreateAsync()
+        public async Task<IEnumerable<Publisher>> GetPublishersToCreateAsync()
         {
             return await _publisherRepository.AllAsNoTracking().ToListAsync();
         }

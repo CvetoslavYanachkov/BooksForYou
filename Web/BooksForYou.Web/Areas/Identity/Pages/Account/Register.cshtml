@@ -5,10 +5,8 @@
     ViewData["Title"] = "Register";
 
 }
-@using BooksForYou.Services.GoogleReCaptcha;
-@using Microsoft.Extensions.Options
-@inject IOptions<GoogleReCaptchaConfig> GoogleReCaptchaConfig
 <html lang="en">
+
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="card-header text-center">
@@ -62,15 +60,7 @@
 
         </div>
     </div>
-    <script src="https://www.google.com/recaptcha/api.js?render=@GoogleReCaptchaConfig.Value.SiteKey"></script>
-    <script>
 
-        grecaptcha.ready(function () {
-            grecaptcha.execute('@GoogleReCaptchaConfig.Value.SiteKey', { action: 'submit' }).then(function (token) {
-                console.log(token);
-                document.getElementById("RegisterToken").value = token;
-            });
-        });
-    </script>
+
 </body>
 </html>

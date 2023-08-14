@@ -87,6 +87,21 @@ namespace BooksForYou.Web.Controllers
             }
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _publisherService.GetPublisherByIdAsync<PublisherDeleteViewModel>(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _publisherService.DeletePublisherAsync(id);
+
+            return RedirectToAction(nameof(All));
+        }
+
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {

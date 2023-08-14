@@ -1,5 +1,6 @@
 ﻿namespace BooksForYou.Web.Controllers
 {
+    using System.Text;
     using System.Threading.Tasks;
 
     using BooksForYou.Common;
@@ -32,9 +33,10 @@
                 return View(model);
             }
 
-            await _emailSender.SendEmailAsync("cyanachkov@gmail.com", model.Name, GlobalConstants.AdminMail, model.Subject, model.Message);
+            await _emailSender.SendEmailAsync(model.Email, model.Name, GlobalConstants.AdminMail, model.Subject, model.Message);
+            ViewBag.ConfirmMessage = "Thanks For Your Mail";
 
-            return RedirectToAction("All", "Book");
+            return View();
         }
     }
 }

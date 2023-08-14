@@ -34,6 +34,14 @@
             return genre;
         }
 
+        public async Task DeleteGenreAsync(int id)
+        {
+            var genre = await _genreRepository.All().Where(g => g.Id == id).FirstOrDefaultAsync();
+
+            _genreRepository.Delete(genre);
+            await _genreRepository.SaveChangesAsync();
+        }
+
         public async Task<T> GetGenreByIdAsync<T>(int id)
         {
             var genre = await _genreRepository.All().Where(g => g.Id == id).To<T>().FirstOrDefaultAsync();
@@ -86,12 +94,12 @@
             await _genreRepository.SaveChangesAsync();
         }
 
-        public async Task<List<Genre>> GetGenresToCreateAsync()
+        public async Task<IEnumerable<Genre>> GetGenresToCreateAsync()
         {
             return await _genreRepository.All().ToListAsync();
         }
 
-        public async Task<List<string>> GetGenreNamesAsync()
+        public async Task<IEnumerable<string>> GetGenreNamesAsync()
         {
             return await _genreRepository.AllAsNoTracking()
                 .Select(g => g.Name)

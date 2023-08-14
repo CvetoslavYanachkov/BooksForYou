@@ -18,8 +18,10 @@
 
         Task<T> GetGenreByIdAsync<T>(int id);
 
-        Task<List<Genre>> GetGenresToCreateAsync();
+        Task DeleteGenreAsync(int id);
 
-        Task<List<string>> GetGenreNamesAsync();
+        Task<IEnumerable<Genre>> GetGenresToCreateAsync();
+
+        Task<IEnumerable<string>> GetGenreNamesAsync();
     }
 }

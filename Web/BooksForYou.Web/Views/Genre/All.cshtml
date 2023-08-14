@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">@ViewData["Title"]</h3>
+        <h3 class="card-title">Manage genres</h3>
     </div>
     <div class="row">
         <div class="col-12">
@@ -50,7 +50,8 @@
                                             </td>
                                             <td>
                                                 <a asp-action="Edit" asp-route-id="@genre.Id" class="text-warning">Edit</a> |
-                                                <a asp-action="Details" asp-route-id="@genre.Id" class="text-primary">Details</a>
+                                                <a asp-action="Details" asp-route-id="@genre.Id" class="text-primary">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@genre.Id" class="text-danger">Delete</a>
                                             </td>
                                         </tr>
                                     }
@@ -72,5 +73,8 @@
         </div>
     </div>
 </div>
-
+<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    </div>
+</div>
 

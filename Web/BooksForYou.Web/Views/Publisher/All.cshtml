@@ -3,12 +3,12 @@
 
 
 @{
-    ViewBag.Title = "Manage publishers";
+    ViewData["Title"] = "Manage publishers";
 }
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">@ViewBag.Title</h3>
+        <h3 class="card-title">Manage publishers</h3>
     </div>
     <div class="row">
         <div class="col-12">
@@ -46,7 +46,8 @@
                                             </td>
                                             <td>
                                                 <a asp-action="Edit" asp-route-id="@publisher.Id" class="text-warning">Edit</a> |
-                                                <a asp-action="Details" asp-route-id="@publisher.Id" class="text-primary">Details</a>
+                                                <a asp-action="Details" asp-route-id="@publisher.Id" class="text-primary">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@publisher.Id" class="text-danger">Delete</a>
                                             </td>
                                         </tr>
                                     }

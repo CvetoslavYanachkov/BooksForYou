@@ -2,11 +2,11 @@
 @model GenreDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details of genre";
+    ViewBag.Title = "Details of genre";
 }
 
 
-<h2 class="text-center">@ViewData["Title"]</h2>
+<h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
 <div class="row">
@@ -26,8 +26,8 @@
                 </div>
             </div>
         </form>
-        <div class="text-center mb-3">
-            <a asp-action="All">Back to List</a>
+                <a asp-action="All">Back to List</a>
+            </div>
         </div>
     </div>
 </div>

@@ -2,12 +2,12 @@
 @model BooksListViewModel
 
 @{
-    ViewData["Title"] = "My books";
+    ViewBag.Title = "My books";
 }
 
 <div class="card-text-center">
     <div class="card-header">
-        <h3 class="card-title-center">@ViewData["Title"]</h3>
+        <h3 class="card-title-center">@ViewBag.Title</h3>
     </div>
     <hr />
     <div class="text-center row">
@@ -56,7 +56,7 @@
                     <paging page-no="@Model.PageNumber"
                             page-size="@Model.PageSize"
                             total-records="@Model.TotalRecords"
-                            page-size-dropdown-items="4">
+                            page-size-dropdown-items="6-12-24">
                     </paging>
                 </div>
             </div>

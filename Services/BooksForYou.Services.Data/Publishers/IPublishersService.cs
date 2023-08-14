@@ -12,7 +12,7 @@
 
         Task<Publisher> CreatePublisherAsync(PublisherCreateViewModel model);
 
-        Task<List<Publisher>> GetPublishersToCreateAsync();
+        Task<IEnumerable<Publisher>> GetPublishersToCreateAsync();
 
         Task<T> GetPublisherForEditAsync<T>(int id);
 
@@ -20,6 +20,8 @@
 
         Task<T> GetPublisherByIdAsync<T>(int id);
 
-        Task<List<string>> GetPublishersNamesAsync();
+        Task DeletePublisherAsync(int id);
+
+        Task<IEnumerable<string>> GetPublishersNameAsync();
     }
 }

@@ -2,37 +2,43 @@
 @model UserAuthorSingleViewModel
 
 @{
-    ViewData["Title"] = "Author";
+    ViewBag.Title = "Author";
 }
 <div class="row">
     <div class="col-md-3">
 
-        <div class="card-body box-profile">
-            <div class="text-center">
-                <img class="mr-2 img-fluid" style="width: 12rem;"
-                     src="@Model.ImageUrl" alt="Author Image">
+      @* <div class="card card-primary card-outline">*@
+            <div class="card-body box-profile">
+                <div class="text-center">
+                    <img class="mr-2 img-fluid" style="width: 12rem;"
+                         src="@Model.ImageUrl" alt="Author Image">
+                </div>
+                <ul class="list-group list-group-unbordered mb-3">
+                </ul>
             </div>
-            <ul class="list-group list-group-unbordered mb-3">
-            </ul>
-        </div>
+
+       @* </div>*@
+
     </div>
 
     <div class="col-md-9">
-        <div class="card-body">
-            <div class="tab-content">
-                <div class="active tab-pane" id="activity">
+       @* <div class="card card-primary card-outline">*@
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
 
-                    <div class="post clearfix">
-                        <h1 class="book-title">@Model.FirstName @Model.LastName</h1>
+                        <div class="post clearfix">
+                            <h1 class="book-title">@Model.FirstName @Model.LastName</h1>
+                        </div>
+                        <hr />
+                        <h6><b>Born: </b>@Model.Born</h6>
+                        <h6><b>Website       </b><a href="@Model.Website">@Model.Website</a></h6>
+                        <h6><b>Genre      </b>@Model.GenreName</h6>
+                        <hr />
+                        <h5 class="mt-0">@Model.Description</h5>
                     </div>
-                    <hr />
-                    <h6><b>Born: </b>@Model.Born</h6>
-                    <h6><b>Website       </b><a href="@Model.Website">@Model.Website</a></h6>
-                    <h6><b>Genre      </b>@Model.GenreName</h6>
-                    <hr />
-                    <h5 class="mt-0">@Model.Description</h5>
                 </div>
             </div>
-        </div>
+        @*</div>*@
     </div>
 </div>

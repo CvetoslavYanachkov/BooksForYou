@@ -2,8 +2,9 @@
 @model UserBecomesAuthorViewModel
 
 @{
-    ViewData["Title"] = "Author form";
+    ViewBag.Title = "Author form";
 }
+
 
 <hr />
 
@@ -68,7 +69,7 @@
         <div class="text-center mb-3">
             <button type="submit" class="btn btn-primary mt-2" data-toggle="modal" data-target="#modalEdit">Save changes</button>
             <div>
-                <a asp-action="All" asp-controller="Book">Back to List</a>
+                <a asp-action="All">Back to List</a>
             </div>
         </div>
     </div>

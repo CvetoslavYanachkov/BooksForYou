@@ -24,7 +24,7 @@
         </li>
         <li class="nav-item">
             <a asp-area="" asp-controller="Book" asp-action="MyBooks" class="nav-link">
-                <i class="fas fa-sharp fa-duotone fa-books"></i>
+                <i class="nav-icon fas fa-wallet"></i>
                 <p>
                    My Books
                 </p>
@@ -36,6 +36,7 @@
             <li class="nav-item menu-open">
                 <a href="#" class="nav-link active">
                     <i class=" fas fa-sharp fa-solid fa-bars"></i>
+                    @*<i class="nav-icon fas fa-tachometer-alt"></i>*@
                     <p>
                         Menu
                         <i class="right fas fa-angle-left"></i>
@@ -45,18 +46,16 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="User" asp-action="All">
                             <i name="accessibility-outline"></i>
-                            <i class="fas fa-sharp fa-solid fa-user"></i>
                             <p>
-                                Users
+                                Get Users
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Genre" asp-action="All">
                             <i name="accessibility-outline"></i>
-                            <i class="fas fa-sharp fa-duotone fa-feather"></i>
                             <p>
-                                Genres
+                                Get Genres
                             </p>
                         </a>
                     </li>
@@ -65,25 +64,25 @@
                             <i name="accessibility-outline"></i>
                             <i class="fas fa-duotone fa-book"></i>
                             <p>
-                                Books
+                                Get Books
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="User" asp-action="AllUsersAuthors">
                             <i name="accessibility-outline"></i>
-                            <i class=" fas fa-sharpfa-regular fa-user-secret"></i>
+                            <i class="fa-duotone fa-feather-pointed"></i>
                             <p>
-                                Authors
+                                Get Authors
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Publisher" asp-action="All">
                             <i name="accessibility-outline"></i>
-                            <i class="fas fa-sharp fa-light fa-user-tie"></i>
+                            <i class="fa-duotone fa-feather-pointed"></i>
                             <p>
-                                Publishers
+                                Get Publishers
                             </p>
                         </a>
                     </li>
@@ -100,7 +99,7 @@
                     <a asp-area="" asp-controller="User" asp-action="BecomeAuthor" class="nav-link">
                         <i class="nav-icon fas fa-wallet"></i>
                         <p>
-                            Author form
+                            Author form.
                         </p>
                     </a>
                 </li>

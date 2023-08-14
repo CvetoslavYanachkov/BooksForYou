@@ -2,10 +2,10 @@
 @model UserRequestToBecomeAuthorViewModel;
 
 @{
-    ViewData["Title"] = "Become Author";
+    ViewBag.Title = "Become Author";
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
+<h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
 @if (!ViewData.ModelState.IsValid && ViewData.ModelState["Error"] != null)
