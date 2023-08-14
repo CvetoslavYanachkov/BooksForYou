@@ -12,21 +12,18 @@
                 <div class="row g-3">
                     <div asp-validation-summary="ModelOnly" class=" = text-danger"></div>
                     <div class="col-sm-6">
-                        <label asp-for="@Model.FirstName" class="form-label"></label>
+                        <label asp-for="@Model.FirstName" class="form-label">First Name</label>
                         <input asp-for="@Model.FirstName" class="form-control" autocomplete="username" readonly />
-                        </span>
                     </div>
 
                     <div class="col-sm-6">
-                        <label asp-for="@Model.LastName" class="form-label"></label>
+                        <label asp-for="@Model.LastName" class="form-label">Last Name</label>
                         <input asp-for="@Model.LastName" class="form-control" autocomplete="username" readonly />
-                        </span>
                     </div>
 
                     <div class="col-12">
-                        <label asp-for="@Model.Email" class="form-label"></label>
+                        <label asp-for="@Model.Email" class="form-label">Email</label>
                         <input asp-for="@Model.Email" class="form-control" autocomplete="username" readonly />
-                        </span>
                     </div>
                 </div>
                 <hr class="my-4">
@@ -45,35 +42,11 @@
                     }
                 </div class="text-center mb-3">
                 <button type="submit" class="btn btn-primary btn-block">Save</button>
-                @*<button type="submit" class="btn btn-primary mt-2" data-toggle="modal" data-target="#modalEdit">Save changes</button>*@
           </form>
         </div>
     </div>
-@*</div>*@
 
 <div class="text-center mb-3">
     <a asp-action="All">Back to List</a>
 </div>
 
-<!-- Modal -->
-<div class="modal" id="modalEdit" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirm edit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    Do you confirm this changes?
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="editForm.submit()">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>

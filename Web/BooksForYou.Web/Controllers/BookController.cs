@@ -1,8 +1,6 @@
 ﻿namespace BooksForYou.Web.Controllers
 {
     using System;
-    using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -16,8 +14,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.Extensions.FileSystemGlobbing;
 
     public class BookController : BaseController
     {
@@ -65,9 +61,8 @@
             return View(bookModel);
         }
 
-
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery]AllBooksQueryModel query)
+        public async Task<IActionResult> All([FromQuery] AllBooksQueryModel query)
         {
             var result = await _booksService.GetBooksAsync(
                 query.Sorting,
@@ -79,7 +74,7 @@
 
             query.TotalRecords = result.TotalBooksRecords;
             query.Genres = await _genresService.GetGenreNamesAsync();
-            query.Publishers = await _publishersService.GetPublishersNameAsync();
+            query.Publishers = await _publishersService.GetPublishersNamesAsync();
             query.Books = result.Books;
 
             return View(query);
@@ -205,7 +200,7 @@
             return RedirectToAction(nameof(All));
         }
 
-        public async Task<IActionResult> MyBooks([FromQuery] int p = 1, [FromQuery] int s = 6)
+        public async Task<IActionResult> MyBooks([FromQuery] int p = 1, [FromQuery] int s = 4)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var model = await _booksService.GetMyBooksAsync(p, s, userId);
@@ -218,7 +213,7 @@
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _booksService.RemoveBookFromMyBooksAsync(bookId, userId);
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(MyBooks));
         }
     }
 }

@@ -1,6 +1,10 @@
 ﻿@using BooksForYou.Web.ViewModels.ContactUs;
 @model ContactUsViewModel;
 
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
 <section class="content">
     <form asp-action="ContactUs" method="post" >
         <div class="card">

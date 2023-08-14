@@ -25,7 +25,7 @@
                 </p>
             </a>
         </li>
-        @if (!User.IsInRole(GlobalConstants.AuthorRoleName))
+        @if (!User.IsInRole(GlobalConstants.AuthorRoleName) && User.Identity.IsAuthenticated)
         {
             <li class="nav-item">
                 <a asp-area="" asp-controller="User" asp-action="RequestToBecome" class="nav-link">

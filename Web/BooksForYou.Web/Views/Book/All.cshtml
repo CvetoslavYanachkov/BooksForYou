@@ -2,7 +2,7 @@
 @model AllBooksQueryModel
 
 @{
-    ViewBag.Title = "Books";
+    ViewData["Title"] = "Books";
 }
 <form method="get">
     <div class="row">
@@ -114,7 +114,7 @@
            asp-route-genre="@Model.Genre"
            asp-route-publisher="@Model.Publisher"
            asp-route-searchTerm="@Model.SearchTerm"
-           asp-route-sorting="@((int)Model.Sorting)">Previous</a>
+           asp-route-sorting="@((int)Model.Sorting)">Prev</a>
     </div>
 
     @{

@@ -2,7 +2,7 @@
 @model BookSingleViewModel
 <link rel="stylesheet" href="~/css/StarsVote.css">
 @{
-    ViewBag.Title = "Book";
+    ViewData["Title"] = "Book";
 }
 
 <div class="row">
@@ -43,12 +43,8 @@
                     </div>
                 }
             </div>
-
-      @*  </div>*@
-
     </div>
     <div class="col-md-9">
-       @* <div class="card card-primary card-outline">*@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">

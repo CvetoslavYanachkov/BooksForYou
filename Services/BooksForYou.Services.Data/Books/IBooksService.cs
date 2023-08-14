@@ -22,8 +22,6 @@
 
         Task<T> GetBookByIdAsync<T>(int id);
 
-        Task<Book> GetBookByIdAsync(int id);
-
         Task AddBookToMyBooksAsync(string userId, int bookId);
 
         Task RemoveBookFromMyBooksAsync(int bookId, string userId);
