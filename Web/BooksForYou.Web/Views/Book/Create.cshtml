@@ -2,10 +2,10 @@
 @model BookCreateViewModel
 
 @{
-    ViewBag.Title = "Add Book";
+    ViewData["Title"] = "Create Book";
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 
 <div class="row">
@@ -100,8 +100,8 @@
                     <input type="file" name="file">
                 </div>
             </div>
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Add" />
+            <div class="text-center mb-3">
+                <input class="btn btn-primary" type="submit" value="Create" />
             </div>
         </form>
     </div>

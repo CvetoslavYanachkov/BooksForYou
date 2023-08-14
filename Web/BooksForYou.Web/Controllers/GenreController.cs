@@ -75,22 +75,6 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await _genresService.GetGenreByIdAsync<GenreDeleteViewModel>(id);
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            await _genresService.DeleteGenreAsync(id);
-
-            return RedirectToAction(nameof(All));
-        }
-
-        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var model = await _genresService.GetGenreForEditAsync<GenreDetailsViewModel>(id);

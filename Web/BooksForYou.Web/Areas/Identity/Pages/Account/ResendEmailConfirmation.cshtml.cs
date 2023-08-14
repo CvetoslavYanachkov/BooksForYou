@@ -38,7 +38,9 @@
             public string Email { get; set; }
         }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
         public void OnGet()
+#pragma warning restore SA1201 // Elements should appear in the correct order
         {
         }
 

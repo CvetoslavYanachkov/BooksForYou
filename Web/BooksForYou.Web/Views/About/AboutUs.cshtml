@@ -1,0 +1,54 @@
+﻿@using BooksForYou.Web.ViewModels.ContactUs;
+@model ContactUsViewModel;
+
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<section class="content">
+    <div class="card">
+        <div class="card-body row">
+            <div class="col-5 text-center d-flex align-items-center justify-content-center">
+                <div class="">
+                    <h2><strong>Books for You</strong></h2>
+                    <p class="lead mb-5">
+                        Sofia, Druzhba, bl.263 A<br>
+                        Phone: +359 894346782
+                    </p>
+                </div>
+            </div>
+            <div class="col-7">
+
+                Welcome to Books For You, your digital gateway to a world of knowledge, exploration, and imagination. We are passionate about fostering a love for reading, learning, and connecting with information in the most convenient and innovative ways.
+
+                At Books For You, we understand the importance of libraries as vibrant community hubs that empower individuals to expand their horizons. Our web app is designed to bring the essence of a traditional library into the digital age, making it easier than ever to access a vast collection of books, articles, and resources, all at your fingertips.
+
+                Our Mission
+                Our mission is to inspire lifelong learning and enrich the lives of our users through seamless access to a diverse range of literary and educational materials. We aim to create an inclusive space where readers of all ages and backgrounds can come together, discover new worlds, and exchange ideas.
+
+                What We Offer
+
+                Extensive Collection: Dive into our curated collection of books, e-books, academic papers, magazines, and more. From classic literature to contemporary research, we've got it all covered.
+
+                User-Friendly Interface: We've designed our web app with user experience in mind. Navigate effortlessly through our virtual shelves, search for specific titles, and discover hidden gems with ease.
+
+                Personalized Recommendations: Our smart recommendation system suggests content tailored to your interests, ensuring that your reading journey remains exciting and rewarding.
+
+                Collaborative Features: Join book clubs, participate in discussions, and connect with fellow readers who share your passions. We believe in the power of community engagement to enhance your reading experience.
+
+                Accessibility: Everyone deserves access to knowledge. Our commitment to accessibility means that our web app is designed to accommodate a wide range of abilities, ensuring that information is available to all.
+
+                Our Team
+                Behind Books For You is a dedicated team of bibliophiles, tech enthusiasts, and education advocates. We are driven by the belief that technology can bridge the gap between people and information, making learning and reading more immersive and enjoyable.
+
+                Thank you for choosing Books For You as your literary companion. Join us on this exciting journey as we reimagine the way you engage with the written word.
+
+                Happy reading!
+            </div>
+        </div>
+    </div>
+</section>
+@if (ViewBag.ConfirmMessage != null)
+{
+    <div class="alert alert-success">@ViewBag.ConfirmMessage</div>
+}

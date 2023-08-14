@@ -2,13 +2,11 @@
 @model BookSingleViewModel
 <link rel="stylesheet" href="~/css/StarsVote.css">
 @{
-    ViewBag.Title = "Book";
+    ViewData["Title"] = "Book";
 }
 
 <div class="row">
     <div class="col-md-3">
-
-        @* <div class="card card-primary card-outline">*@
         <div class="card-body box-book">
             <div class="text-center">
                 <img class="mr-2 img-fluid" style="width: 20rem;"
@@ -42,11 +40,7 @@
             }
         </div>
 
-        @*</div>*@
-
-    </div>
     <div class="col-md-9">
-        @* <div class="card card-primary card-outline">*@
         <div class="card-body">
             <div class="tab-content">
                 <div class="active tab-pane" id="activity">
@@ -68,8 +62,6 @@
                 </div>
             </div>
         </div>
-
-        @*</div>*@
     </div>
 </div>
 <form method="post" id="antyForgeryForm"></form>

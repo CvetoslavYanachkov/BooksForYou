@@ -1,6 +1,7 @@
 ﻿namespace BooksForYou.Services.Data.Books
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -84,11 +85,6 @@
             var book = await _bookRepository.All().Where(b => b.Id == id).To<T>().FirstOrDefaultAsync();
 
             return book;
-        }
-
-        public async Task<Book> GetBookByIdAsync(int id)
-        {
-            return await _bookRepository.AllAsNoTracking().Where(b => b.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<BookEditViewModel> GetBookForEditAsync(int id)
@@ -268,8 +264,6 @@
             {
                 throw new ArgumentException("Invalid user ID");
             }
-
-
 
             var book = user.UsersBooks.FirstOrDefault(b => b.BookId == bookId);
 
