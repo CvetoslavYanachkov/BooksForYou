@@ -3,14 +3,20 @@
     using System.Diagnostics;
 
     using BooksForYou.Web.ViewModels;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            return this.View();
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("All", "Book");
+            }
+
+            return View();
         }
 
         public IActionResult Privacy()

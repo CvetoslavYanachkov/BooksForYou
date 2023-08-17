@@ -29,16 +29,19 @@
 
                 <input type="radio" name="stars" id="star-e" data-vote="1" />
                 <label for="star-e"></label>
-                <span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span>
+                @*  <span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span> *@
             </div>
             <hr />
             @if (User.Identity.IsAuthenticated)
             {
+                <div class="text-center">
                 <form class="input-group-sm" asp-route-bookId="@Model.Id" asp-controller="Book" asp-action="RemoveBookFromMyBooks" method="post">
                     <input type="submit" value=" Read " class="fs-6 btn btn-outline-success mb-3 p-2" />
                 </form>
+                </div>
             }
         </div>
+    </div>
 
     <div class="col-md-9">
         <div class="card-body">

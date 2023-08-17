@@ -2,7 +2,7 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar">
         <li class="nav-item">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">
+            <a asp-area="" asp-controller="Book" asp-action="All" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
                 <p>
                     Home
@@ -17,14 +17,6 @@
                 </p>
             </a>
         </li>
-        <li class="nav-item">
-            <a asp-area="" asp-controller="Book" asp-action="All" class="nav-link">
-                <i class="nav-icon fas fa-wallet"></i>
-                <p>
-                    All Books
-                </p>
-            </a>
-        </li>
         @if (!User.IsInRole(GlobalConstants.AuthorRoleName) && User.Identity.IsAuthenticated)
         {
             <li class="nav-item">
@@ -36,6 +28,5 @@
                 </a>
             </li>
         }
-
     </ul>
 </nav>
