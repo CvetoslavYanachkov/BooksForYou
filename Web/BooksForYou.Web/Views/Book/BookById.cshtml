@@ -7,65 +7,67 @@
 
 <div class="row">
     <div class="col-md-3">
-            <div class="card-body box-book">
+        <div class="card-body box-book">
+            <div class="text-center">
+                <img class="mr-2 img-fluid" style="width: 20rem;"
+                     src="@Model.ImageUrl" alt="Book Image">
+            </div>
+            <ul class="list-group list-group-unbordered mb-3">
+            </ul>
+            <div class="star-rating">
+                <input type="radio" name="stars" id="star-a" data-vote="5" />
+                <label for="star-a"></label>
+
+                <input type="radio" name="stars" id="star-b" data-vote="4" />
+                <label for="star-b"></label>
+
+                <input type="radio" name="stars" id="star-c" data-vote="3" />
+                <label for="star-c"></label>
+
+                <input type="radio" name="stars" id="star-d" data-vote="2" />
+                <label for="star-d"></label>
+
+                <input type="radio" name="stars" id="star-e" data-vote="1" />
+                <label for="star-e"></label>
+            </div>
+            <div class="text-center">
+                <label id="averageVoteValue">@Model.AverageVote.ToString("0.0")</label><label> / 5</label>
+            </div>
+            <hr />
+            @if (User.Identity.IsAuthenticated)
+            {
                 <div class="text-center">
-                    <img class="mr-2 img-fluid" style="width: 20rem;"
-                         src="@Model.ImageUrl" alt="Book Image">
-                </div>
-                <ul class="list-group list-group-unbordered mb-3">
-                </ul>
-                <div class="star-rating">
-                    <input type="radio" name="stars" id="star-a" data-vote="5" />
-                    <label for="star-a"></label>
-
-                    <input type="radio" name="stars" id="star-b" data-vote="4" />
-                    <label for="star-b"></label>
-
-                    <input type="radio" name="stars" id="star-c" data-vote="3" />
-                    <label for="star-c"></label>
-
-                    <input type="radio" name="stars" id="star-d" data-vote="2" />
-                    <label for="star-d"></label>
-
-                    <input type="radio" name="stars" id="star-e" data-vote="1" />
-                    <label for="star-e"></label>
-                    @* <span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span> *@
-                </div>
-                <hr />
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="text-center">
-                       <form class="input-group-sm" asp-route-bookId="@Model.Id" asp-controller="Book" asp-action="AddBookToMyBooks" method="post">
+                    <form class="input-group-sm" asp-route-bookId="@Model.Id" asp-controller="Book" asp-action="AddBookToMyBooks" method="post">
                         <input type="submit" value="Want to read" class="fs-6 btn btn-outline-success mb-3 p-10" />
                     </form>
-                    </div>
-                }
-            </div>
+                </div>
+            }
+        </div>
     </div>
     <div class="col-md-9">
-            <div class="card-body">
-                <div class="tab-content">
-                    <div class="active tab-pane" id="activity">
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
 
-                        <div class="post clearfix">
-                            <h1 class="book-title">@Model.Title</h1>
-                        </div>
-                        <h3 class="book-author"><a asp-route-Id="@Model.UserId" asp-controller="User" asp-action="UserAuthorById">@Model.UserFirstName @Model.UserLastName</a></h3>
-                        <h5 class="mt-0">@Model.Description</h5>
-                        <hr />
-                        <h6><b>First published </b>@Model.PublisheDate.ToString("dd.MM.yyyy")</h6>
-                        <h6><b>Genre       </b>@Model.GenreName</h6>
-                        <hr />
-                        <h6><b>Pages      </b>@Model.Pages</h6>
-                        <h6><b>ISBN        </b>@Model.ISBN</h6>
-                        <h6><b>Language    </b>@Model.LanguageName</h6>
-                        <h6><b>Publisher    </b>@Model.PublisherName</h6>
-
+                    <div class="post clearfix">
+                        <h1 class="book-title">@Model.Title</h1>
                     </div>
+                    <h3 class="book-author"><a asp-route-Id="@Model.UserId" asp-controller="User" asp-action="UserAuthorById">@Model.UserFirstName @Model.UserLastName</a></h3>
+                    <h5 class="mt-0">@Model.Description</h5>
+                    <hr />
+                    <h6><b>First published </b>@Model.PublisheDate.ToString("dd.MM.yyyy")</h6>
+                    <h6><b>Genre       </b>@Model.GenreName</h6>
+                    <hr />
+                    <h6><b>Pages      </b>@Model.Pages</h6>
+                    <h6><b>ISBN        </b>@Model.ISBN</h6>
+                    <h6><b>Language    </b>@Model.LanguageName</h6>
+                    <h6><b>Publisher    </b>@Model.PublisherName</h6>
+
                 </div>
             </div>
+        </div>
 
-       @* </div>*@
+        @* </div>*@
     </div>
 </div>
 <form method="post" id="antyForgeryForm"></form>

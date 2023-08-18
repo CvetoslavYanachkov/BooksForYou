@@ -2,11 +2,13 @@
 {
     using System;
     using System.Threading.Tasks;
-
+    using BooksForYou.Common;
     using BooksForYou.Services.Data.Genres;
     using BooksForYou.Web.ViewModels.Genres;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class GenreController : BaseController
     {
         private readonly IGenresService _genresService;

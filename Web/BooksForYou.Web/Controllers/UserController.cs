@@ -49,6 +49,7 @@
             return View(users);
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> AllUsersAuthors([FromQuery] int p = 1, [FromQuery] int s = 5)
         {
             var users = await _usersService.GetUsersAuthorsAsync(p, s);
@@ -95,7 +96,6 @@
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> RequestToBecome(UserRequestToBecomeAuthorViewModel model)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

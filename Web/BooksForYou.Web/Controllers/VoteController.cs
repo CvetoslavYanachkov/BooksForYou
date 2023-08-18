@@ -24,6 +24,7 @@
         public async Task<ActionResult<PostVoteResponseModel>> Post(PostVoteViewModel model)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             await _votesService.SetVoteAsync(model.BookId, userId, model.Value);
             var averageVote = _votesService.GetAverageVote(model.BookId);
 

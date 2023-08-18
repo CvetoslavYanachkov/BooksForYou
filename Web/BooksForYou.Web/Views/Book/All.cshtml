@@ -24,6 +24,7 @@
                     <div class="form-group">
                         <label asp-for="Publisher" class="form-label">Publisher</label>
                         <select asp-for="Publisher" class="form-control">
+                            <option value="">All</option>
                             @foreach (var publisher in Model.Publishers)
                             {
                                 <option value="@publisher">@publisher</option>

@@ -81,6 +81,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Create()
         {
             var model = new BookCreateViewModel()
@@ -95,6 +96,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Create(BookCreateViewModel model, IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -136,6 +138,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
             var model = await _booksService.GetBookByIdAsync<BookDeleteViewModel>(id);
@@ -144,6 +147,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             await _booksService.DeleteBookAsync(id);
@@ -152,6 +156,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(int id)
         {
             var model = await _booksService.GetBookForEditAsync(id);
@@ -160,6 +165,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Edit(int id, BookEditViewModel model)
         {
             if (!ModelState.IsValid)

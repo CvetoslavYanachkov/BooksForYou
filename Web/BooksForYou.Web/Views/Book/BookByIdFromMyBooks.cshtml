@@ -29,7 +29,9 @@
 
                 <input type="radio" name="stars" id="star-e" data-vote="1" />
                 <label for="star-e"></label>
-                @*  <span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span> *@
+            </div>
+            <div class="text-center">
+                <label id="averageVoteValue">@Model.AverageVote.ToString("0.0")</label><label> / 5</label>
             </div>
             <hr />
             @if (User.Identity.IsAuthenticated)
