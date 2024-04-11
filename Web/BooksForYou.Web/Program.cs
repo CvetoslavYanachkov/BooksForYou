@@ -51,12 +51,12 @@
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddAuthentication()
-                .AddFacebook(options =>
-                {
-                    options.AppId = configuration.GetValue<string>("Facebook:AppId");
-                    options.AppSecret = configuration.GetValue<string>("Facebook:AppSecret");
-                });
+            //services.AddAuthentication()
+            //    .AddFacebook(options =>
+            //    {
+            //        options.AppId = configuration.GetValue<string>("Facebook:AppId");
+            //        options.AppSecret = configuration.GetValue<string>("Facebook:AppSecret");
+            //    });
 
             services.Configure<GoogleReCaptchaConfig>(configuration.GetSection("GoogleReCaptcha"));
             services.Configure<AzureOptConfig>(configuration.GetSection("Azure"));
